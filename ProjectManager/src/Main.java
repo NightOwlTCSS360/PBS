@@ -1,6 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ *  Project GUI.
+ *
+ * @author David Y. Piholyuk
+ * @author Jarvis
+ */
 public class Main {
     public static void main(String[] args) {
         JFrame frame = new JFrame("GUI");
