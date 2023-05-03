@@ -1,0 +1,22 @@
+# Maven target directory
+target/
+
+# NetBeans
+nbproject/
+.idea/
+*.iml
+nb-configuration.xml
+/nbbuild/
+/build/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+/out/
+/.idea_modules/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
