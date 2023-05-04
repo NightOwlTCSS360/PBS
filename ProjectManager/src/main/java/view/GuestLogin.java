@@ -72,6 +72,11 @@ public class GuestLogin extends javax.swing.JFrame {
         });
 
         jButton3.setLabel("About");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Back");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -189,6 +194,14 @@ public class GuestLogin extends javax.swing.JFrame {
         welcome.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        About<GuestLogin> about = new About<>(this);
+        about.pack();
+        about.setVisible(true);
+        about.setLocationRelativeTo(null);
+        this.dispose(); 
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:

@@ -16,8 +16,14 @@ import model.AppInfo;
 
 /**
  * @author Jarvis Kampe
+ * @param <T>
  */
-public class About extends javax.swing.JFrame {
+public class About<T extends javax.swing.JFrame> extends javax.swing.JFrame {
+    
+    /**
+     * Generic object used by the About object
+     */
+    private T myObj;
     
     /**
      * The AppInfo object used by the GUI
@@ -25,9 +31,18 @@ public class About extends javax.swing.JFrame {
     private static final AppInfo myAppInfo = new AppInfo();
     
     /**
-     * Creates new form StartGUI
+     * Creates new About
      */
     public About() {
+        initComponents();
+    }
+    
+    /**
+     * Creates new About with type obj
+     * @param obj 
+     */
+    public About(T obj) {
+        myObj = obj;
         initComponents();
     }
 
@@ -284,17 +299,28 @@ public class About extends javax.swing.JFrame {
      * @param evt 
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        myObj.pack();
+        myObj.setVisible(true);
+        myObj.setLocationRelativeTo(null);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * Generate developer information
      * @param id
-     * @return 
+     * @return developer info
      */
     private String genDevInfo(int id) {
         return "<a href=\"" + myAppInfo.getDevs().get(id).getGit() + "\">"
             + myAppInfo.getDevs().get(id).getName() + "</a>";
+    }
+    
+    /**
+     * Gets the object type if you need it for some reason lol
+     * @return the object type what else would it return
+     */
+    public T getObject() {
+        return myObj;
     }
     
     /**
