@@ -17,7 +17,7 @@ import model.AppInfo;
 /**
  * @author Jarvis Kampe
  */
-public class AboutGUI extends javax.swing.JFrame {
+public class About extends javax.swing.JFrame {
     
     /**
      * The AppInfo object used by the GUI
@@ -27,7 +27,7 @@ public class AboutGUI extends javax.swing.JFrame {
     /**
      * Creates new form StartGUI
      */
-    public AboutGUI() {
+    public About() {
         initComponents();
     }
 
@@ -273,7 +273,7 @@ public class AboutGUI extends javax.swing.JFrame {
                 try {
                     Desktop.getDesktop().browse(evt.getURL().toURI());
                 } catch (URISyntaxException | IOException ex) {
-                    Logger.getLogger(AboutGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(About.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -335,7 +335,7 @@ public class AboutGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AboutGUI().setVisible(true);
+                new About().setVisible(true);
             }
         });
     }
