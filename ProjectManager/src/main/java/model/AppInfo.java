@@ -12,10 +12,10 @@ public class AppInfo {
 
     public AppInfo() {
         myDevs  = new ArrayList<>();
-        myDevs.add(new Developer("Jarvis Kampe", "Git"));
-        myDevs.add(new Developer("Hieu Nguyen", "Git"));
-        myDevs.add(new Developer("David Piholyuk", "Git"));
-        myDevs.add(new Developer("Derek Ruiz-Garcia", "Git"));
+        myDevs.add(new Developer("Jarvis Kampe", "https://github.com/JarvisK02"));
+        myDevs.add(new Developer("Hieu Nguyen", "https://github.com/JarvisK02"));
+        myDevs.add(new Developer("David Piholyuk", "https://github.com/davidpiholyuk"));
+        myDevs.add(new Developer("Derek Ruiz-Garcia", "https://github.com/DrRuiz"));
         myDevs.add(new Developer("Paul Schmidt", "https://github.com/PDSchmidt"));
 
     }
