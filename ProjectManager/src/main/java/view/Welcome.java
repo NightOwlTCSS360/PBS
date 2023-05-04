@@ -67,6 +67,11 @@ public class Welcome extends javax.swing.JFrame {
         });
 
         jButton3.setLabel("About");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Are you the owner or a guest?");
 
@@ -89,7 +94,7 @@ public class Welcome extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jLabel1)))))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,6 +176,14 @@ public class Welcome extends javax.swing.JFrame {
         guestLogin.setLocationRelativeTo(null);        
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        About<Welcome> about = new About<>(this);
+        about.pack();
+        about.setVisible(true);
+        about.setLocationRelativeTo(null);
+        this.dispose(); 
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
