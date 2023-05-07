@@ -53,7 +53,7 @@ public class LoginPanel extends javax.swing.JPanel {
 
         jButton2.setText("Sign In");
 
-        jLabel2.setText("Username");
+        jLabel2.setText("Email");
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,12 +93,13 @@ public class LoginPanel extends javax.swing.JPanel {
                     .addComponent(jPasswordField1))
                 .addGap(62, 62, 62))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton3)
-                .addGap(322, 322, 322))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(122, 122, 122)
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(jLabel1)))
                 .addGap(122, 122, 122))
         );
         layout.setVerticalGroup(
