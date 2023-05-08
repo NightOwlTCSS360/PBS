@@ -5,6 +5,14 @@
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import model.CSVHandler;
+import model.User;
+import model.UserController;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  *
@@ -15,8 +23,13 @@ public class OwnerLogin extends javax.swing.JFrame {
     /**
      * Creates new form StartGUI
      */
+
     public OwnerLogin() {
-        initComponents();
+        try{
+            initComponents();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -27,7 +40,7 @@ public class OwnerLogin extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents() throws IOException {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -64,6 +77,37 @@ public class OwnerLogin extends javax.swing.JFrame {
         });
 
         jButton2.setText("Sign In");
+
+        CSVHandler csvHandler = new CSVHandler("users.csv");
+
+        jButton2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String email = jTextField1.getText();
+                String password = new String(jPasswordField1.getPassword());
+
+                try {
+                    // Load user from CSV file
+                    User user = csvHandler.loadUser(email);
+
+                    if (user != null && user.getMyPassword().equals(password)) {
+                        // Close login page and open homepage GUI
+                        dispose();
+                    } else {
+                        // Display error message
+                        JOptionPane.showMessageDialog(OwnerLogin.this,
+                                "Invalid username or password",
+                                "Login Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (IOException ex) {
+                    // Handle IOException
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+
 
         jLabel2.setText("Email Address");
 

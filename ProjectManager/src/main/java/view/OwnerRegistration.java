@@ -4,7 +4,14 @@
  */
 package view;
 
+import model.CSVHandler;
+import model.UserController;
+
+
 import com.formdev.flatlaf.FlatLightLaf;
+
+import javax.swing.*;
+import java.io.IOException;
 
 /**
  *
@@ -32,7 +39,8 @@ public class OwnerRegistration extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        // Variables declaration - do not modify//GEN-BEGIN:variables
+        javax.swing.JButton jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -43,7 +51,7 @@ public class OwnerRegistration extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
+        javax.swing.JButton jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -65,6 +73,35 @@ public class OwnerRegistration extends javax.swing.JFrame {
         jButton1.setText("Sign Up");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+                String email = jTextField1.getText();
+                String password = new String(jPasswordField1.getPassword());
+                String firstName = jTextField2.getText();
+                String lastName = jTextField3.getText();
+
+                if (!password.equals(new String(jPasswordField2.getPassword()))) {
+                    JOptionPane.showMessageDialog(OwnerRegistration.this,"Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                boolean result = false;
+                try {
+                    result = UserController.addUser( firstName, lastName, email, password);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if (result) {
+                    JOptionPane.showMessageDialog(OwnerRegistration.this, "Sign up successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    // Redirect the user to the login page or any other page as required.
+                    OwnerLogin Login = new OwnerLogin();
+                    Login.setVisible(true);
+                    dispose();
+
+                } else {
+                    JOptionPane.showMessageDialog(OwnerRegistration.this, "Sign up failed.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
                 jButton1ActionPerformed(evt);
             }
         });
@@ -302,9 +339,6 @@ public class OwnerRegistration extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
