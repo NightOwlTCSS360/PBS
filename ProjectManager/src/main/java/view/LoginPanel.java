@@ -4,17 +4,31 @@
  */
 package view;
 
+import model.CSVHandler;
+import model.User;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+
+
 /**
  *
  * @author David
  */
 public class LoginPanel extends javax.swing.JPanel {
 
+    private CSVHandler csvHandler;
+
     /**
      * Creates new form LoginPanel
      */
     public LoginPanel() {
         initComponents();
+        csvHandler = new CSVHandler("users.csv");
     }
 
     /**
@@ -52,6 +66,42 @@ public class LoginPanel extends javax.swing.JPanel {
         });
 
         jButton2.setText("Sign In");
+        CSVHandler csvHandler = new CSVHandler("users.csv");
+
+        jButton2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                String email = jTextField1.getText();
+                String password = new String(jPasswordField1.getPassword());
+
+                try {
+                    User user = csvHandler.loadUser(email);
+
+                    if (user != null && user.getMyPassword().equals(password)) {
+                        // Open the DashboardPanel
+                        DashBoardPanel dashboard = new DashBoardPanel();
+                        dashboard.setVisible(true);
+                        JFrame loginFrame = (JFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
+
+                        DashBoardPanel homePageGUI = new DashBoardPanel();
+                        loginFrame.setContentPane(homePageGUI);
+                        loginFrame.dispose();
+
+
+
+                    } else {
+                        // Display error message
+                        JOptionPane.showMessageDialog(LoginPanel.this,
+                                "Invalid username or password",
+                                "Login Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         jLabel2.setText("Email");
 

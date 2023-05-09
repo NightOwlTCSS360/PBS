@@ -4,6 +4,12 @@
  */
 package view;
 
+import model.UserController;
+
+import javax.swing.*;
+import java.io.IOException;
+
+
 /**
  *
  * @author David
@@ -54,6 +60,38 @@ public class SignUpPanel extends javax.swing.JPanel {
         jButton1.setText("Sign Up");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+                String email = jTextField1.getText();
+                String password = new String(jPasswordField1.getPassword());
+                String firstName = jTextField2.getText();
+                String lastName = jTextField3.getText();
+
+                if (!password.equals(new String(jPasswordField2.getPassword()))) {
+                    JOptionPane.showMessageDialog(SignUpPanel.this,"Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                boolean result = false;
+                try {
+                    result = UserController.addUser( firstName, lastName, email, password);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                if (result) {
+                    JOptionPane.showMessageDialog(SignUpPanel.this, "Sign up successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    // Redirect the user to the login page or any other page as required.
+                    LoginPanel loginPanel = new LoginPanel();
+                    JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(SignUpPanel.this);
+                    topFrame.setContentPane(loginPanel);
+                    topFrame.pack();
+                    topFrame.setLocationRelativeTo(null);
+                    topFrame.setVisible(true);
+
+                } else {
+                    JOptionPane.showMessageDialog(SignUpPanel.this, "Sign up failed.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
                 jButton1ActionPerformed(evt);
             }
         });
@@ -62,8 +100,9 @@ public class SignUpPanel extends javax.swing.JPanel {
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
+
         });
 
         jLabel3.setText("Password");
