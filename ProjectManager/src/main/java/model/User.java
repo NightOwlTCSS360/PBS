@@ -2,25 +2,36 @@ package model;
 
 public class User {
 
-    private String myUserName;
+    private String myUserLastName;
+
+    private String myUserFirstName;
 
     private String myUserEmail;
 
     private String myPassword;
 
-    public User(String theUserName, String theUserEmail, String thePassword){
+    public User(String theUserLastName, String theUserFirstName, String theUserEmail, String thePassword){
 
-        myUserName = theUserName;
+        myUserLastName = theUserLastName;
+        myUserFirstName = theUserFirstName;
         myUserEmail = theUserEmail;
         myPassword = thePassword;
     }
 
-    public void setUserName(String theUsername){
-        myUserName = theUsername;
+    public void setUserLastName(String theUserLastname){
+        myUserLastName = theUserLastname;
     }
 
-    public String getMyUserName(){
-        return myUserName;
+    public String getMyUserLastName(){
+        return myUserLastName;
+    }
+
+    public void setUserFirstName(String theUserFirstname){
+        myUserFirstName = theUserFirstname;
+    }
+
+    public String getMyUserFirstName(){
+        return myUserFirstName;
     }
 
     public void setUserEmail(String theUserEmail){
@@ -39,3 +50,4 @@ public class User {
         return myPassword;
     }
 }
+
