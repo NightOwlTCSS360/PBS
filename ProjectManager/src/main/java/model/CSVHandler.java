@@ -42,10 +42,10 @@ public class CSVHandler {
                 String[] values = line.split(",");
                 System.out.println(Arrays.toString(values)); // add this line to print the contents of the array
 
-                if (values[1].equals(email)) {
-                    String password = values[2];
-                    String firstName = values[3];
-                    String lastName = values[4];
+                if (values.length >= 5 && values[1].equals(email)) {
+                    String password = values[3];
+                    String firstName = values[0];
+                    String lastName = values[2];
 
                     return new User(firstName, lastName, email, password);
                 }

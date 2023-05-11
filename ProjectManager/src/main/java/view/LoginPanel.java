@@ -79,14 +79,10 @@ public class LoginPanel extends javax.swing.JPanel {
                     User user = csvHandler.loadUser(email);
 
                     if (user != null && user.getMyPassword().equals(password)) {
-                        // Open the DashboardPanel
-                        DashBoardPanel dashboard = new DashBoardPanel();
-                        dashboard.setVisible(true);
-                        JFrame loginFrame = (JFrame) SwingUtilities.getWindowAncestor(LoginPanel.this);
+                         //Open the DashboardPanel
+                        JOptionPane.showMessageDialog(LoginPanel.this,"Succeed", "Succeed", JOptionPane.ERROR_MESSAGE);
+                        return;
 
-                        DashBoardPanel homePageGUI = new DashBoardPanel();
-                        loginFrame.setContentPane(homePageGUI);
-                        loginFrame.dispose();
 
 
 

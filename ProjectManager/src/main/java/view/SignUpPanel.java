@@ -66,6 +66,11 @@ public class SignUpPanel extends javax.swing.JPanel {
                 String firstName = jTextField2.getText();
                 String lastName = jTextField3.getText();
 
+                if (email.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
+                    JOptionPane.showMessageDialog(SignUpPanel.this, "Please fill out all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
                 if (!password.equals(new String(jPasswordField2.getPassword()))) {
                     JOptionPane.showMessageDialog(SignUpPanel.this,"Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -80,13 +85,7 @@ public class SignUpPanel extends javax.swing.JPanel {
 
                 if (result) {
                     JOptionPane.showMessageDialog(SignUpPanel.this, "Sign up successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    // Redirect the user to the login page or any other page as required.
-                    LoginPanel loginPanel = new LoginPanel();
-                    JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(SignUpPanel.this);
-                    topFrame.setContentPane(loginPanel);
-                    topFrame.pack();
-                    topFrame.setLocationRelativeTo(null);
-                    topFrame.setVisible(true);
+                    jButton4ActionPerformed(evt);
 
                 } else {
                     JOptionPane.showMessageDialog(SignUpPanel.this, "Sign up failed.", "Error", JOptionPane.ERROR_MESSAGE);

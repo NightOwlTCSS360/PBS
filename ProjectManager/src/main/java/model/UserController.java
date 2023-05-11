@@ -18,14 +18,15 @@ public class UserController {
         this.users = new ArrayList<>();
 
         for (String[] data : userData) {
-
-
+            if (data.length < 2) {
+                continue; // Skip this row if there are not enough columns
+            }
             User user = new User(data[0], data[1], data[2], data[3]);
             this.users.add(user);
         }
     }
 
-    public static boolean addUser(String UserFirstName, String UserLastName, String password, String email) throws IOException {
+    public static boolean addUser(String UserFirstName, String UserLastName,  String email, String password) throws IOException {
         UserController userController = new UserController(new CSVHandler("users.csv"));
         List<User> users = userController.getUsers();
 
@@ -36,12 +37,12 @@ public class UserController {
             }
         }
 
-        User newUser = new User(UserFirstName, UserLastName, password, email);
+        User newUser = new User(UserFirstName, UserLastName,  email, password);
         users.add(newUser);
 
         List<String[]> data = new ArrayList<>();
         for (User user : users) {
-            String[] userData = {user.getMyUserFirstName(), user.getMyUserLastName(), user.getMyPassword(), user.getUserEmail()};
+            String[] userData = {user.getMyUserFirstName(), user.getMyUserLastName(), user.getUserEmail(), user.getMyPassword()};
             data.add(userData);
         }
 
@@ -51,12 +52,10 @@ public class UserController {
     }
 
 
-    public boolean login(String email, String password) {
-
-        for (User user : users) {
-            if (user.getUserEmail().equals(email) && user.getMyPassword().equals(password)) {
-                return true;
-            }
+    public boolean login(String email, String password) throws IOException {
+        User user = csvHandler.loadUser(email);
+        if (user != null && user.getMyPassword().equals(password)) {
+            return true;
         }
         return false;
     }
