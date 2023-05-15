@@ -25,12 +25,12 @@ public class Project implements Serializable {
         myPath = Paths.get("./ProjectManager/src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
                 myProjectName);
         if (Files.exists(myPath)) {
-            System.out.println(myPath.toRealPath().toString() + " exists");
+            System.out.println(myPath.toRealPath() + " exists (Project)");
         } else {
             System.out.println(myPath.toString() +" doesn't exist. Creating Directory now...");
             Files.createDirectory(myPath);
             if (Files.exists(myPath)) {
-                System.out.println(myPath.toRealPath().toString() + " created!");
+                System.out.println(myPath.toRealPath() + " created!");
             } else {
                 System.out.println("Error creating " + myPath.toString());
             }
@@ -58,9 +58,9 @@ public class Project implements Serializable {
 
             in.close();
             file.close();
-            System.out.println("Object has been deserialized\n"
+            System.out.println(p.myProjectName + " has been deserialized\n"
                     + "Data after Deserialization.");
-            // System.out.println("z = " + object1.z);
+            System.out.println(p);
         } catch (Exception ex) {
             ex.printStackTrace();
         } finally {
@@ -91,7 +91,7 @@ public class Project implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb. append("Project Name: " + myProjectName);
+        sb.append("Project Name: " + myProjectName);
         for (Task t : myTasks) {
             sb.append("\n    " + t.toString());
         }
