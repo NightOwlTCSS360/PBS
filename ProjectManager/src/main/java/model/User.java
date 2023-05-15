@@ -1,6 +1,10 @@
 package model;
 
-public class User {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class User implements Serializable {
 
     private String myUserLastName;
 
@@ -9,6 +13,8 @@ public class User {
     private String myUserEmail;
 
     private String myPassword;
+
+
 
     public User(String theUserLastName, String theUserFirstName, String theUserEmail, String thePassword){
 
