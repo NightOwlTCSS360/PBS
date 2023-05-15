@@ -16,6 +16,7 @@ public class Project implements Serializable {
     private String myDescription;
     private User myUser;
     private transient Path myPath;
+    private static final long serialVersionUID = 5152023L;
 
     public Project(final User theUser, final String theName) throws IOException {
         myTasks = new ArrayList<>();
@@ -29,6 +30,7 @@ public class Project implements Serializable {
         } else {
             System.out.println(myPath.toString() +" doesn't exist. Creating Directory now...");
             Files.createDirectory(myPath);
+            Files.createDirectory(Paths.get(myPath.toString() + "/User_Added_Files"));
             if (Files.exists(myPath)) {
                 System.out.println(myPath.toRealPath() + " created!");
             } else {
@@ -39,6 +41,9 @@ public class Project implements Serializable {
 
     public Path getPath() {
         return myPath;
+    }
+    public String getMyProjectName() {
+        return myProjectName;
     }
     public void addTask(final Task theTask) {
         this.myTasks.add(theTask);

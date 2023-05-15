@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class Task implements Serializable {
     private String myTaskName;
     private List<Purchase> myPurchases;
+    private static final long serialVersionUID = 3152023L;
 
     public Task (final String theTaskName) {
         myTaskName = theTaskName;

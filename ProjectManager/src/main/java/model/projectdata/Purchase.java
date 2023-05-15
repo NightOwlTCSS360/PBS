@@ -7,6 +7,8 @@ import java.io.Serializable;
 public class Purchase implements Serializable {
     private String myPurchaseName;
     private double myCost;
+    private static final long serialVersionUID = 2152023L;
+
 
     public Purchase(final String thePurchaseName, final double theCost) {
         myPurchaseName = thePurchaseName;

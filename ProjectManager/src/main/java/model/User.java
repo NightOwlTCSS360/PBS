@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class User implements Serializable {
 
@@ -18,15 +20,18 @@ public class User implements Serializable {
 
     private String myPassword;
 
-    private List<Project> myProjects;
+    private Map<String, Project> myProjects;
     private transient Path myPath;
+
+    private static final long serialVersionUID = 15152023L;
+
     public User(String theUserLastName, String theUserFirstName, String theUserEmail, String thePassword){
 
         myUserLastName = theUserLastName;
         myUserFirstName = theUserFirstName;
         myUserEmail = theUserEmail;
         myPassword = thePassword;
-        myProjects = new ArrayList<>();
+        myProjects = new HashMap<>();
         try {
             myPath = Paths.get("./ProjectManager/src/main/resources/appdata/" + myUserEmail);
             if (Files.exists(myPath)) {
@@ -55,7 +60,8 @@ public class User implements Serializable {
             for (Path projectFolder : stream) {
                 System.out.println(projectFolder.getFileName());
                 try {
-                    addProject(Project.deserialize(projectFolder + "/" + projectFolder.getFileName() + ".ser"));
+                    Project p = Project.deserialize(projectFolder + "/" + projectFolder.getFileName() + ".ser");
+                    addProject(p);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -66,8 +72,17 @@ public class User implements Serializable {
             System.err.println(x);
         }
     }
-    private void addProject(final Project theProject) {
-        myProjects.add(theProject);
+    public void addProject(final Project theProject) {
+        String pName = theProject.getMyProjectName();
+        if (myProjects.containsKey(pName)) {
+            System.out.println("Project " + pName + " already exists in " + myUserFirstName + "'s Projects, overwriting old project. . .");
+        } else {
+            System.out.println("Project " + pName + " doesn't exist in "+ myUserFirstName + "'s Projects, adding now. . .");
+        }
+        myProjects.put(theProject.getMyProjectName(), theProject);
+    }
+    public Map<String, Project> getProjects() {
+        return myProjects;
     }
     public void setUserLastName(String theUserLastname){
         myUserLastName = theUserLastname;
