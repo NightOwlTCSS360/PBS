@@ -4,6 +4,7 @@
  */
 package view;
 
+import control.PDC;
 import model.CSVHandler;
 import model.User;
 
@@ -77,11 +78,17 @@ public class LoginPanel extends javax.swing.JPanel {
 
                 try {
                     User user = csvHandler.loadUser(email);
-
+//                    View v = (View)getParent();
+//                    v.getController();
                     if (user != null && user.getMyPassword().equals(password)) {
                          //Open the DashboardPanel
                         JOptionPane.showMessageDialog(LoginPanel.this,"Succeed", "Succeed", JOptionPane.ERROR_MESSAGE);
-                        return;
+                        View v = (View)getParent();
+                        PDC controller = v.getController();
+                        controller.setCurrentUser(user);
+                        System.out.println("Current user set successfully!");
+                        //return;
+
 
 
 
