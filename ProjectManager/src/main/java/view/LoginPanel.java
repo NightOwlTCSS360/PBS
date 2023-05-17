@@ -83,7 +83,7 @@ public class LoginPanel extends javax.swing.JPanel {
                     if (user != null && user.getMyPassword().equals(password)) {
                          //Open the DashboardPanel
                         JOptionPane.showMessageDialog(LoginPanel.this,"Succeed", "Succeed", JOptionPane.ERROR_MESSAGE);
-                        View v = (View)getParent();
+                        View v = (View)getParent().getParent().getParent().getParent().getParent();
                         PDC controller = v.getController();
                         controller.setCurrentUser(user);
                         System.out.println("Current user set successfully!");
