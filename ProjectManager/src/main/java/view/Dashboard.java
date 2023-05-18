@@ -27,6 +27,11 @@ public class Dashboard extends javax.swing.JFrame {
      */
     private String myEmail;
     
+    /**
+     * The project used by dashboard
+     */
+    private String myProject;
+    
     //PDC controller = new PDC();
     
     /**
@@ -58,6 +63,11 @@ public class Dashboard extends javax.swing.JFrame {
         emailLabel = new javax.swing.JLabel();
         saveSettingsButton = new javax.swing.JButton();
         cancelSettingsButton = new javax.swing.JButton();
+        createProjectDialog = new javax.swing.JDialog();
+        projectNameTextField = new javax.swing.JTextField();
+        projectNameLabel = new javax.swing.JLabel();
+        createProjectButton = new javax.swing.JButton();
+        cancelProjectButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
@@ -97,19 +107,18 @@ public class Dashboard extends javax.swing.JFrame {
         settingsDialog.getContentPane().setLayout(settingsDialogLayout);
         settingsDialogLayout.setHorizontalGroup(
             settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(settingsDialogLayout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(usernameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(emailLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(18, 18, 18)
-                .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(usernameTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                    .addComponent(emailTextField))
-                .addContainerGap(106, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsDialogLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cancelSettingsButton)
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(settingsDialogLayout.createSequentialGroup()
+                        .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(usernameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(emailLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addGap(18, 18, 18)
+                        .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(usernameTextField)
+                            .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(cancelSettingsButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(saveSettingsButton)
                 .addContainerGap())
@@ -132,6 +141,52 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        projectNameLabel.setText("Project Name:");
+
+        createProjectButton.setText("Create");
+        createProjectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createProjectAction(evt);
+            }
+        });
+
+        cancelProjectButton.setText("Cancel");
+        cancelProjectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelProjectAction(evt);
+            }
+        });
+
+        javax.swing.GroupLayout createProjectDialogLayout = new javax.swing.GroupLayout(createProjectDialog.getContentPane());
+        createProjectDialog.getContentPane().setLayout(createProjectDialogLayout);
+        createProjectDialogLayout.setHorizontalGroup(
+            createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, createProjectDialogLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(createProjectDialogLayout.createSequentialGroup()
+                        .addComponent(projectNameLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(projectNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cancelProjectButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(createProjectButton)
+                .addContainerGap())
+        );
+        createProjectDialogLayout.setVerticalGroup(
+            createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(createProjectDialogLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addGroup(createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(projectNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(projectNameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
+                .addGroup(createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(createProjectButton)
+                    .addComponent(cancelProjectButton))
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -151,6 +206,12 @@ public class Dashboard extends javax.swing.JFrame {
         fileMenu.setText("File");
 
         createProjectMenuItem.setText("Create Project");
+        createProjectMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createProjectAction(evt);
+                createProjectMenuAction(evt);
+            }
+        });
         fileMenu.add(createProjectMenuItem);
 
         importProjectsMenuItem.setText("Import Projects");
@@ -255,6 +316,15 @@ public class Dashboard extends javax.swing.JFrame {
     }
     
     /**
+     * Return the project retrieved by the dashboard
+     * @return the project held in the dashboard
+     * @author Jarvis Kampe
+     */
+    public String getProject() {
+        return myProject;
+    }
+    
+    /**
      * Edit settings behavior
      * @param evt 
      * @author Jarvis Kampe
@@ -306,6 +376,40 @@ public class Dashboard extends javax.swing.JFrame {
         //Open about panel
         //I can't do it because this thing is a frame sorry
     }//GEN-LAST:event_aboutAction
+
+    /**
+     * Create project behavior
+     * @param evt 
+     * @author Jarvis Kampe
+     */
+    private void createProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProjectAction
+        String projectName = projectNameTextField.getText();
+        if (!projectName.trim().equals("")) {
+            myProject = projectNameTextField.getText();
+            createProjectDialog.setVisible(false);
+        }
+    }//GEN-LAST:event_createProjectAction
+
+    /**
+     * Cancel project behavior
+     * @param evt 
+     * @author Jarvis Kampe
+     */
+    private void cancelProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelProjectAction
+        createProjectDialog.setVisible(false);
+    }//GEN-LAST:event_cancelProjectAction
+
+    /**
+     * Open create project menu behavior
+     * @param evt 
+     * @author Jarvis Kampe
+     */
+    private void createProjectMenuAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProjectMenuAction
+        createProjectDialog.pack();
+        createProjectDialog.setLocationRelativeTo(null);
+        projectNameTextField.setText("");
+        createProjectDialog.setVisible(true);
+    }//GEN-LAST:event_createProjectMenuAction
     
     /**
      * @param args the command line arguments
@@ -352,7 +456,10 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JButton cancelProjectButton;
     private javax.swing.JButton cancelSettingsButton;
+    private javax.swing.JButton createProjectButton;
+    private javax.swing.JDialog createProjectDialog;
     private javax.swing.JMenuItem createProjectMenuItem;
     private javax.swing.JMenuItem editSettingsMenuItem;
     private javax.swing.JLabel emailLabel;
@@ -369,6 +476,8 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel projectNameLabel;
+    private javax.swing.JTextField projectNameTextField;
     private javax.swing.JButton saveSettingsButton;
     private javax.swing.JDialog settingsDialog;
     private javax.swing.JMenu settingsMenu;
