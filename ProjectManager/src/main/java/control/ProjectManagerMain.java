@@ -3,6 +3,10 @@ package control;
 import com.formdev.flatlaf.FlatLightLaf;
 import view.View;
 
+/**
+ * This class acts as the starting point for the program.
+ * @author
+ */
 public class ProjectManagerMain {
     public static void main(String args[]) {
         FlatLightLaf.setup();

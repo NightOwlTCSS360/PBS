@@ -78,8 +78,6 @@ public class LoginPanel extends javax.swing.JPanel {
 
                 try {
                     User user = csvHandler.loadUser(email);
-//                    View v = (View)getParent();
-//                    v.getController();
                     if (user != null && user.getMyPassword().equals(password)) {
                          //Open the DashboardPanel
                         JOptionPane.showMessageDialog(LoginPanel.this,"Succeed", "Succeed", JOptionPane.ERROR_MESSAGE);
@@ -87,11 +85,6 @@ public class LoginPanel extends javax.swing.JPanel {
                         PDC controller = v.getController();
                         controller.setCurrentUser(user);
                         System.out.println("Current user set successfully!");
-                        //return;
-
-
-
-
 
                     } else {
                         // Display error message
