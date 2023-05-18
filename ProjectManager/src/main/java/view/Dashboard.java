@@ -332,6 +332,8 @@ public class Dashboard extends javax.swing.JFrame {
     private void editSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSettingsAction
         settingsDialog.pack();
         settingsDialog.setLocationRelativeTo(null);
+        usernameTextField.setText(myUsername);
+        emailTextField.setText(myEmail);
         settingsDialog.setVisible(true);
     }//GEN-LAST:event_editSettingsAction
 
