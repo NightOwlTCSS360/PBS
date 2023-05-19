@@ -5,22 +5,22 @@
 package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import control.PDC;
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import model.User;
 /**
  * @author Jarvis Kampe
  */
 public class Dashboard extends javax.swing.JFrame {
     
     /**
-     * The file used by the dashboard
+     * The first name used by the dashboard
      */
-    private File myFile;
-    
-    /**
-     * The username used by the dashboard
-     */
-    private String myUsername;
+    private String myFirstName;
     
     /**
      * The email used by the dashboard
@@ -32,14 +32,18 @@ public class Dashboard extends javax.swing.JFrame {
      */
     private String myProject;
     
-    //PDC controller = new PDC();
+    /**
+     * The controller used by the dashboard
+     */
+    private PDC myController = new PDC();
     
     /**
      * Creates new Dashboard
+     * @param controller
      * @author Jarvis Kampe
      */
-    public Dashboard(/*PDC controller*/) {
-        //this.controller = controller;
+    public Dashboard(PDC controller) {
+        myController = controller;
         //Set myUsername
         //Set myEmail
         initComponents();
@@ -81,9 +85,9 @@ public class Dashboard extends javax.swing.JFrame {
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
 
-        usernameTextField.setText(myUsername);
+        usernameTextField.setText(myFirstName);
 
-        usernameLabel.setText("Username:");
+        usernameLabel.setText("First Name:");
 
         emailTextField.setText(myEmail);
 
@@ -108,7 +112,7 @@ public class Dashboard extends javax.swing.JFrame {
         settingsDialogLayout.setHorizontalGroup(
             settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsDialogLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+                .addContainerGap(8, Short.MAX_VALUE)
                 .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(settingsDialogLayout.createSequentialGroup()
                         .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -217,7 +221,7 @@ public class Dashboard extends javax.swing.JFrame {
         importProjectsMenuItem.setText("Import Projects");
         importProjectsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openFileAction(evt);
+                importSettingsAction(evt);
             }
         });
         fileMenu.add(importProjectsMenuItem);
@@ -225,7 +229,7 @@ public class Dashboard extends javax.swing.JFrame {
         exportProjectsMenuItem.setText("Export Projects");
         exportProjectsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openFileAction(evt);
+                importSettingsAction(evt);
             }
         });
         fileMenu.add(exportProjectsMenuItem);
@@ -245,7 +249,7 @@ public class Dashboard extends javax.swing.JFrame {
         importSettingsMenuItem.setText("Import Settings");
         importSettingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openFileAction(evt);
+                importSettingsAction(evt);
             }
         });
         settingsMenu.add(importSettingsMenuItem);
@@ -253,7 +257,7 @@ public class Dashboard extends javax.swing.JFrame {
         exportSettingsMenuItem.setText("Export Settings");
         exportSettingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                openFileAction(evt);
+                importSettingsAction(evt);
             }
         });
         settingsMenu.add(exportSettingsMenuItem);
@@ -289,33 +293,6 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Return the file retrieved by the dashboard
-     * @return the file held in the dashboard
-     * @author Jarvis Kampe
-     */
-    public File getFile() {
-        return myFile;
-    }
-    
-    /**
-     * Return the username retrieved by the dashboard
-     * @return the username held in the dashboard
-     * @author Jarvis Kampe
-     */
-    public String getUsername() {
-        return myUsername;
-    }
-    
-    /**
-     * Return the email retrieved by the dashboard
-     * @return the email held in the dashboard
-     * @author Jarvis Kampe
-     */
-    public String getEmail() {
-        return myEmail;
-    }
-    
-    /**
      * Return the project retrieved by the dashboard
      * @return the project held in the dashboard
      * @author Jarvis Kampe
@@ -332,8 +309,8 @@ public class Dashboard extends javax.swing.JFrame {
     private void editSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSettingsAction
         settingsDialog.pack();
         settingsDialog.setLocationRelativeTo(null);
-        usernameTextField.setText(myUsername);
-        emailTextField.setText(myEmail);
+        usernameTextField.setText(myController.getCurrentUser().getMyUserFirstName());
+        emailTextField.setText(myController.getCurrentUser().getUserEmail());
         settingsDialog.setVisible(true);
     }//GEN-LAST:event_editSettingsAction
 
@@ -342,12 +319,16 @@ public class Dashboard extends javax.swing.JFrame {
      * @param evt 
      * @author Jarvis Kampe
      */
-    private void openFileAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openFileAction
+    private void importSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importSettingsAction
         int returnVal = jFileChooser1.showOpenDialog(Dashboard.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            myFile = jFileChooser1.getSelectedFile();
+            try {
+                myController.importSettings(jFileChooser1.getSelectedFile());
+            } catch (IOException ex) {
+                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-    }//GEN-LAST:event_openFileAction
+    }//GEN-LAST:event_importSettingsAction
 
     /**
      * Save settings behavior
@@ -355,9 +336,8 @@ public class Dashboard extends javax.swing.JFrame {
      * @author Jarvis Kampe
      */
     private void saveSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsAction
-        myUsername = usernameTextField.getText();
-        myEmail = emailTextField.getText();
-        settingsDialog.setVisible(false);
+        myController.setUserInfo(usernameTextField.getText(), emailTextField.getText());
+        settingsDialog.dispose();
     }//GEN-LAST:event_saveSettingsAction
 
     /**
@@ -366,7 +346,7 @@ public class Dashboard extends javax.swing.JFrame {
      * @author Jarvis Kampe
      */
     private void cancelSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelSettingsAction
-        settingsDialog.setVisible(false);
+        settingsDialog.dispose();
     }//GEN-LAST:event_cancelSettingsAction
 
     /**
@@ -388,7 +368,7 @@ public class Dashboard extends javax.swing.JFrame {
         String projectName = projectNameTextField.getText();
         if (!projectName.trim().equals("")) {
             myProject = projectNameTextField.getText();
-            createProjectDialog.setVisible(false);
+            createProjectDialog.dispose();
         }
     }//GEN-LAST:event_createProjectAction
 
@@ -398,7 +378,7 @@ public class Dashboard extends javax.swing.JFrame {
      * @author Jarvis Kampe
      */
     private void cancelProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelProjectAction
-        createProjectDialog.setVisible(false);
+        createProjectDialog.dispose();
     }//GEN-LAST:event_cancelProjectAction
 
     /**
@@ -451,7 +431,10 @@ public class Dashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Dashboard().setVisible(true);
+                PDC controller = new PDC();
+                User user = new User("LastName", "FirstName", "Email", "123");
+                controller.setCurrentUser(user);
+                new Dashboard(controller).setVisible(true);
             }
         });
     }
@@ -472,9 +455,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenu helpMenu;
     private javax.swing.JMenuItem importProjectsMenuItem;
     private javax.swing.JMenuItem importSettingsMenuItem;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
