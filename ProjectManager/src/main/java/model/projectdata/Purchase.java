@@ -4,16 +4,39 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+/**
+ * Class representing a Purchase
+ * @author Paul Schmidt
+ */
 public class Purchase implements Serializable {
+    /**
+     * Name of the purchase
+     */
     private String myPurchaseName;
+    /**
+     * Cost of the Purchase
+     */
     private double myCost;
+    /**
+     * Serial ID
+     */
     private static final long serialVersionUID = 2152023L;
 
-
+    /**
+     * Constructs a new Purchase with the given Name and Cost
+     * @author Paul Schmidt
+     * @param thePurchaseName the name of the Purchase
+     * @param theCost the Cost of the Purchase
+     */
     public Purchase(final String thePurchaseName, final double theCost) {
         myPurchaseName = thePurchaseName;
         myCost = theCost;
     }
+
+    /**
+     * Export for serialization if needed
+     * @author Paul Schmidt
+     */
     public void export ()
     {
         ObjectOutputStream oos = null;

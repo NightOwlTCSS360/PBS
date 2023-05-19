@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.rmi.NoSuchObjectException;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * This class, PDC (aka Persistent Data Controller), acts as a control layer entity that helps manage the interactions
@@ -148,6 +149,7 @@ public class PDC {
 
     /**
      * This method allows for the User's first name and Email address to be updated after the creation of the account.
+     * TODO Update the User's CSV line and the Users data folder name with the new email
      * @author Paul Schmidt
      * @param theFirstName The new first name of the User
      * @param theEmail The new last name of the User
@@ -167,9 +169,23 @@ public class PDC {
     public void setCurrentUser( final User theUser) {
         currentUser = theUser;
     }
-    public User getCurrentUser() {
-        return currentUser;
+
+    /**
+     * This method returns a Set of Strings that represent the names of the Users Project. Use to populate information
+     * to the UI.
+     * @author Paul Schmidt
+     * @return the Set of Project Names
+     */
+    public Set<String> getProjectNames() {
+        return currentUser.getProjects().keySet();
     }
+
+    /**
+     * Set the current active Project obj via passing the Project's name as a parameter.
+     * By setting the current project, the UI can populate Fields via other methods defined in the PDC class.
+     * @author Paul Schmidt
+     * @param theProjectName the name of the Project
+     */
     public void setCurrentProject(final String theProjectName) {
         try {
             currentProject = currentUser.getProject(theProjectName);
@@ -177,6 +193,13 @@ public class PDC {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Exports a serialized Project obj file to the designated FilePath
+     * @author Paul Schmidt
+     * @param theProjectName The name of the Project to export
+     * @param theFile The File to write to
+     */
     public void exportProject(final String theProjectName, final File theFile)  {
         try {
             Files.copy(currentUser.getProject(theProjectName).getMyFilePath(),
@@ -188,13 +211,27 @@ public class PDC {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Imports a Project to the Current User's List of Projects, then creates the appropriate file structure for the
+     * Project and serializes it locally.
+     * TODO Check for .ser validity
+     * TODO Check to see if the imported Project has the name of an already existing Project
+     * TODO Let the User decide if they want to overwrite the Previous Project if it exists OR change name of the imported Project
+     * @author Paul Schmidt
+     * @param theFile the .ser File to import
+     */
     public void importProject(final File theFile) {
         try {
             Project p = new Project(currentUser, Project.deserialize(theFile.getPath()));
-            p.serialize("ProjectManager");
+            p.serialize(this.myDir);
             currentUser.addProject(p);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 }
