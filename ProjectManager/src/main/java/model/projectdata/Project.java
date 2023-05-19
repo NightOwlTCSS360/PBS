@@ -15,7 +15,8 @@ public class Project implements Serializable {
     private String myProjectName;
     private String myDescription;
     private User myUser;
-    private transient Path myPath;
+    private transient Path myDirectoryPath;
+    private transient Path myFilePath;
     private static final long serialVersionUID = 5152023L;
 
     public Project(final User theUser, final String theName) throws IOException {
@@ -23,24 +24,49 @@ public class Project implements Serializable {
         myProjectName = theName;
         myDescription = "Default Description";
         myUser = theUser;
-        myPath = Paths.get("./ProjectManager/src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
+        myDirectoryPath = Paths.get("./ProjectManager/src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
                 myProjectName);
-        if (Files.exists(myPath)) {
-            System.out.println(myPath.toRealPath() + " exists (Project)");
+        myFilePath = Paths.get(myDirectoryPath.toString() + "/" + myProjectName + ".ser");
+        if (Files.exists(myDirectoryPath)) {
+            System.out.println(myDirectoryPath.toRealPath() + " exists (Project)");
         } else {
-            System.out.println(myPath.toString() +" doesn't exist. Creating Directory now...");
-            Files.createDirectory(myPath);
-            Files.createDirectory(Paths.get(myPath.toString() + "/User_Added_Files"));
-            if (Files.exists(myPath)) {
-                System.out.println(myPath.toRealPath() + " created!");
+            System.out.println(myDirectoryPath.toString() +" doesn't exist. Creating Directory now...");
+            Files.createDirectory(myDirectoryPath);
+            Files.createDirectory(Paths.get(myDirectoryPath.toString() + "/User_Added_Files"));
+            if (Files.exists(myDirectoryPath)) {
+                System.out.println(myDirectoryPath.toRealPath() + " created!");
             } else {
-                System.out.println("Error creating " + myPath.toString());
+                System.out.println("Error creating " + myDirectoryPath.toString());
+            }
+        }
+    }
+    public Project(final User theUser, final Project theProject) throws IOException {
+        myProjectName = new String(theProject.myProjectName);
+        myDescription = new String(theProject.myDescription);
+        myUser = theUser;
+        myTasks = theProject.myTasks;
+        myDirectoryPath = Paths.get("./ProjectManager/src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
+                myProjectName);
+        myFilePath = Paths.get(myDirectoryPath.toString() + "/" + myProjectName + ".ser");
+        if (Files.exists(myDirectoryPath)) {
+            System.out.println(myDirectoryPath.toRealPath() + " exists (Project)");
+        } else {
+            System.out.println(myDirectoryPath.toString() +" doesn't exist. Creating Directory now...");
+            Files.createDirectory(myDirectoryPath);
+            Files.createDirectory(Paths.get(myDirectoryPath.toString() + "/User_Added_Files"));
+            if (Files.exists(myDirectoryPath)) {
+                System.out.println(myDirectoryPath.toRealPath() + " created!");
+            } else {
+                System.out.println("Error creating " + myDirectoryPath.toString());
             }
         }
     }
 
-    public Path getPath() {
-        return myPath;
+    public Path getDirectoryPath() {
+        return myDirectoryPath;
+    }
+    public Path getMyFilePath() {
+        return myFilePath;
     }
     public String getMyProjectName() {
         return myProjectName;
@@ -73,11 +99,11 @@ public class Project implements Serializable {
         }
     }
 
-    public void export () {
+    public void serialize(final String filename) {
         ObjectOutputStream oos = null;
         FileOutputStream fout = null;
         try{
-            fout = new FileOutputStream("ProjectManager/src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
+            fout = new FileOutputStream(filename + "/src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
                     myProjectName + "/" + myProjectName + ".ser", false);
             oos = new ObjectOutputStream(fout);
             oos.writeObject(this);

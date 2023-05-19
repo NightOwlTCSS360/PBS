@@ -9,7 +9,6 @@ import model.CSVHandler;
 import model.User;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -83,6 +82,7 @@ public class LoginPanel extends javax.swing.JPanel {
                         JOptionPane.showMessageDialog(LoginPanel.this,"Succeed", "Succeed", JOptionPane.ERROR_MESSAGE);
                         View v = (View)getParent().getParent().getParent().getParent().getParent();
                         PDC controller = v.getController();
+                        user.loadInUserProjects();
                         controller.setCurrentUser(user);
                         System.out.println("Current user set successfully!");
                         Dashboard dash = new Dashboard(controller);

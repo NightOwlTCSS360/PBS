@@ -5,9 +5,8 @@ import model.projectdata.Project;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.*;
-import java.util.ArrayList;
+import java.rmi.NoSuchObjectException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class User implements Serializable {
@@ -25,10 +24,10 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 15152023L;
 
-    public User(String theUserLastName, String theUserFirstName, String theUserEmail, String thePassword){
+    public User(String theUserFirstName, String theUserLastName, String theUserEmail, String thePassword) {
 
-        myUserLastName = theUserLastName;
         myUserFirstName = theUserFirstName;
+        myUserLastName = theUserLastName;
         myUserEmail = theUserEmail;
         myPassword = thePassword;
         myProjects = new HashMap<>();
@@ -37,7 +36,7 @@ public class User implements Serializable {
             if (Files.exists(myPath)) {
                 System.out.println(myPath.toRealPath() + " exists (User Directory)");
             } else {
-                System.out.println(myPath.toString() +" doesn't exist. Creating Directory now...");
+                System.out.println(myPath.toString() + " doesn't exist. Creating Directory now...");
                 Files.createDirectory(myPath);
                 if (Files.exists(myPath)) {
                     System.out.println(myPath.toRealPath() + " created!");
@@ -48,13 +47,12 @@ public class User implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        generateUserProjects();
     }
 
     public Path getUserPath() {
         return myPath;
     }
-    private void generateUserProjects() {
+    public void loadInUserProjects() {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(myPath)) {
             System.out.println("Printing Directories in " + myUserFirstName + "'s directory:");
             for (Path projectFolder : stream) {
@@ -83,6 +81,15 @@ public class User implements Serializable {
     }
     public Map<String, Project> getProjects() {
         return myProjects;
+    }
+    public Project getProject(final String theProjectName) throws NoSuchObjectException {
+        Project result = null;
+
+        result =  myProjects.get(theProjectName);
+        if (result == null) {
+            throw new NoSuchObjectException(theProjectName + " doesn't exist! How did you do that???");
+        }
+        return result;
     }
     public void setUserLastName(String theUserLastname){
         myUserLastName = theUserLastname;

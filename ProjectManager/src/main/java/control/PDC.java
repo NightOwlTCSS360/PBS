@@ -1,12 +1,11 @@
 package control;
 import model.*;
+import model.projectdata.Project;
 
-import javax.swing.*;
 import java.io.*;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.rmi.NoSuchObjectException;
 import java.util.Scanner;
 
 /**
@@ -19,6 +18,7 @@ public class PDC {
      * Field for storing a reference to the current User instance.
      */
     private User currentUser;
+    private Project currentProject;
 
     private String myDir;
     /**
@@ -169,5 +169,32 @@ public class PDC {
     }
     public User getCurrentUser() {
         return currentUser;
+    }
+    public void setCurrentProject(final String theProjectName) {
+        try {
+            currentProject = currentUser.getProject(theProjectName);
+        } catch (NoSuchObjectException e) {
+            e.printStackTrace();
+        }
+    }
+    public void exportProject(final String theProjectName, final File theFile)  {
+        try {
+            Files.copy(currentUser.getProject(theProjectName).getMyFilePath(),
+                    theFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            System.out.println(theProjectName + " exported to " + theFile.getPath());
+        } catch (NoSuchObjectException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void importProject(final File theFile) {
+        try {
+            Project p = new Project(currentUser, Project.deserialize(theFile.getPath()));
+            p.serialize("ProjectManager");
+            currentUser.addProject(p);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
