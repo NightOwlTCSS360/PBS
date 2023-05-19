@@ -56,11 +56,6 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="usernameTextField">
-          <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="myFirstName" type="code"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="usernameLabel">
           <Properties>
@@ -68,11 +63,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="emailTextField">
-          <Properties>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="myEmail" type="code"/>
-            </Property>
-          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="emailLabel">
           <Properties>
@@ -221,7 +211,7 @@
                 <Property name="text" type="java.lang.String" value="Export Settings"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="importSettingsAction"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="importSettingsAction,exportSettingsAction"/>
               </Events>
             </MenuItem>
           </SubComponents>

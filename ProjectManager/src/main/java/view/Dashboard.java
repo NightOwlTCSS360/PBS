@@ -6,7 +6,6 @@ package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import control.PDC;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,21 +15,6 @@ import model.User;
  * @author Jarvis Kampe
  */
 public class Dashboard extends javax.swing.JFrame {
-    
-    /**
-     * The first name used by the dashboard
-     */
-    private String myFirstName;
-    
-    /**
-     * The email used by the dashboard
-     */
-    private String myEmail;
-    
-    /**
-     * The project used by dashboard
-     */
-    private String myProject;
     
     /**
      * The controller used by the dashboard
@@ -44,8 +28,6 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard(PDC controller) {
         myController = controller;
-        //Set myUsername
-        //Set myEmail
         initComponents();
     }
 
@@ -85,11 +67,7 @@ public class Dashboard extends javax.swing.JFrame {
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
 
-        usernameTextField.setText(myFirstName);
-
         usernameLabel.setText("First Name:");
-
-        emailTextField.setText(myEmail);
 
         emailLabel.setText("Email:");
 
@@ -258,6 +236,7 @@ public class Dashboard extends javax.swing.JFrame {
         exportSettingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 importSettingsAction(evt);
+                exportSettingsAction(evt);
             }
         });
         settingsMenu.add(exportSettingsMenuItem);
@@ -291,15 +270,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * Return the project retrieved by the dashboard
-     * @return the project held in the dashboard
-     * @author Jarvis Kampe
-     */
-    public String getProject() {
-        return myProject;
-    }
     
     /**
      * Edit settings behavior
@@ -365,11 +335,7 @@ public class Dashboard extends javax.swing.JFrame {
      * @author Jarvis Kampe
      */
     private void createProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProjectAction
-        String projectName = projectNameTextField.getText();
-        if (!projectName.trim().equals("")) {
-            myProject = projectNameTextField.getText();
-            createProjectDialog.dispose();
-        }
+        //Create project
     }//GEN-LAST:event_createProjectAction
 
     /**
@@ -392,6 +358,22 @@ public class Dashboard extends javax.swing.JFrame {
         projectNameTextField.setText("");
         createProjectDialog.setVisible(true);
     }//GEN-LAST:event_createProjectMenuAction
+
+    /**
+     * Open file behavior
+     * @param evt 
+     * @author Jarvis Kampe
+     */
+    private void exportSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportSettingsAction
+        int returnVal = jFileChooser1.showOpenDialog(Dashboard.this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            try {
+                myController.exportSettings(jFileChooser1.getSelectedFile());
+            } catch (IOException ex) {
+                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_exportSettingsAction
     
     /**
      * @param args the command line arguments
