@@ -85,6 +85,10 @@ public class LoginPanel extends javax.swing.JPanel {
                         PDC controller = v.getController();
                         controller.setCurrentUser(user);
                         System.out.println("Current user set successfully!");
+                        Dashboard dash = new Dashboard(controller);
+                        dash.setLocationRelativeTo(null);
+                        dash.setVisible(true);
+                        v.dispose();
                         //return;
 
 

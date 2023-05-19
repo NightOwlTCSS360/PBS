@@ -235,7 +235,7 @@ public class Dashboard extends javax.swing.JFrame {
         exportSettingsMenuItem.setText("Export Settings");
         exportSettingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importSettingsAction(evt);
+                //importSettingsAction(evt);
                 exportSettingsAction(evt);
             }
         });
@@ -365,7 +365,7 @@ public class Dashboard extends javax.swing.JFrame {
      * @author Jarvis Kampe
      */
     private void exportSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportSettingsAction
-        int returnVal = jFileChooser1.showOpenDialog(Dashboard.this);
+        int returnVal = jFileChooser1.showSaveDialog(Dashboard.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 myController.exportSettings(jFileChooser1.getSelectedFile());
