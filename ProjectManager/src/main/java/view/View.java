@@ -8,6 +8,8 @@ import java.util.Arrays;
 import javax.swing.BorderFactory;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import control.PDC;
+
 
 /**
  *
@@ -15,10 +17,12 @@ import com.formdev.flatlaf.FlatLightLaf;
  */
 public class View extends javax.swing.JFrame {
 
+    private PDC controller;
     /**
      * Creates new form StartGUI
      */
-    public View() {
+    public View(final PDC theController) {
+        controller = theController;
         initComponents();
         LoginPanel login = new LoginPanel();
         LogoPanel logo = new LogoPanel();
@@ -97,24 +101,13 @@ public class View extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public PDC getController() {
+        return controller;
+    }
     private void disableWelcome() {
         
     }
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        FlatLightLaf.setup();
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                View welcome = new View();
-                welcome.pack();
-                welcome.setVisible(true);
-                welcome.setLocationRelativeTo(null);
-            }
-        });
-    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel MainFrame;
