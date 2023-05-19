@@ -18,7 +18,7 @@ public class ImportExportSettingsTester {
         //Comment/uncomment this to test the settings file creator.
         myPDC.setCurrentUser(testerUser);
         myPDC.createSettingsFile();
-
+        System.out.println(System.getProperty("user.dir"));
  //         Comment/uncomment this to test for the import.
 //        int result = fc.showDialog(myFrame, "choose a file to import");
 //        myPDC.importSettings(fc.getSelectedFile());

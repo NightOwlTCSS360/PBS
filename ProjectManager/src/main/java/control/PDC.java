@@ -20,12 +20,18 @@ public class PDC {
      */
     private User currentUser;
 
+    private String myDir;
     /**
      * Constructs a new instance of a PDC and sets the current User to null.
      * @author Paul Schmidt
      */
     public PDC () {
         currentUser = null;
+        if (!System.getProperty("user.dir").contains("ProjectManager")) {
+            myDir = "ProjectManager\\";
+        } else {
+            myDir = ".\\";
+        }
     }
 
     /**
@@ -33,7 +39,7 @@ public class PDC {
      * @uthor Derek J. Ruiz Garcia
      */
     public void createSettingsFile(){
-        final String settingsLocation = "ProjectManager\\src\\main\\resources\\Settings\\Settings.txt";
+        final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
         File settingsFile = new File(settingsLocation);
 
         try {
@@ -63,7 +69,7 @@ public class PDC {
     public void importSettings(File theFileToImport) throws IOException {
         String fileName = theFileToImport.getName();
 
-        final String settingsLocation = "ProjectManager\\src\\main\\resources\\Settings\\Settings.txt";
+        final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
         File settingsFile = new File(settingsLocation);
 
         try {
@@ -105,7 +111,7 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void exportSettings(File theFile) throws FileNotFoundException {
-        final String settingsLocation = "ProjectManager\\src\\main\\resources\\Settings\\Settings.txt";
+        final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
         File localSettingsFile = new File(settingsLocation);
         final String exportingLocation = theFile.getPath();
 
@@ -149,6 +155,7 @@ public class PDC {
     public void setUserInfo(final String theFirstName, final String theEmail) {
         currentUser.setUserFirstName(theFirstName);
         currentUser.setUserEmail(theEmail);
+        createSettingsFile();
     }
 
     /**
