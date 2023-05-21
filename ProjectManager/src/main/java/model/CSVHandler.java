@@ -1,4 +1,5 @@
 package model;
+import control.PDC;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,10 +12,10 @@ import java.util.List;
  * Author: Hieu Nguyen
  */
 public class CSVHandler {
-    private String fileName;
+    private final String fileName;
 
     public CSVHandler(String fileName) {
-        this.fileName = fileName;
+        this.fileName = PDC.myDir + "src/main/resources/" + fileName;
     }
 
     public List<String[]> readAll() throws IOException {

@@ -1,5 +1,6 @@
 package model;
 
+import control.PDC;
 import model.projectdata.Project;
 
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class User implements Serializable {
         myPassword = thePassword;
         myProjects = new HashMap<>();
         try {
-            myPath = Paths.get("./ProjectManager/src/main/resources/appdata/" + myUserEmail);
+            myPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUserEmail);
             if (Files.exists(myPath)) {
                 System.out.println(myPath.toRealPath() + " exists (User Directory)");
             } else {

@@ -21,7 +21,7 @@ public class PDC {
     private User currentUser;
     private Project currentProject;
 
-    private String myDir;
+    public static String myDir;
     /**
      * Constructs a new instance of a PDC and sets the current User to null.
      * @author Paul Schmidt
@@ -31,7 +31,7 @@ public class PDC {
         if (!System.getProperty("user.dir").contains("ProjectManager")) {
             myDir = "ProjectManager\\";
         } else {
-            myDir = ".\\";
+            myDir = "";
         }
     }
 

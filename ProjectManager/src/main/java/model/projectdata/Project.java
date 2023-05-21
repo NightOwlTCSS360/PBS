@@ -1,6 +1,7 @@
 package model.projectdata;
 
 
+import control.PDC;
 import model.User;
 
 import java.io.*;
@@ -56,7 +57,7 @@ public class Project implements Serializable {
         myProjectName = theName;
         myDescription = "Default Description";
         myUser = theUser;
-        myDirectoryPath = Paths.get("./ProjectManager/src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
+        myDirectoryPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
                 myProjectName);
         myFilePath = Paths.get(myDirectoryPath.toString() + "/" + myProjectName + ".ser");
         if (Files.exists(myDirectoryPath)) {
@@ -85,7 +86,7 @@ public class Project implements Serializable {
         myDescription = new String(theProject.myDescription);
         myUser = theUser;
         myTasks = theProject.myTasks;
-        myDirectoryPath = Paths.get("./ProjectManager/src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
+        myDirectoryPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
                 myProjectName);
         myFilePath = Paths.get(myDirectoryPath.toString() + "/" + myProjectName + ".ser");
         if (Files.exists(myDirectoryPath)) {
@@ -179,7 +180,7 @@ public class Project implements Serializable {
         ObjectOutputStream oos = null;
         FileOutputStream fout = null;
         try{
-            fout = new FileOutputStream(filename + "/src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
+            fout = new FileOutputStream(filename + "src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
                     myProjectName + "/" + myProjectName + ".ser", false);
             oos = new ObjectOutputStream(fout);
             oos.writeObject(this);

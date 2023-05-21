@@ -16,6 +16,7 @@ import java.io.IOException;
 
 public class DirectoryTesting {
     public static void main(String[] args) {
+        PDC controller = new PDC();
         try {
             User testUser1 = new User("Paul", "Schmidt", "email@email.com", "pw");
             DirectoryTesting.addTestProjects(testUser1, 2, 4); //Uncomment to generate some project files, comment out if these projects already generated
@@ -29,18 +30,18 @@ public class DirectoryTesting {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        try {
-//            User testUser2 = new User("First", "Last", "user@email.com", "pw");
-//            DirectoryTesting.addTestProjects(testUser2, 4, 7); //Uncomment to generate some project files, comment out if these projects already generated
-//            System.out.println("Printing Projects in " + testUser2.getMyUserFirstName() + "'s Project array");
-//            UserController.addUser(testUser2.getMyUserFirstName(), testUser2.getMyUserLastName(),
-//                    testUser2.getUserEmail(), testUser2.getMyPassword());
-//            for (Project p : testUser2.getProjects().values()) {
-//                System.out.println(p);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            User testUser2 = new User("First", "Last", "user@email.com", "pw");
+            DirectoryTesting.addTestProjects(testUser2, 4, 7); //Uncomment to generate some project files, comment out if these projects already generated
+            System.out.println("Printing Projects in " + testUser2.getMyUserFirstName() + "'s Project array");
+            UserController.addUser(testUser2.getMyUserFirstName(), testUser2.getMyUserLastName(),
+                    testUser2.getUserEmail(), testUser2.getMyPassword());
+            for (Project p : testUser2.getProjects().values()) {
+                System.out.println(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private static void addTestProjects(final User theUser, final int start, final int end) throws IOException {
         for (int i = start; i < end; i++) {
@@ -51,7 +52,7 @@ public class DirectoryTesting {
             p.addTask(t);
             theUser.addProject(p);
             try {
-                p.serialize("ProjectManager");
+                p.serialize(PDC.myDir);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -73,7 +74,7 @@ public class DirectoryTesting {
                 JFileChooser ch = new JFileChooser();
                 int result = ch.showSaveDialog(main);
                 if (result == JFileChooser.APPROVE_OPTION) {
-                    control.exportProject("TestProject1", ch.getSelectedFile());
+                    control.exportProject("TestProject2", ch.getSelectedFile());
                 }
             }
         });
