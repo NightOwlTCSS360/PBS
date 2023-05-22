@@ -205,15 +205,20 @@ public class PDC {
         try {
             // Get the project's serialized file path
             Path projectFilePath = currentUser.getProject(theProjectName).getMyFilePath();
-
+            System.out.println("TRYING EXPORT FROM: " + projectFilePath);
+            System.out.println("TRYING EXPORT TO: " + theFile.toPath());
             // Copy the project's serialized file to the specified destination
             Files.copy(projectFilePath, theFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-            System.out.println(theProjectName + " exported to " + theFile.getPath());
+            System.out.println(theProjectName + " exported to " + theFile.getPath() + "\n");
         } catch (NoSuchObjectException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
+            System.out.println("Error exporting: " + theProjectName);
             throw new RuntimeException(e);
+        } catch (NullPointerException e) {
+            System.out.println("Error exporting: " + theProjectName);
+            e.printStackTrace();
         }
     }
 

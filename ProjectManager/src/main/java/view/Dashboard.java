@@ -254,7 +254,6 @@ public class Dashboard extends javax.swing.JFrame {
                     for (String projectName : projectNames) {
                         // Create a file for the project in the selected directory
                         File projectFile = new File(selectedDirectory, projectName + ".ser");
-
                         // Call the exportProject method in the PDC controller
                         myController.exportProject(projectName, projectFile);
                     }
