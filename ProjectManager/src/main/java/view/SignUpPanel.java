@@ -61,10 +61,10 @@ public class SignUpPanel extends javax.swing.JPanel {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                String email = jTextField1.getText();
+                String email = jTextField2.getText();
                 String password = new String(jPasswordField1.getPassword());
-                String firstName = jTextField2.getText();
-                String lastName = jTextField3.getText();
+                String firstName = jTextField3.getText();
+                String lastName = jTextField1.getText();
 
                 if (email.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
                     JOptionPane.showMessageDialog(SignUpPanel.this, "Please fill out all fields.", "Error", JOptionPane.ERROR_MESSAGE);

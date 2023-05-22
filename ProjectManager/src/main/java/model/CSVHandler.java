@@ -1,4 +1,5 @@
 package model;
+import control.PDC;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,10 +12,10 @@ import java.util.List;
  * Author: Hieu Nguyen
  */
 public class CSVHandler {
-    private String fileName;
+    private final String fileName;
 
     public CSVHandler(String fileName) {
-        this.fileName = fileName;
+        this.fileName = PDC.myDir + "src/main/resources/" + fileName;
     }
 
     public List<String[]> readAll() throws IOException {
@@ -42,10 +43,10 @@ public class CSVHandler {
                 String[] values = line.split(",");
                 System.out.println(Arrays.toString(values)); // add this line to print the contents of the array
 
-                if (values.length >= 5 && values[1].equals(email)) {
+                if (values.length >= 4 && values[2].equals(email)) {
                     String password = values[3];
                     String firstName = values[0];
-                    String lastName = values[2];
+                    String lastName = values[1];
 
                     return new User(firstName, lastName, email, password);
                 }
