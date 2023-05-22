@@ -4,6 +4,7 @@ import model.projectdata.Project;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.rmi.NoSuchObjectException;
 import java.util.Scanner;
@@ -200,10 +201,14 @@ public class PDC {
      * @param theProjectName The name of the Project to export
      * @param theFile The File to write to
      */
-    public void exportProject(final String theProjectName, final File theFile)  {
+    public void exportProject(final String theProjectName, final File theFile) {
         try {
-            Files.copy(currentUser.getProject(theProjectName).getMyFilePath(),
-                    theFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            // Get the project's serialized file path
+            Path projectFilePath = currentUser.getProject(theProjectName).getMyFilePath();
+
+            // Copy the project's serialized file to the specified destination
+            Files.copy(projectFilePath, theFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
             System.out.println(theProjectName + " exported to " + theFile.getPath());
         } catch (NoSuchObjectException e) {
             throw new RuntimeException(e);
@@ -211,6 +216,7 @@ public class PDC {
             throw new RuntimeException(e);
         }
     }
+
 
     /**
      * Imports a Project to the Current User's List of Projects, then creates the appropriate file structure for the
@@ -233,5 +239,9 @@ public class PDC {
 
     public User getCurrentUser() {
         return currentUser;
+    }
+
+    public void addProjectToCurrentUser(Project newProject) {
+        currentUser.addProject(newProject);
     }
 }

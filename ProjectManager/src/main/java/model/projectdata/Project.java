@@ -45,6 +45,28 @@ public class Project implements Serializable {
      */
     private static final long serialVersionUID = 5152023L;
 
+
+
+
+    /**
+     * Returns the description of the project.
+     *
+     * @return the description of the project
+     */
+    public String getMyDescription() {
+        return myDescription;
+    }
+
+    /**
+     * Sets the description of the project.
+     *
+     * @param description the description of the project
+     */
+    public void setDescription(String description) {
+        this.myDescription = myDescription;
+    }
+
+
     /**
      * Constructor to create a new Project object
      * @author Paul Schmidt
@@ -102,6 +124,8 @@ public class Project implements Serializable {
             }
         }
     }
+
+
 
     /**
      * Return the Path to the Directory containing this Project
