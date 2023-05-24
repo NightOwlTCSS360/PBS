@@ -6,11 +6,19 @@ package view;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import control.PDC;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import model.User;
+import model.projectdata.Project;
+
 /**
  * @author Jarvis Kampe
  */
@@ -132,6 +140,8 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+
+
         cancelProjectButton.setText("Cancel");
         cancelProjectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,7 +201,7 @@ public class Dashboard extends javax.swing.JFrame {
         createProjectMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createProjectAction(evt);
-                createProjectMenuAction(evt);
+                //createProjectMenuAction(evt);
             }
         });
         fileMenu.add(createProjectMenuItem);
@@ -199,18 +209,63 @@ public class Dashboard extends javax.swing.JFrame {
         importProjectsMenuItem.setText("Import Projects");
         importProjectsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importSettingsAction(evt);
+                // Create a file chooser dialog
+                JFileChooser fileChooser = new JFileChooser();
+
+                // Set the file chooser to accept only files with the ".ser" extension
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Serialized Files", "ser");
+                fileChooser.setFileFilter(filter);
+
+                // Show the dialog and wait for the user to select a file
+                int result = fileChooser.showOpenDialog(Dashboard.this); // 'Dashboard.this' refers to the current instance of the Dashboard
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    // Get the selected file
+                    File selectedFile = fileChooser.getSelectedFile();
+
+                    // Call the importProject method in the PDC controller and pass the selected file
+                    myController.importProject(selectedFile);
+                }
             }
         });
+
         fileMenu.add(importProjectsMenuItem);
 
         exportProjectsMenuItem.setText("Export Projects");
         exportProjectsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importSettingsAction(evt);
+                // Create a file chooser dialog
+                JFileChooser fileChooser = new JFileChooser();
+
+                // Set the file chooser to accept only directories
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+                // Show the dialog and wait for the user to select a directory
+                int result = fileChooser.showSaveDialog(Dashboard.this); // 'Dashboard.this' refers to the current instance of the Dashboard
+
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    // Get the selected directory
+                    File selectedDirectory = fileChooser.getSelectedFile();
+
+                    // Get the names of the user's projects
+                    Set<String> projectNames = myController.getProjectNames();
+
+                    // Export each project to the selected directory
+                    for (String projectName : projectNames) {
+                        // Create a file for the project in the selected directory
+                        File projectFile = new File(selectedDirectory, projectName + ".ser");
+                        // Call the exportProject method in the PDC controller
+                        myController.exportProject(projectName, projectFile);
+                    }
+                }
             }
         });
+
         fileMenu.add(exportProjectsMenuItem);
+
+
+
+
 
         jMenuBar1.add(fileMenu);
 
@@ -329,14 +384,6 @@ public class Dashboard extends javax.swing.JFrame {
         //I can't do it because this thing is a frame sorry
     }//GEN-LAST:event_aboutAction
 
-    /**
-     * Create project behavior
-     * @param evt 
-     * @author Jarvis Kampe
-     */
-    private void createProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProjectAction
-        //Create project
-    }//GEN-LAST:event_createProjectAction
 
     /**
      * Cancel project behavior
@@ -374,7 +421,45 @@ public class Dashboard extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_exportSettingsAction
-    
+
+    /**
+     * Author: Hieu Nguyen
+     * Event handler for the create project button action.
+     * Displays input dialogs to get the project name and description from the user.
+     * If a valid project name is provided, creates a new Project object and adds it to the current user's projects.
+     * @param evt The action event triggered by the create project button
+     */
+    private void createProjectAction(java.awt.event.ActionEvent evt) {
+        // Prompt the user to enter the project name
+        String projectName = JOptionPane.showInputDialog(this, "Enter project name:");
+
+        // Prompt the user to enter the project description
+        String projectDescription = JOptionPane.showInputDialog(this, "Enter project description:");
+
+        // Check if a valid project name is provided
+        if (projectName != null && !projectName.isEmpty()) {
+            // Get the current user from the PDC controller
+            User user = myController.getCurrentUser();
+
+            // Create a new Project object with the user and project name
+            Project project = null;
+            try {
+                project = new Project(user, projectName);
+            } catch (IOException e) {
+                // If there is an error creating the project, throw a runtime exception
+                throw new RuntimeException(e);
+            }
+
+            // Set the project description
+            project.setDescription(projectDescription);
+
+            // Add the project to the current user's projects
+            myController.addProjectToCurrentUser(project);
+        }
+    }
+
+
+
     /**
      * @param args the command line arguments
      */

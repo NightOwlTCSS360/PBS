@@ -45,6 +45,28 @@ public class Project implements Serializable {
      */
     private static final long serialVersionUID = 5152023L;
 
+
+
+
+    /**
+     * Returns the description of the project.
+     *
+     * @return the description of the project
+     */
+    public String getMyDescription() {
+        return myDescription;
+    }
+
+    /**
+     * Sets the description of the project.
+     *
+     * @param description the description of the project
+     */
+    public void setDescription(String description) {
+        this.myDescription = myDescription;
+    }
+
+
     /**
      * Constructor to create a new Project object
      * @author Paul Schmidt
@@ -57,9 +79,7 @@ public class Project implements Serializable {
         myProjectName = theName;
         myDescription = "Default Description";
         myUser = theUser;
-        myDirectoryPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
-                myProjectName);
-        myFilePath = Paths.get(myDirectoryPath.toString() + "/" + myProjectName + ".ser");
+        updatePaths();
         if (Files.exists(myDirectoryPath)) {
             System.out.println(myDirectoryPath.toRealPath() + " exists (Project)");
         } else {
@@ -103,6 +123,8 @@ public class Project implements Serializable {
         }
     }
 
+
+
     /**
      * Return the Path to the Directory containing this Project
      * @author Paul Schmidt
@@ -121,6 +143,15 @@ public class Project implements Serializable {
         return myFilePath;
     }
 
+    /**
+     * Initializes the file path to this project. Used in Project creation and in deserialization.
+     * @author Paul Schmidt
+     */
+    private void updatePaths() {
+        myDirectoryPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
+                myProjectName);
+        myFilePath = Paths.get(myDirectoryPath.toString() + "/" + myProjectName + ".ser");
+    }
     /**
      * Return the name of this Project
      * @author Paul Schmidt
@@ -157,7 +188,7 @@ public class Project implements Serializable {
 
             // Method for deserialization of object
             p = (Project) in.readObject();
-
+            p.updatePaths();
             in.close();
             file.close();
             System.out.println(p.myProjectName + " has been deserialized\n"

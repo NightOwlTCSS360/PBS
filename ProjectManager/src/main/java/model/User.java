@@ -49,7 +49,7 @@ public class User implements Serializable {
 
     /**
      * Creates a User object with the given first, last, email, and password.
-     * Uses the User's email to generate the User's appdata Folder that will contain the Projects etc if it
+     * Uses the User's email to generate the User's appdata Folder that will contain the Projects etc. if it
      * doesn't already exist.
      * @author Hieu Nguyen
      * @author Derek
@@ -128,6 +128,7 @@ public class User implements Serializable {
         } else {
             System.out.println("Project " + pName + " doesn't exist in "+ myUserFirstName + "'s Projects, adding now. . .");
         }
+        theProject.serialize(PDC.myDir);
         myProjects.put(theProject.getMyProjectName(), theProject);
     }
 
@@ -145,7 +146,7 @@ public class User implements Serializable {
      * @author Paul Schmidt
      * @param theProjectName the name of the Project desired
      * @return the reference to the Project
-     * @throws NoSuchObjectException if the Projec doesn't exist
+     * @throws NoSuchObjectException if the Project doesn't exist
      */
     public Project getProject(final String theProjectName) throws NoSuchObjectException {
         Project result = null;
