@@ -201,7 +201,7 @@ public class Dashboard extends javax.swing.JFrame {
         createProjectMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createProjectAction(evt);
-                createProjectMenuAction(evt);
+                //createProjectMenuAction(evt);
             }
         });
         fileMenu.add(createProjectMenuItem);
