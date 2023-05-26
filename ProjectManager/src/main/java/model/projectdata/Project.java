@@ -5,11 +5,12 @@ import control.PDC;
 import model.User;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class represents the Project object.
@@ -19,7 +20,7 @@ public class Project implements Serializable {
     /**
      * The list of tasks belonging to this Project
      */
-    private List<Task> myTasks;
+    private Map<String, Task> myTasks;
     /**
      * The Project name
      */
@@ -27,7 +28,11 @@ public class Project implements Serializable {
     /**
      * The description of the Project
      */
-    private String myDescription;
+    private BigDecimal myEstimate;
+    /**
+     * The total Current Expenses of the Project
+     */
+    private BigDecimal currentExpenses;
     /**
      * The User that this Project belongs to
      */
@@ -45,28 +50,6 @@ public class Project implements Serializable {
      */
     private static final long serialVersionUID = 5152023L;
 
-
-
-
-    /**
-     * Returns the description of the project.
-     *
-     * @return the description of the project
-     */
-    public String getMyDescription() {
-        return myDescription;
-    }
-
-    /**
-     * Sets the description of the project.
-     *
-     * @param description the description of the project
-     */
-    public void setDescription(String description) {
-        this.myDescription = myDescription;
-    }
-
-
     /**
      * Constructor to create a new Project object
      * @author Paul Schmidt
@@ -75,10 +58,10 @@ public class Project implements Serializable {
      * @throws IOException if the Directory for this Project can't be made
      */
     public Project(final User theUser, final String theName) throws IOException {
-        myTasks = new ArrayList<>();
+        myTasks = new HashMap<>();
         myProjectName = theName;
-        myDescription = "Default Description";
         myUser = theUser;
+        currentExpenses = new BigDecimal(0.0);
         updatePaths();
         if (Files.exists(myDirectoryPath)) {
             System.out.println(myDirectoryPath.toRealPath() + " exists (Project)");
@@ -103,7 +86,6 @@ public class Project implements Serializable {
      */
     public Project(final User theUser, final Project theProject) throws IOException {
         myProjectName = new String(theProject.myProjectName);
-        myDescription = new String(theProject.myDescription);
         myUser = theUser;
         myTasks = theProject.myTasks;
         myDirectoryPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
@@ -123,6 +105,16 @@ public class Project implements Serializable {
         }
     }
 
+    public BigDecimal getProjectCosts() {
+        return currentExpenses;
+    }
+    private void getTaskCosts() {
+        BigDecimal total = new BigDecimal(0.0);
+        for (Task t : myTasks.values()) {
+            total.add(t.getTotalCost());
+        }
+        currentExpenses = total;
+    }
 
 
     /**
@@ -167,7 +159,7 @@ public class Project implements Serializable {
      * @param theTask the Task to add
      */
     public void addTask(final Task theTask) {
-        this.myTasks.add(theTask);
+        this.myTasks.put(theTask.getMyTaskName(), theTask);
     }
 
     /**
@@ -231,7 +223,7 @@ public class Project implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Project Name: " + myProjectName);
-        for (Task t : myTasks) {
+        for (Task t : myTasks.values()) {
             sb.append("\n    " + t.toString());
         }
         sb.append("\n");

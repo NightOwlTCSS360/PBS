@@ -1,10 +1,9 @@
 package model.projectdata;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.List;
-import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class that represents a Task associated with a Project
@@ -18,7 +17,11 @@ public class Task implements Serializable {
     /**
      * List of the Purchases associated with the Task
      */
-    private List<Purchase> myPurchases;
+    private Map<String, Purchase> myPurchases;
+    /**
+     *
+     */
+    private BigDecimal myCost;
     /**
      * Serial ID
      */
@@ -31,7 +34,21 @@ public class Task implements Serializable {
      */
     public Task (final String theTaskName) {
         myTaskName = theTaskName;
-        myPurchases = new ArrayList<>();
+        myPurchases = new HashMap<>();
+        myCost = new BigDecimal(0.0);
+    }
+    private void updateCost() {
+        BigDecimal total = new BigDecimal(0.0);
+        for (Purchase p : myPurchases.values()) {
+            total.add(p.getCost());
+        }
+        myCost = total;
+    }
+    public BigDecimal getTotalCost() {
+        return myCost;
+    }
+    public String getMyTaskName() {
+        return myTaskName;
     }
 
     /**
@@ -40,38 +57,14 @@ public class Task implements Serializable {
      * @param thePurchase the Purchase to associate with this Task
      */
     public void addPurchase(final Purchase thePurchase) {
-        myPurchases.add(thePurchase);
+        myPurchases.put(thePurchase.getName(), thePurchase);
     }
 
-    /**
-     * Export method for serialization if needed
-     * @author Paul Schmidt
-     */
-    public void export ()
-    {
-        ObjectOutputStream oos = null;
-        FileOutputStream fout = null;
-        try{
-            fout = new FileOutputStream("/appdata/t_" + myTaskName + ".ser", true);
-            oos = new ObjectOutputStream(fout);
-            oos.writeObject(this);
-        } catch (Exception ex) {
-
-        }
-        finally {
-            if(oos != null){
-                try {oos.close();
-                } catch (Exception e) {
-
-                }
-            }
-        }
-    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb. append("Task Name: " + myTaskName);
-        for (Purchase p : myPurchases) {
+        for (Purchase p : myPurchases.values()) {
             sb.append("\n        " + p.toString());
         }
         sb.append("\n");
