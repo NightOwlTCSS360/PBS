@@ -11,6 +11,7 @@ import java.util.Map;
  * @author Paul Schmidt
  */
 public class Task implements Serializable {
+
     /**
      * Name of the Task
      */
@@ -23,6 +24,10 @@ public class Task implements Serializable {
      * The cumulative costs of the Purchases associated with this Task.
      */
     private BigDecimal myCost;
+    /**
+     * Reflects whether this Task is complete or not.
+     */
+    private boolean completedStatus;
     /**
      * Serial ID
      */@Serial
@@ -38,6 +43,7 @@ public class Task implements Serializable {
         myTaskName = theTaskName;
         myPurchases = new HashMap<>();
         myCost = new BigDecimal("0.0");
+        recalculateCompleted();
     }
 
     //PUBLIC METHODS
@@ -49,6 +55,22 @@ public class Task implements Serializable {
     public void addPurchase(final Purchase thePurchase) {
         myPurchases.put(thePurchase.getName(), thePurchase);
         recalculateCost();
+    }
+
+    /**
+     * Iterates through this Task's Purchases to calculate whether all Purchases are completed or not.
+     * Assigns this Task's completed status to the result.
+     * @author Paul Schmidt
+     */
+    public void recalculateCompleted() {
+        boolean result = true;
+        for (Purchase thePurchase : myPurchases.values()) {
+            if (!thePurchase.getCompletedStatus()) {
+                result = false;
+                break;
+            }
+        }
+        completedStatus = result;
     }
 
     /**
@@ -67,6 +89,15 @@ public class Task implements Serializable {
      */
     public String getMyTaskName() {
         return myTaskName;
+    }
+
+    /**
+     * Returns whether this Task is completed or not.
+     * @author Paul Schmidt
+     * @return true if all Purchases are complete, false otherwise.
+     */
+    public boolean getCompletedStatus() {
+        return completedStatus;
     }
 
     @Override

@@ -26,6 +26,10 @@ public class Project implements Serializable {
      */
     private final String myProjectName;
     /**
+     * The status of whether this Project is completed or not.
+     */
+    private boolean completedStatus;
+    /**
      * The description of the Project
      */
     private BigDecimal myEstimate;
@@ -65,6 +69,7 @@ public class Project implements Serializable {
         myUser = theUser;
         currentExpenses = new BigDecimal("0.0");
         myEstimate = new BigDecimal("0.0");
+        completedStatus = false;
         updatePaths();
         if (Files.exists(myDirectoryPath)) {
             System.out.println(myDirectoryPath.toRealPath() + " exists (Project)");
@@ -79,6 +84,7 @@ public class Project implements Serializable {
             }
         }
     }
+
     /**
      * Constructor for a Project object used when Importing another Project.ser file into the User's list of Projects.
      * @author Paul Schmidt
@@ -92,6 +98,7 @@ public class Project implements Serializable {
         myTasks = theProject.myTasks;
         currentExpenses = theProject.getProjectCost();
         myEstimate = theProject.getProjectEstimate();
+        completedStatus = theProject.getCompletedStatus();
         updatePaths();
         if (Files.exists(myDirectoryPath)) {
             System.out.println(myDirectoryPath.toRealPath() + " exists (Project)");
@@ -108,6 +115,7 @@ public class Project implements Serializable {
     }
 
     //PUBLIC METHODS
+
     /**
      * Adds a task to this Project
      * @author Paul Schmidt
@@ -116,6 +124,7 @@ public class Project implements Serializable {
     public void addTask(final Task theTask) {
         this.myTasks.put(theTask.getMyTaskName(), theTask);
     }
+
     /**
      * Static method to deserialize a Project.ser file into a Project obj
      * @author Paul Schmidt
@@ -142,6 +151,7 @@ public class Project implements Serializable {
             return theProject;
         }
     }
+
     /**
      * Serialize this Project object to a Project.ser file written to the given filepath
      * @author Paul Schmidt
@@ -187,6 +197,34 @@ public class Project implements Serializable {
     }
 
     /**
+     * Recalculate the total cost of this Project.
+     * @author Paul Schmidt
+     */
+    public void recalculateTotalCost() {
+        BigDecimal total = new BigDecimal("0.0");
+        for (Task t : myTasks.values()) {
+            t.recalculateCost();
+            total = total.add(t.getTotalCost());
+        }
+        currentExpenses = total;
+    }
+
+    /**
+     * Recalculates whether this Project is complete based on the completions of this Project's Tasks.
+     * @author Paul Schmidt
+     */
+    public void recalculateCompleted() {
+        boolean result = true;
+        for (Task theTask : myTasks.values()) {
+            if(!theTask.getCompletedStatus()) {
+                result = false;
+                break;
+            }
+        }
+        completedStatus = result;
+    }
+
+    /**
      * Returns the cumulative cost associated with this Project as a BigDecimal.
      * @author Paul Schmidt
      * @return the cumulative cost.
@@ -194,6 +232,7 @@ public class Project implements Serializable {
     public BigDecimal getProjectCost() {
         return currentExpenses;
     }
+
     /**
      * Return the Path to the Directory containing this Project
      * @author Paul Schmidt
@@ -202,6 +241,7 @@ public class Project implements Serializable {
     public Path getDirectoryPath() {
         return myDirectoryPath;
     }
+
     /**
      * Return the Path to the .ser file of this Project
      * @author Paul Schmidt
@@ -210,6 +250,7 @@ public class Project implements Serializable {
     public Path getMyFilePath() {
         return myFilePath;
     }
+
     /**
      * Return the name of this Project
      * @author Paul Schmidt
@@ -218,6 +259,16 @@ public class Project implements Serializable {
     public String getMyProjectName() {
         return myProjectName;
     }
+
+    /**
+     * Returns whether this Project is complete or not.
+     * @author Paul Schmidt
+     * @return Completed: true | Incomplete: false.
+     */
+    public boolean getCompletedStatus() {
+        return completedStatus;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -242,16 +293,5 @@ public class Project implements Serializable {
         myFilePath = Paths.get(myDirectoryPath + "/" + myProjectName + ".ser");
     }
 
-    /**
-     * Recalculate the total cost of this Project.
-     * @author Paul Schmidt
-     */
-    public void recalculateTotalCost() {
-        BigDecimal total = new BigDecimal("0.0");
-        for (Task t : myTasks.values()) {
-            t.recalculateCost();
-            total = total.add(t.getTotalCost());
-        }
-        currentExpenses = total;
-    }
+
 }

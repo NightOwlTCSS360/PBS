@@ -20,7 +20,7 @@ public class Purchase implements Serializable {
     /**
      * The status of the Purchase. Completed: true | Incomplete: false
      */
-    private boolean isCompletedStatus;
+    private boolean completedStatus;
     /**
      * Serial ID
      */
@@ -37,29 +37,10 @@ public class Purchase implements Serializable {
     public Purchase(final String thePurchaseName, final BigDecimal theCost) {
         myPurchaseName = thePurchaseName;
         myCost = theCost;
-        isCompletedStatus = false;
+        completedStatus = false;
     }
 
     //PUBLIC METHODS
-
-    /**
-     * Sets the completed status of this Purchase.
-     * @author Paul Schmidt
-     * @param isCompleted the value used to set the status.
-     */
-    public void setCompletedStatus(final boolean isCompleted) {
-        isCompletedStatus = isCompleted;
-    }
-
-    /**
-     * Returns whether this Purchase is completed or not.
-     * @author Paul Schmidt
-     * @return Not Complete: false | Completed: true
-     */
-    public boolean getIsCompleted() {
-        return isCompletedStatus;
-    }
-
     /**
      * Sets the cost of this purchase to the new value.
      * @author Paul Schmidt
@@ -76,6 +57,24 @@ public class Purchase implements Serializable {
      */
     public BigDecimal getCost() {
         return myCost;
+    }
+
+    /**
+     * Sets the completed status of this Purchase.
+     * @author Paul Schmidt
+     * @param isCompleted the value used to set the status.
+     */
+    public void setCompletedStatus(final boolean isCompleted) {
+        completedStatus = isCompleted;
+    }
+
+    /**
+     * Returns whether this Purchase is completed or not.
+     * @author Paul Schmidt
+     * @return Not Complete: false | Completed: true
+     */
+    public boolean getCompletedStatus() {
+        return completedStatus;
     }
 
     /**
