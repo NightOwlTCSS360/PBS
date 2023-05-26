@@ -250,7 +250,7 @@ public class Project implements Serializable {
         BigDecimal total = new BigDecimal("0.0");
         for (Task t : myTasks.values()) {
             t.recalculateCost();
-            total.add(t.getTotalCost());
+            total = total.add(t.getTotalCost());
         }
         currentExpenses = total;
     }
