@@ -3,6 +3,7 @@ package model.projectdata;
 import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * Class representing a Purchase
@@ -16,7 +17,7 @@ public class Purchase implements Serializable {
     /**
      * Cost of the Purchase
      */
-    private double myCost;
+    private BigDecimal myCost;
     /**
      * Serial ID
      */
@@ -28,9 +29,18 @@ public class Purchase implements Serializable {
      * @param thePurchaseName the name of the Purchase
      * @param theCost the Cost of the Purchase
      */
-    public Purchase(final String thePurchaseName, final double theCost) {
+    public Purchase(final String thePurchaseName, final BigDecimal theCost) {
         myPurchaseName = thePurchaseName;
         myCost = theCost;
+    }
+
+    /**
+     * Returns the name of the purchase.
+     * @return the name of the purchase as a String.
+     * @author Derek J. Ruiz Garcia
+     */
+    public String getPurchaseName(){
+        return myPurchaseName;
     }
 
     /**
@@ -57,9 +67,27 @@ public class Purchase implements Serializable {
             }
         }
     }
+
+    //###################################
+    // DO NOT ADD THESE METHOD TO THE FINAL MERGED BRANCH
+    // THESE ARE PLACE HOLDERS
+    public void editCost(BigDecimal newCost){
+
+    }
+
+    public boolean getCompletedStatus(){
+        return false;
+    }
+
+    public void setCompletedStatus(boolean isCompleted){
+
+    }
+    //###################################
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        //we might have to eddit this to String for BigDecimal
         sb.append(String.format("Purchase Name: " + myPurchaseName + " Cost: %.2f", myCost));
         sb.append("\n");
         return sb.toString();

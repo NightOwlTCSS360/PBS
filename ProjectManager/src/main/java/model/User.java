@@ -133,12 +133,21 @@ public class User implements Serializable {
     }
 
     /**
+     * Deletes the project from the list of projects from the current user.
+     * @author Derek J. Ruiz Garcia
+     * @param theProjectName the name of the project we want to remove.
+     */
+    public void deleteProject(String theProjectName){
+        myProjects.remove(theProjectName);
+    }
+
+    /**
      * Return a reference to the Map of User's Projects
      * @author Paul Schmidt
      * @return the map of Projects
      */
     public Map<String, Project> getProjects() {
-        return myProjects;
+        return Map.copyOf(myProjects);
     }
 
     /**
@@ -157,6 +166,7 @@ public class User implements Serializable {
         }
         return result;
     }
+
     public void setUserLastName(String theUserLastname){
         myUserLastName = theUserLastname;
     }

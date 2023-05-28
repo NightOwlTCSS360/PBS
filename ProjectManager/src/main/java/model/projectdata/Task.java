@@ -67,10 +67,53 @@ public class Task implements Serializable {
             }
         }
     }
+
+    /**
+     * Deletes the passed purchase from the list of purchases.
+     * @param thePurchase the purchase object we want to delete.
+     */
+    public void deletePurchase(Purchase thePurchase){
+        myPurchases.remove(thePurchase);
+    }
+
+    /**
+     * Returns the purchase with the name passed in the parameter. If the purchase is not found,
+     * the method returns null.
+     * @param thePurchaseName the name of the purchase we are looking for as a String.
+     * @return a Purchase object if the purchase exists in the task, null otherwise.
+     * @author Derek J. Ruiz Garcia
+     */
+    public Purchase getPurchase(String thePurchaseName) {
+        for (Purchase p: myPurchases) {
+            if (p.getPurchaseName().equals(thePurchaseName)) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns a list of purchase located in this task.
+     * @return a list of purchase objects located in this task.
+     * @author Derek J. Ruiz Garcia
+     */
+    public List<Purchase> getAllPurchases(){
+        return List.copyOf(myPurchases);
+    }
+
+    /**
+     * Returns the name of the task.
+     * @return the name of the task as a string.
+     * @author Derek J. Ruiz Garcia
+     */
+    public String getTaskName(){
+        return myTaskName;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb. append("Task Name: " + myTaskName);
+        sb. append("Task Name: " + getTaskName());
         for (Purchase p : myPurchases) {
             sb.append("\n        " + p.toString());
         }

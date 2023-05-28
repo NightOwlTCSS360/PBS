@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 
 public class DirectoryTesting {
@@ -47,7 +48,7 @@ public class DirectoryTesting {
         for (int i = start; i < end; i++) {
             Project p = new Project(theUser, "TestProject" + i);
             Task t = new Task("TestTask" + i);
-            Purchase pu = new Purchase("TestPurchase" + i, 1.00);
+            Purchase pu = new Purchase("TestPurchase" + i, new BigDecimal("1.00"));
             t.addPurchase(pu);
             p.addTask(t);
             theUser.addProject(p);

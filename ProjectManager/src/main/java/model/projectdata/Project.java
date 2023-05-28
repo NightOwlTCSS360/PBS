@@ -5,6 +5,7 @@ import control.PDC;
 import model.User;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -16,41 +17,30 @@ import java.util.List;
  * @author Paul Schmidt
  */
 public class Project implements Serializable {
-    /**
-     * The list of tasks belonging to this Project
-     */
+
+    /** The list of tasks belonging to this Project */
     private List<Task> myTasks;
-    /**
-     * The Project name
-     */
+
+    /** The Project name */
     private String myProjectName;
-    /**
-     * The description of the Project
-     */
+
+    /** The description of the Project */
     private String myDescription;
-    /**
-     * The User that this Project belongs to
-     */
+
+    /** The User that this Project belongs to */
     private User myUser;
-    /**
-     * The path to the directory that contains this ProjectName.ser file
-     */
+
+    /** The path to the directory that contains this ProjectName.ser file */
     private transient Path myDirectoryPath;
-    /**
-     * The FilePath of this ProjectName.ser file
-     */
+
+    /** The FilePath of this ProjectName.ser file */
     private transient Path myFilePath;
-    /**
-     * SerialVersionID
-     */
+
+    /** SerialVersionID */
     private static final long serialVersionUID = 5152023L;
-
-
-
 
     /**
      * Returns the description of the project.
-     *
      * @return the description of the project
      */
     public String getMyDescription() {
@@ -59,13 +49,11 @@ public class Project implements Serializable {
 
     /**
      * Sets the description of the project.
-     *
      * @param description the description of the project
      */
     public void setDescription(String description) {
         this.myDescription = myDescription;
     }
-
 
     /**
      * Constructor to create a new Project object
@@ -152,6 +140,25 @@ public class Project implements Serializable {
                 myProjectName);
         myFilePath = Paths.get(myDirectoryPath.toString() + "/" + myProjectName + ".ser");
     }
+
+    /**
+     * Returns a list of the tasks contained in this project.
+     * @return a list of the tasks contained in this project.
+     * @author Derek J. Ruiz Garcia
+     */
+    public List<Task> getTasks(){
+        return List.copyOf(myTasks);
+    }
+
+    /**
+     * Deletes the task passed from the list of tasks in the project.
+     * @param theTask the task we want to remove from the project.
+     * @author Derek J. Ruiz Garcia
+     */
+    public void deleteTask(Task theTask){
+        myTasks.remove(theTask);
+    }
+
     /**
      * Return the name of this Project
      * @author Paul Schmidt
@@ -227,6 +234,21 @@ public class Project implements Serializable {
             }
         }
     }
+
+    //#######################################
+    /** DO NOT ADD THIS METHODS TO THE FINAL MERGED BRANCH SINCE SOMEONE ELSE MADE IT! */
+    // These are place holders.
+    public BigDecimal getProjectEstimate() {
+        return BigDecimal.ZERO;
+    }
+    public BigDecimal getProjectCost(){
+        return BigDecimal.ZERO;
+    }
+    public void setProjectEstimate(BigDecimal theEstimate){
+    }
+
+    //#######################################
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

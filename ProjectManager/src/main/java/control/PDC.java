@@ -1,12 +1,17 @@
 package control;
 import model.*;
 import model.projectdata.Project;
+import model.projectdata.Purchase;
+import model.projectdata.Task;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.rmi.NoSuchObjectException;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -16,19 +21,27 @@ import java.util.Set;
  * @author Paul Schmidt
  */
 public class PDC {
-    /**
-     * Field for storing a reference to the current User instance.
-     */
+
+    /** Field for storing a reference to the current User instance. */
     private User currentUser;
+
+    /** The project tha is currently selected. */
     private Project currentProject;
 
+    /** The task that is currently selected */
+    private Task currentTask;
+
+    /** The directory being used for file search */
     public static String myDir;
+
     /**
      * Constructs a new instance of a PDC and sets the current User to null.
      * @author Paul Schmidt
      */
     public PDC () {
         currentUser = null;
+        currentProject = null;
+        currentTask = null;
         if (!System.getProperty("user.dir").contains("ProjectManager")) {
             myDir = "ProjectManager\\";
         } else {
@@ -240,6 +253,245 @@ public class PDC {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Creates a project using the provided string as a name, adds the project to the projects in the user's folder
+     *  and adds it to the list of projects of the user.
+     * @author Derek J. Ruiz Garcia
+     * @param theProjectName the name of the project we want to create and add to the users project list.
+     * @throws IOException if the users' folder doesn't exist in the appdata folder.
+     */
+
+    /**
+     * Creates a project and checks if a project with the provided name already exists. If a project with the
+     * provided name doesn't exist, then the project is added to the projects in the user's folder,
+     * to the list of projects of the user, and the method returns true. If a project with the
+     * provided name does exist, then the project is not added and the method returns false.
+     * @param theProjectName the name of the project we want to add
+     * @return a boolean value indicating whether the project was added to the users projects or not.
+     * @throws IOException if the Directory for this Project can't be made
+     * @author Derek J. Ruiz Garcia
+     */
+    public boolean addNewProject(String theProjectName) throws IOException {
+        Map<String, Project> userProjects = currentUser.getProjects();
+        boolean wasAdded = false;
+        if (!userProjects.containsKey(theProjectName)){
+            Project brandNewProject = new Project(currentUser, theProjectName);
+            currentUser.addProject(brandNewProject);
+            wasAdded = true;
+        }
+        return wasAdded;
+    }
+
+
+    /**
+     * Deletes the project from the project's folder of the current user, and removes it from the list of projects
+     * of the user.
+     * @author Derek J. Ruiz Garcia
+     * @param theProjectName the name of the project we want to delete.
+     * @return a boolean value indicating whether the project was deleted or not.
+     * @throws NoSuchObjectException if the project we want to delete doesn't exist.
+     * @throws NullPointerException if the current user or the current project is null.
+     */
+    public boolean deleteCurrentProject(String theProjectName) throws NoSuchObjectException {
+        Project projectToDelete = currentUser.getProject(theProjectName);
+//        System.out.println("The project to delete is located at " + projectToDelete.getMyFilePath());
+        File projectFile = new File(projectToDelete.getMyFilePath().toString());
+        currentUser.deleteProject(currentProject.getMyProjectName());
+        currentProject = null;
+        currentTask = null;
+        return projectFile.delete();
+    }
+
+    /**
+     * Looks for the purchases in the current task and checks if there is a task with the provided name, if there isn't
+     * then the purchase is added to the current task.
+     * @param thePurchaseName the name of the purchase we want to add.
+     * @param theCost the cost that the purchase is going to have.
+     * @return a boolean value indicating if a purchase with the provided name already exist in the current task.
+     * @author Derek J. Ruiz Garcia
+     */
+    public boolean addNewPurchase(String thePurchaseName, BigDecimal theCost){
+        List<Purchase> taskPurchases = currentTask.getAllPurchases();
+        boolean purchaseExists = false;
+        for (Purchase p: taskPurchases) {
+            if (p.getPurchaseName().equals(thePurchaseName)) {
+                purchaseExists = true;
+                break;
+            }
+        }
+        if(!purchaseExists){                                                    // if the purchase doesn't exist
+            Purchase brandNewPurchase = new Purchase(thePurchaseName, theCost);
+            currentTask.addPurchase(brandNewPurchase);
+        }
+        return !purchaseExists;
+    }
+
+    /**
+     * Searches for the purchase using the passed purchase name and sets its cost to the passed cost.
+     * @param thePurchaseName the name of the purchase we want to edit.
+     * @param theNewCost the new cost that is going to be given to the specified purchase.
+     * @author Derek J. Ruiz Garcia
+     */
+    public void editPurchaseCost(String thePurchaseName, BigDecimal theNewCost){
+        List<Purchase> taskPurchases = currentTask.getAllPurchases();
+        boolean purchaseExists = false;
+        for (Purchase p: taskPurchases) {
+            if (p.getPurchaseName().equals(thePurchaseName)) {
+                purchaseExists = true;
+                break;
+            }
+        }
+        if(purchaseExists){                                                     // if the purchase exists
+            Purchase theChosenPurchase = currentTask.getPurchase(thePurchaseName);
+            theChosenPurchase.editCost(theNewCost);
+        }
+    }
+
+    /**
+     * Deletes the purchase from the list of purchases of the task that is currently selected.
+     * @param thePurchaseName the name of the purchase we want to delete.
+     */
+    public void deletePurchase(String thePurchaseName){
+        Purchase purchaseToDelete = currentTask.getPurchase(thePurchaseName);
+        if(purchaseToDelete != null){
+            currentTask.deletePurchase(purchaseToDelete);
+        }
+    }
+
+    /**
+     * Creates a new task using the given name and if the tasks doesn't exist already in the project,
+     * it will add it to the list of tasks, else it will return false and won't add it to the list.
+     * @param theTaskName the name of the task we want to add to the project.
+     * @return a boolean value indicating if a task with the provided name already exist in the current project.
+     * @author Derek J. Ruiz Garcia
+     */
+    public boolean addNewTask(String theTaskName){
+        Task brandNewTask = new Task(theTaskName);
+        List<Task> theProjectTasks = currentProject.getTasks();
+        boolean theTaskExists = false;
+
+        for (Task t: theProjectTasks) {
+            if (t.getTaskName().equals(theTaskName)) {
+                theTaskExists = true;
+                break;
+            }
+        }
+        if(!theTaskExists){
+            currentProject.addTask(brandNewTask);
+        }
+        return !theTaskExists;
+    }
+
+    /**
+     * Sets the current task to the task wih the name passed as a string. If there is not a task with the
+     * given name, the current task won't change.
+     * @param theTaskName the name of the task we want to set as current task.
+     * @author Derek J. Ruiz Garcia
+     */
+    public void setCurrentTask(String theTaskName){
+        List<Task> theProjectTasks = currentProject.getTasks();
+
+        for (Task t: theProjectTasks) {
+            if (t.getTaskName().equals(theTaskName)) { currentTask = t; }
+        }
+    }
+
+    /**
+     * Deletes the current task from the project and sets the current task to null
+     * @author Derek J. Ruiz Garcia
+     */
+    public void deleteCurrentTask(){
+//        System.out.println("The task to be deleted: \n" + currentTask.getTaskName());
+        List<Task> theProjectTasks = currentProject.getTasks();
+
+        if(theProjectTasks.contains(currentTask)){
+            currentProject.deleteTask(currentTask);
+            currentTask = null;
+        }
+    }
+
+    /**
+     * Returns a list of the tasks contained in the current project.
+     * @return list of task objects located in the current project.
+     * @author Derek J. Ruiz Garcia
+     */
+    public List<Task> getTasks(){
+        return currentProject.getTasks();
+    }
+
+    /**
+     * Returns the budget of the project.
+     * @return the budget of the project as a BigDecimal.
+     * @author Derek J. Ruiz Garcia
+     */
+    public BigDecimal getProjectBudget(){
+        return currentProject.getProjectEstimate();
+    }
+
+    /**
+     * Sets the budget of the project to the estimated budget passed as a parameter.
+     * @param theEstimatedBudget the budget that the project is going to have.
+     * @author Derek J. Ruiz Garcia
+     */
+    public void setProjectBudget(BigDecimal theEstimatedBudget){
+        currentProject.setProjectEstimate(theEstimatedBudget);
+    }
+
+    /**
+     * Returns the cost of the project.
+     * @return the total cost of the project as a BigDecimal.
+     * @author Derek J. Ruiz Garcia
+     */
+    public BigDecimal getProjectCost(){
+        return currentProject.getProjectCost();
+    }
+
+    /**
+     * Looks for the passed purchase name in the list of purchases of the current task, and
+     * if a purchase with the passed name is found, its completed status is set to the passed boolean value.
+     * @param thePurchaseName the name of the purchase as a String to which the status is going to be set to.
+     * @param theStatus a boolean value that will be given to the specified purchase (true means completed,
+     *                  false means incomplete).
+     * @author Derek J. Ruiz Garcia
+     */
+    public void setPurchaseStatus(String thePurchaseName, boolean theStatus){
+        List<Purchase> taskPurchases = currentTask.getAllPurchases();
+
+        for (Purchase p: taskPurchases) {
+            if (p.getPurchaseName().equals(thePurchaseName)) {
+                p.setCompletedStatus(theStatus);
+            }
+            break;
+        }
+    }
+
+    /**
+     * This method checks if the task with the name passed as a parameter exists, and then
+     * returns the list of purchases that the task contains. Returns null if the task doesn't exist.
+     * @param theTaskName the name of the task that we are going to get the purchases from.
+     * @return the list of purchase objects contained in the task.
+     */
+    public List<Purchase> getPurchases(String theTaskName){
+        List<Purchase> theTaskPurchases = null;
+        List<Task> theProjectTasks = currentProject.getTasks();
+
+        for (Task t: theProjectTasks) {
+            if (t.getTaskName().equals(theTaskName)) {
+                theTaskPurchases = t.getAllPurchases();
+            }
+            break;
+        }
+        return theTaskPurchases;
+    }
+
+    /**
+     * Sets the currentUser to null.
+     * @author Derek J. Ruiz Garcia
+     */
+    public void logoutUser(){
+        currentUser = null;
     }
 
     public User getCurrentUser() {
