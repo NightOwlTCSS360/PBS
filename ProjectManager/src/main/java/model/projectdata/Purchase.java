@@ -1,7 +1,6 @@
 package model.projectdata;
 
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -10,19 +9,20 @@ import java.math.BigDecimal;
  * @author Paul Schmidt
  */
 public class Purchase implements Serializable {
-    /**
-     * Name of the purchase
-     */
-    private String myPurchaseName;
-    /**
-     * Cost of the Purchase
-     */
+    /** Name of the purchase */
+    private final String myPurchaseName;
+
+    /** Cost of the Purchase */
     private BigDecimal myCost;
-    /**
-     * Serial ID
-     */
+
+    /** The status of the Purchase. Completed: true | Incomplete: false */
+    private boolean completedStatus;
+
+    /** Serial ID */
+    @Serial
     private static final long serialVersionUID = 2152023L;
 
+    //CONSTRUCTORS
     /**
      * Constructs a new Purchase with the given Name and Cost
      * @author Paul Schmidt
@@ -32,64 +32,56 @@ public class Purchase implements Serializable {
     public Purchase(final String thePurchaseName, final BigDecimal theCost) {
         myPurchaseName = thePurchaseName;
         myCost = theCost;
+        completedStatus = false;
+    }
+
+    //PUBLIC METHODS
+    /**
+     * Sets the cost of this purchase to the new value.
+     * @author Paul Schmidt
+     * @param newCost the value of the new cost.
+     */
+    public void editCost(BigDecimal newCost) {
+        myCost = newCost;
     }
 
     /**
-     * Returns the name of the purchase.
-     * @return the name of the purchase as a String.
-     * @author Derek J. Ruiz Garcia
+     * Returns the cost associated with this Purchase.
+     * @author Paul Schmidt
+     * @return the cost as a BigDecimal.
      */
-    public String getPurchaseName(){
+    public BigDecimal getCost() {
+        return myCost;
+    }
+
+    /**
+     * Sets the completed status of this Purchase.
+     * @author Paul Schmidt
+     * @param isCompleted the value used to set the status.
+     */
+    public void setCompletedStatus(final boolean isCompleted) {
+        completedStatus = isCompleted;
+    }
+
+    /**
+     * Returns whether this Purchase is completed or not.
+     * @author Paul Schmidt
+     * @return Not Complete: false | Completed: true
+     */
+    public boolean getCompletedStatus() {
+        return completedStatus;
+    }
+
+    /**
+     * Returns the name of this Purchase.
+     * @author Paul Schmidt
+     * @return the name of the Purchase as a String.
+     */
+    public String getName() {
         return myPurchaseName;
     }
-
-    /**
-     * Export for serialization if needed
-     * @author Paul Schmidt
-     */
-    public void export ()
-    {
-        ObjectOutputStream oos = null;
-        FileOutputStream fout = null;
-        try{
-            fout = new FileOutputStream("pu_" + myPurchaseName + ".ser", true);
-            oos = new ObjectOutputStream(fout);
-            oos.writeObject(this);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        finally {
-            if(oos != null){
-                try {oos.close();
-                } catch (Exception e) {
-
-                }
-            }
-        }
-    }
-
-    //###################################
-    // DO NOT ADD THESE METHOD TO THE FINAL MERGED BRANCH
-    // THESE ARE PLACE HOLDERS
-    public void editCost(BigDecimal newCost){
-
-    }
-
-    public boolean getCompletedStatus(){
-        return false;
-    }
-
-    public void setCompletedStatus(boolean isCompleted){
-
-    }
-    //###################################
-
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        //we might have to eddit this to String for BigDecimal
-        sb.append(String.format("Purchase Name: " + myPurchaseName + " Cost: %.2f", myCost));
-        sb.append("\n");
-        return sb.toString();
+        return String.format("Purchase Name: " + myPurchaseName + " Cost: %.2f\n", myCost);
     }
 }

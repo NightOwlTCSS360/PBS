@@ -450,8 +450,8 @@ public class Dashboard extends javax.swing.JFrame {
                 throw new RuntimeException(e);
             }
 
-            // Set the project description
-            project.setDescription(projectDescription);
+            // Set the project description DEPRICATED
+            //project.setDescription(projectDescription);
 
             // Add the project to the current user's projects
             myController.addProjectToCurrentUser(project);

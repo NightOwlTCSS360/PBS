@@ -27,7 +27,7 @@ public class DirectoryTesting {
             for (Project p : testUser1.getProjects().values()) {
                 System.out.println(p);
             }
-            exportImportTest(testUser1);
+            exportImportTest(controller, testUser1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,8 +59,7 @@ public class DirectoryTesting {
             }
         }
     }
-    private static void exportImportTest(final User theUser) {
-        PDC control = new PDC();
+    private static void exportImportTest(final PDC control, final User theUser) {
         control.setCurrentUser(theUser);
         JFrame main = new JFrame();
         main.setLocationRelativeTo(null);
