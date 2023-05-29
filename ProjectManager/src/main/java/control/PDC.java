@@ -329,6 +329,7 @@ public class PDC {
         if(purchaseExists){                                                     // if the purchase exists
             Purchase theChosenPurchase = currentTask.getPurchase(thePurchaseName);
             theChosenPurchase.editCost(theNewCost);
+            currentProject.recalculateTotalCost();
         }
     }
 
@@ -460,6 +461,7 @@ public class PDC {
     public void setPurchaseStatus(String thePurchaseName, boolean theStatus){
         if (currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
             currentTask.getPurchase(thePurchaseName).setCompletedStatus(theStatus);
+            currentProject.recalculateCompleted();
         }
     }
 
