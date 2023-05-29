@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class represents the Project object.
@@ -118,6 +119,16 @@ public class Project implements Serializable {
     }
 
     /**
+     * Deletes the Task from this Projects Map of Tasks.
+     * TODO TEST TO MAKE SURE THIS ACTUALLY REMOVED THE TASK
+     * @author Derek J. Ruiz Garcia
+     * @param myTaskName the name of the Task to remove.
+     */
+    public void deleteTask(final String myTaskName) {
+        myTasks.remove(myTaskName);
+    }
+
+    /**
      * Static method to deserialize a Project.ser file into a Project obj
      * @author Paul Schmidt
      * @param filename the Name of the file to add
@@ -217,6 +228,24 @@ public class Project implements Serializable {
     }
 
     /**
+     * Returns a Set of Task Names located in this Project.
+     * @return a Set of Task names as Strings.
+     * @author Derek J. Ruiz Garcia
+     */
+    public Set<String> getAllTaskNames(){
+        return myTasks.keySet();
+    }
+
+    /**
+     * Returns a task if it exists given the name of the Task.
+     * @author Derek J. Ruiz Garcia
+     * @param theTask the name of the desired Task.
+     * @return the Task if it exits, null otherwise.
+     */
+    public Task getTask(final String theTask) {
+        return myTasks.get(theTask);
+    }
+    /**
      * Returns the cumulative cost associated with this Project as a BigDecimal.
      * @author Paul Schmidt
      * @return the cumulative cost.
@@ -284,6 +313,4 @@ public class Project implements Serializable {
                 myProjectName);
         myFilePath = Paths.get(myDirectoryPath + "/" + myProjectName + ".ser");
     }
-
-
 }

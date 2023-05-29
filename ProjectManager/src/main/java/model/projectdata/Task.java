@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class that represents a Task associated with a Project
@@ -112,21 +113,16 @@ public class Task implements Serializable {
      * @author Derek J. Ruiz Garcia
      */
     public Purchase getPurchase(String thePurchaseName) {
-        for (Purchase p: myPurchases) {
-            if (p.getPurchaseName().equals(thePurchaseName)) {
-                return p;
-            }
-        }
-        return null;
+        return myPurchases.get(thePurchaseName);
     }
 
     /**
-     * Returns a list of purchase located in this task.
-     * @return a list of purchase objects located in this task.
+     * Returns a Set of purchase located in this task.
+     * @return a Set of purchase objects located in this task.
      * @author Derek J. Ruiz Garcia
      */
-    public List<Purchase> getAllPurchases(){
-        return List.copyOf(myPurchases);
+    public Set<String> getAllPurchaseNames(){
+        return myPurchases.keySet();
     }
 
     /**

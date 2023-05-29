@@ -10,10 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.rmi.NoSuchObjectException;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class, PDC (aka Persistent Data Controller), acts as a control layer entity that helps manage the interactions
@@ -309,18 +306,11 @@ public class PDC {
      * then the purchase is added to the current task.
      * @param thePurchaseName the name of the purchase we want to add.
      * @param theCost the cost that the purchase is going to have.
-     * @return a boolean value indicating if a purchase with the provided name already exist in the current task.
+     * @return a boolean value indicating if a purchase with the provided name was added to the current task.
      * @author Derek J. Ruiz Garcia
      */
     public boolean addNewPurchase(String thePurchaseName, BigDecimal theCost){
-        List<Purchase> taskPurchases = currentTask.getAllPurchases();
-        boolean purchaseExists = false;
-        for (Purchase p: taskPurchases) {
-            if (p.getPurchaseName().equals(thePurchaseName)) {
-                purchaseExists = true;
-                break;
-            }
-        }
+        boolean purchaseExists = currentTask.getAllPurchaseNames().contains(thePurchaseName);
         if(!purchaseExists){                                                    // if the purchase doesn't exist
             Purchase brandNewPurchase = new Purchase(thePurchaseName, theCost);
             currentTask.addPurchase(brandNewPurchase);
@@ -335,14 +325,7 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void editPurchaseCost(String thePurchaseName, BigDecimal theNewCost){
-        List<Purchase> taskPurchases = currentTask.getAllPurchases();
-        boolean purchaseExists = false;
-        for (Purchase p: taskPurchases) {
-            if (p.getPurchaseName().equals(thePurchaseName)) {
-                purchaseExists = true;
-                break;
-            }
-        }
+        boolean purchaseExists = currentTask.getAllPurchaseNames().contains(thePurchaseName);
         if(purchaseExists){                                                     // if the purchase exists
             Purchase theChosenPurchase = currentTask.getPurchase(thePurchaseName);
             theChosenPurchase.editCost(theNewCost);
@@ -368,17 +351,9 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public boolean addNewTask(String theTaskName){
-        Task brandNewTask = new Task(theTaskName);
-        List<Task> theProjectTasks = currentProject.getTasks();
-        boolean theTaskExists = false;
-
-        for (Task t: theProjectTasks) {
-            if (t.getTaskName().equals(theTaskName)) {
-                theTaskExists = true;
-                break;
-            }
-        }
+        boolean theTaskExists = currentProject.getAllTaskNames().contains(theTaskName);
         if(!theTaskExists){
+            Task brandNewTask = new Task(theTaskName);
             currentProject.addTask(brandNewTask);
         }
         return !theTaskExists;
@@ -391,10 +366,9 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void setCurrentTask(String theTaskName){
-        List<Task> theProjectTasks = currentProject.getTasks();
-
-        for (Task t: theProjectTasks) {
-            if (t.getTaskName().equals(theTaskName)) { currentTask = t; }
+        boolean theTaskExists = currentProject.getAllTaskNames().contains(theTaskName);
+        if (theTaskExists) {
+            currentTask = currentProject.getTask(theTaskName);
         }
     }
 
@@ -403,22 +377,35 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void deleteCurrentTask(){
-//        System.out.println("The task to be deleted: \n" + currentTask.getTaskName());
-        List<Task> theProjectTasks = currentProject.getTasks();
-
-        if(theProjectTasks.contains(currentTask)){
-            currentProject.deleteTask(currentTask);
-            currentTask = null;
-        }
+        currentProject.deleteTask(currentTask.getMyTaskName());
+        currentTask = null;
     }
 
+    /**
+     * Returns the name of the currently selected Project.
+     * @author Paul Schmidt
+     * @author Derek J. Ruiz Garcia
+     * @return the name of the current Project, null if there is no current project selected
+     */
+    public String getCurrProjectName() {
+        String result = null;
+        if (currentProject != null) {
+            result = currentProject.getMyProjectName();
+        }
+        return result;
+    }
     /**
      * Returns a list of the tasks contained in the current project.
      * @return list of task objects located in the current project.
      * @author Derek J. Ruiz Garcia
      */
-    public List<Task> getTasks(){
-        return currentProject.getTasks();
+    public List<String> getTasks(){
+        Set<String> names = currentProject.getAllTaskNames();
+        List<String> result = new ArrayList<>();
+        for (String taskName : names) {
+            result.add(taskName);
+        }
+        return result;
     }
 
     /**
@@ -457,33 +444,38 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void setPurchaseStatus(String thePurchaseName, boolean theStatus){
-        List<Purchase> taskPurchases = currentTask.getAllPurchases();
-
-        for (Purchase p: taskPurchases) {
-            if (p.getPurchaseName().equals(thePurchaseName)) {
-                p.setCompletedStatus(theStatus);
-            }
-            break;
+        if (currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
+            currentTask.getPurchase(thePurchaseName).setCompletedStatus(theStatus);
         }
     }
 
     /**
-     * This method checks if the task with the name passed as a parameter exists, and then
-     * returns the list of purchases that the task contains. Returns null if the task doesn't exist.
-     * @param theTaskName the name of the task that we are going to get the purchases from.
-     * @return the list of purchase objects contained in the task.
+     * Returns the names of purchases of the current Task.
+     * @author Derek J. Ruiz Garcia
+     * @return the names of purchases of the current Task.
      */
-    public List<Purchase> getPurchases(String theTaskName){
-        List<Purchase> theTaskPurchases = null;
-        List<Task> theProjectTasks = currentProject.getTasks();
-
-        for (Task t: theProjectTasks) {
-            if (t.getTaskName().equals(theTaskName)) {
-                theTaskPurchases = t.getAllPurchases();
-            }
-            break;
+    public List<String> getPurchases(){
+        Set<String> names = currentTask.getAllPurchaseNames();
+        List<String> result = new ArrayList<>();
+        for (String purchaseName : names) {
+            result.add(purchaseName);
         }
-        return theTaskPurchases;
+        return result;
+    }
+
+    /**
+     * Returns the costs of a purchase associated with the current task, given the purchase name.
+     * @author Paul Schmidt
+     * @author Derek J. Ruiz Garcia
+     * @param thePurchaseName the name of the Purchase.
+     * @return the Cost as a BigDecimal, null if the Purchase doesn't exist.
+     */
+    public BigDecimal getPurchaseCost(final String thePurchaseName) {
+        BigDecimal result = null;
+        if(currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
+            result = currentTask.getPurchase(thePurchaseName).getCost();
+        }
+        return result;
     }
 
     /**
