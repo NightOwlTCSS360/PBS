@@ -394,6 +394,20 @@ public class PDC {
         }
         return result;
     }
+
+    /**
+     * Returns the name of the currently selected Task.
+     * @author Derek J. Ruiz Garcia
+     * @author Paul Schmidt
+     * @return the name of the current Task, null if there is no task selected.
+     */
+    public String getCurrTaskName() {
+        String result = null;
+        if (currentTask != null) {
+            result = currentTask.getTaskName();
+        }
+        return result;
+    }
     /**
      * Returns a list of the tasks contained in the current project.
      * @return list of task objects located in the current project.
