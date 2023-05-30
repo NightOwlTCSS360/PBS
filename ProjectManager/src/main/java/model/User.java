@@ -62,14 +62,14 @@ public class User implements Serializable {
 //            System.out.println("The directory: " + PDC.myDir);
             myPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUserEmail);
             if (Files.exists(myPath)) {
-                System.out.println(myPath.toRealPath() + " exists (User Directory)");
+               // System.out.println(myPath.toRealPath() + " exists (User Directory)");
             } else {
-                System.out.println(myPath.toString() + " doesn't exist. Creating Directory now...");
+                //System.out.println(myPath.toString() + " doesn't exist. Creating Directory now...");
                 Files.createDirectory(myPath);
                 if (Files.exists(myPath)) {
-                    System.out.println(myPath.toRealPath() + " created!");
+                    //System.out.println(myPath.toRealPath() + " created!");
                 } else {
-                    System.out.println("Error creating " + myPath.toString());
+                    //System.out.println("Error creating " + myPath.toString());
                 }
             }
         } catch (Exception e) {
@@ -92,9 +92,9 @@ public class User implements Serializable {
      */
     public void loadInUserProjects() {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(myPath)) {
-            System.out.println("Printing Directories in " + myUserFirstName + "'s directory:");
+            //System.out.println("Printing Directories in " + myUserFirstName + "'s directory:");
             for (Path projectFolder : stream) {
-                System.out.println(projectFolder.getFileName());
+                //System.out.println(projectFolder.getFileName());
                 try {
                     Project p = Project.deserialize(projectFolder + "/" + projectFolder.getFileName() + ".ser");
                     addProject(p);
@@ -116,11 +116,11 @@ public class User implements Serializable {
      */
     public void addProject(final Project theProject) {
         String pName = theProject.getMyProjectName();
-        if (myProjects.containsKey(pName)) {
-            System.out.println("Project " + pName + " already exists in " + myUserFirstName + "'s Projects, overwriting old project. . .");
-        } else {
-            System.out.println("Project " + pName + " doesn't exist in "+ myUserFirstName + "'s Projects, adding now. . .");
-        }
+//        if (myProjects.containsKey(pName)) {
+//            System.out.println("Project " + pName + " already exists in " + myUserFirstName + "'s Projects, overwriting old project. . .");
+//        } else {
+//            System.out.println("Project " + pName + " doesn't exist in "+ myUserFirstName + "'s Projects, adding now. . .");
+//        }
         theProject.serialize(PDC.myDir);
         myProjects.put(theProject.getMyProjectName(), theProject);
     }

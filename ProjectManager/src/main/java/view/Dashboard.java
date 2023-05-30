@@ -433,28 +433,32 @@ public class Dashboard extends javax.swing.JFrame {
         // Prompt the user to enter the project name
         String projectName = JOptionPane.showInputDialog(this, "Enter project name:");
 
-        // Prompt the user to enter the project description
-        String projectDescription = JOptionPane.showInputDialog(this, "Enter project description:");
+//        // Prompt the user to enter the project description
+//        String projectDescription = JOptionPane.showInputDialog(this, "Enter project description:");
 
         // Check if a valid project name is provided
         if (projectName != null && !projectName.isEmpty()) {
-            // Get the current user from the PDC controller
-            User user = myController.getCurrentUser();
-
-            // Create a new Project object with the user and project name
-            Project project = null;
-            try {
-                project = new Project(user, projectName);
-            } catch (IOException e) {
-                // If there is an error creating the project, throw a runtime exception
-                throw new RuntimeException(e);
-            }
+//            // Get the current user from the PDC controller
+//            User user = myController.getCurrentUser();
+//
+//            // Create a new Project object with the user and project name
+//            Project project = null;
+//            try {
+//                project = new Project(user, projectName);
+//            } catch (IOException e) {
+//                // If there is an error creating the project, throw a runtime exception
+//                throw new RuntimeException(e);
+//            }
 
             // Set the project description DEPRICATED
             //project.setDescription(projectDescription);
 
             // Add the project to the current user's projects
-            myController.addProjectToCurrentUser(project);
+            try {
+                myController.addNewProject(projectName);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

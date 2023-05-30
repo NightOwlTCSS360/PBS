@@ -79,7 +79,7 @@ class ProjectTest {
 
     @Test
     void getInitialProjectEstimate() {
-        assertEquals(new BigDecimal("0.0"), testProject.getProjectEstimate());
+        assertEquals(new BigDecimal("0.00"), testProject.getProjectEstimate());
     }
 
     @Test

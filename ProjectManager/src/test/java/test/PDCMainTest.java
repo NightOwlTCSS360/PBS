@@ -26,17 +26,13 @@ class PDCMainTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        Project testProject = new Project(testUser, "TestProject");
-        Task testTask = new Task("TestTask");
-        Purchase testPurchase1 = new Purchase("TestPurchase1", new BigDecimal("1.00"));
-        Purchase testPurchase2 = new Purchase("TestPurchase2", new BigDecimal("0.50"));
-        testTask.addPurchase(testPurchase1);
-        testTask.addPurchase(testPurchase2);
-        testProject.addTask(testTask);
-        testUser.addProject(testProject);
         control.setCurrentUser(testUser);
+        control.addNewProject("TestProject");
         control.setCurrentProject("TestProject");
+        control.addNewTask("TestTask");
         control.setCurrentTask("TestTask");
+        control.addNewPurchase("TestPurchase1", new BigDecimal("1.00"));
+        control.addNewPurchase("TestPurchase2", new BigDecimal("0.50"));
     }
 
     @AfterEach
@@ -163,7 +159,8 @@ class PDCMainTest {
     @Test
     void setPurchaseStatus() {
         control.setPurchaseStatus("TestPurchase1", true);
-        fail("");
+        control.setPurchaseStatus("TestPurchase2", true);
+        assertTrue(control.getProjectStatus());
     }
 
     @Test

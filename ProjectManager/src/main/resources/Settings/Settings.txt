@@ -1,2 +1,2 @@
-Test
-test_user@junit.org
+NewUserName
+NewUserEmail@junit.org
