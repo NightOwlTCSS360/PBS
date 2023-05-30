@@ -78,14 +78,15 @@ public class Task implements Serializable {
         return myCost;
     }
 
-    /**
-     * Returns the name of this Task as a String.
-     * @author Paul Schmidt
-     * @return the name of this Task.
-     */
-    public String getMyTaskName() {
-        return myTaskName;
-    }
+    // Redundant
+//    /**
+//     * Returns the name of this Task as a String.
+//     * @author Paul Schmidt
+//     * @return the name of this Task.
+//     */
+//    public String getMyTaskName() {
+//        return myTaskName;
+//    }
 
     /**
      * Returns whether this Task is completed or not.
@@ -102,7 +103,7 @@ public class Task implements Serializable {
      * @param thePurchase the purchase object we want to delete.
      */
     public void deletePurchase(Purchase thePurchase){
-        myPurchases.remove(thePurchase);
+        myPurchases.remove(thePurchase.getName());
     }
 
     /**

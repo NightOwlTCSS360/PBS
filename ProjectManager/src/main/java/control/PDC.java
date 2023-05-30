@@ -378,7 +378,7 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void deleteCurrentTask(){
-        currentProject.deleteTask(currentTask.getMyTaskName());
+        currentProject.deleteTask(currentTask.getTaskName());
         currentTask = null;
     }
 

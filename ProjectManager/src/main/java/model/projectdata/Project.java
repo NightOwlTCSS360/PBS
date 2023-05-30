@@ -115,7 +115,7 @@ public class Project implements Serializable {
      * @param theTask the Task to add
      */
     public void addTask(final Task theTask) {
-        this.myTasks.put(theTask.getMyTaskName(), theTask);
+        this.myTasks.put(theTask.getTaskName(), theTask);
     }
 
     /**

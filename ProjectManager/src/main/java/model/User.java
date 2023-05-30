@@ -18,33 +18,25 @@ import java.util.Map;
  */
 public class User implements Serializable {
 
-    /**
-     * The Users Last Name
-     */
+    /** The Users Last Name */
     private String myUserLastName;
-    /**
-     * The User's First Name
-     */
+
+    /** The User's First Name */
     private String myUserFirstName;
-    /**
-     * The User's email
-     */
+
+    /** The User's email */
     private String myUserEmail;
-    /**
-     * The User's password
-     */
+
+    /** The User's password */
     private String myPassword;
-    /**
-     * Map of the User's Projects using the Projects' names as keys (String)
-     */
+
+    /** Map of the User's Projects using the Projects' names as keys (String) */
     private Map<String, Project> myProjects;
-    /**
-     * Path to the User's folder
-     */
+
+    /** Path to the User's folder */
     private transient Path myPath;
-    /**
-     * Serial ID
-     */
+
+    /** Serial ID */
     private static final long serialVersionUID = 15152023L;
 
     /**
@@ -67,6 +59,7 @@ public class User implements Serializable {
         myPassword = thePassword;
         myProjects = new HashMap<>();
         try {
+//            System.out.println("The directory: " + PDC.myDir);
             myPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUserEmail);
             if (Files.exists(myPath)) {
                 System.out.println(myPath.toRealPath() + " exists (User Directory)");
