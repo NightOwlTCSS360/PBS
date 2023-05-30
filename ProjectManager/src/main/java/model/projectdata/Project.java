@@ -58,8 +58,8 @@ public class Project implements Serializable {
         myTasks = new HashMap<>();
         myProjectName = theName;
         myUser = theUser;
-        currentExpenses = new BigDecimal("0.0");
-        myEstimate = new BigDecimal("0.0");
+        currentExpenses = new BigDecimal("0.00");
+        myEstimate = new BigDecimal("0.00");
         completedStatus = false;
         updatePaths();
 
@@ -204,7 +204,7 @@ public class Project implements Serializable {
      * @author Paul Schmidt
      */
     public void recalculateTotalCost() {
-        BigDecimal total = new BigDecimal("0.0");
+        BigDecimal total = new BigDecimal("0.00");
         for (Task t : myTasks.values()) {
             t.recalculateCost();
             total = total.add(t.getTotalCost());

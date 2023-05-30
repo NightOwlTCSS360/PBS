@@ -48,7 +48,7 @@ public class PDC {
 
     /**
      * Creates a settings file using the user information.
-     * @uthor Derek J. Ruiz Garcia
+     * @author Derek J. Ruiz Garcia
      */
     public void createSettingsFile(){
         final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
@@ -253,14 +253,6 @@ public class PDC {
     }
 
     /**
-     * Creates a project using the provided string as a name, adds the project to the projects in the user's folder
-     *  and adds it to the list of projects of the user.
-     * @author Derek J. Ruiz Garcia
-     * @param theProjectName the name of the project we want to create and add to the users project list.
-     * @throws IOException if the users' folder doesn't exist in the appdata folder.
-     */
-
-    /**
      * Creates a project and checks if a project with the provided name already exists. If a project with the
      * provided name doesn't exist, then the project is added to the projects in the user's folder,
      * to the list of projects of the user, and the method returns true. If a project with the
@@ -286,19 +278,31 @@ public class PDC {
      * Deletes the project from the project's folder of the current user, and removes it from the list of projects
      * of the user.
      * @author Derek J. Ruiz Garcia
-     * @param theProjectName the name of the project we want to delete.
      * @return a boolean value indicating whether the project was deleted or not.
      * @throws NoSuchObjectException if the project we want to delete doesn't exist.
      * @throws NullPointerException if the current user or the current project is null.
      */
-    public boolean deleteCurrentProject(String theProjectName) throws NoSuchObjectException {
-        Project projectToDelete = currentUser.getProject(theProjectName);
-//        System.out.println("The project to delete is located at " + projectToDelete.getMyFilePath());
-        File projectFile = new File(projectToDelete.getMyFilePath().toString());
+    public boolean deleteCurrentProject() throws NoSuchObjectException {
+        boolean deleted = true;
+        File projectDirectory = new File(currentProject.getDirectoryPath().toString());
+        for(File nested : projectDirectory.listFiles()) {
+            try {
+                java.nio.file.Files.delete(nested.toPath());
+            } catch(IOException e) {
+                e.printStackTrace();
+                deleted = false;
+            }
+        }
+        try {
+            java.nio.file.Files.delete(projectDirectory.toPath());
+        } catch(IOException e) {
+            e.printStackTrace();
+            deleted = false;
+        }
         currentUser.deleteProject(currentProject.getMyProjectName());
         currentProject = null;
         currentTask = null;
-        return projectFile.delete();
+        return deleted;
     }
 
     /**
@@ -314,6 +318,8 @@ public class PDC {
         if(!purchaseExists){                                                    // if the purchase doesn't exist
             Purchase brandNewPurchase = new Purchase(thePurchaseName, theCost);
             currentTask.addPurchase(brandNewPurchase);
+            currentProject.recalculateTotalCost();
+            currentProject.recalculateCompleted();
         }
         return !purchaseExists;
     }
@@ -341,6 +347,8 @@ public class PDC {
         Purchase purchaseToDelete = currentTask.getPurchase(thePurchaseName);
         if(purchaseToDelete != null){
             currentTask.deletePurchase(purchaseToDelete);
+            currentProject.recalculateCompleted();
+            currentProject.recalculateTotalCost();
         }
     }
 
@@ -356,6 +364,7 @@ public class PDC {
         if(!theTaskExists){
             Task brandNewTask = new Task(theTaskName);
             currentProject.addTask(brandNewTask);
+            currentProject.recalculateCompleted();
         }
         return !theTaskExists;
     }
@@ -379,6 +388,8 @@ public class PDC {
      */
     public void deleteCurrentTask(){
         currentProject.deleteTask(currentTask.getTaskName());
+        currentProject.recalculateCompleted();
+        currentProject.recalculateTotalCost();
         currentTask = null;
     }
 
@@ -409,6 +420,7 @@ public class PDC {
         }
         return result;
     }
+
     /**
      * Returns a list of the tasks contained in the current project.
      * @return list of task objects located in the current project.

@@ -1,0 +1,2 @@
+NewUserName
+NewUserEmail@junit.org
