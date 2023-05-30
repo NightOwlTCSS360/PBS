@@ -78,16 +78,6 @@ public class Task implements Serializable {
         return myCost;
     }
 
-    // Redundant
-//    /**
-//     * Returns the name of this Task as a String.
-//     * @author Paul Schmidt
-//     * @return the name of this Task.
-//     */
-//    public String getMyTaskName() {
-//        return myTaskName;
-//    }
-
     /**
      * Returns whether this Task is completed or not.
      * @author Paul Schmidt
