@@ -409,6 +409,21 @@ public class PDC {
         }
         return result;
     }
+    
+    /**
+     * Gets the status of a given task name.
+     * 
+     * @param theTask String name of the task.
+     * @return True if the given task is complete and false if the task is incomplete or does not exist.
+     * @author David Y. Piholyuk
+     */
+    public boolean getTaskStatus(String theTask) {
+//        boolean theTaskExists = currentProject.getAllTaskNames().contains(theTask);
+//        if (theTaskExists) {
+//            return currentProject.getTask(theTask).getCompletedStatus();
+//        }
+        return false;
+    }
     /**
      * Returns a list of the tasks contained in the current project.
      * @return list of task objects located in the current project.
