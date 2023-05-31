@@ -398,6 +398,15 @@ public class PDC {
     }
 
     /**
+     * Returns the completed status of the task.
+     * @param theTaskName the name of the task.
+     * @return true if completed, false otherwise.
+     */
+    public boolean getTaskStatus(final String theTaskName) {
+        return currentProject.getTask(theTaskName).getCompletedStatus();
+    }
+
+    /**
      * Returns the budget of the project.
      * @return the budget of the project as a BigDecimal.
      * @author Derek J. Ruiz Garcia
