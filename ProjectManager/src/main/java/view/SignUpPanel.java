@@ -44,7 +44,6 @@ public class SignUpPanel extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(250, 250, 250));
@@ -60,37 +59,6 @@ public class SignUpPanel extends javax.swing.JPanel {
         jButton1.setText("Sign Up");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-
-                String email = jTextField2.getText();
-                String password = new String(jPasswordField1.getPassword());
-                String firstName = jTextField3.getText();
-                String lastName = jTextField1.getText();
-
-                if (email.isEmpty() || password.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
-                    JOptionPane.showMessageDialog(SignUpPanel.this, "Please fill out all fields.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                if (!password.equals(new String(jPasswordField2.getPassword()))) {
-                    JOptionPane.showMessageDialog(SignUpPanel.this,"Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                boolean result = false;
-                try {
-                    result = UserController.addUser( firstName, lastName, email, password);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                if (result) {
-                    JOptionPane.showMessageDialog(SignUpPanel.this, "Sign up successful.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    jButton4ActionPerformed(evt);
-
-                } else {
-                    JOptionPane.showMessageDialog(SignUpPanel.this, "Sign up failed.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-
                 jButton1ActionPerformed(evt);
             }
         });
@@ -99,9 +67,8 @@ public class SignUpPanel extends javax.swing.JPanel {
 
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jTextField1ActionPerformed(evt);
             }
-
         });
 
         jLabel3.setText("Password");
@@ -135,13 +102,6 @@ public class SignUpPanel extends javax.swing.JPanel {
         });
 
         jLabel7.setText("Last Name");
-
-        jButton3.setLabel("About");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
 
         jButton4.setText("Back");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -179,9 +139,7 @@ public class SignUpPanel extends javax.swing.JPanel {
                         .addGap(139, 139, 139)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton3)
-                        .addGap(244, 244, 244)
+                        .addGap(322, 322, 322)
                         .addComponent(jButton4))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(134, 134, 134)
@@ -215,10 +173,8 @@ public class SignUpPanel extends javax.swing.JPanel {
                 .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addComponent(jButton4)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -247,16 +203,6 @@ public class SignUpPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        javax.swing.JPanel MainFrame = ((javax.swing.JPanel)this.getParent());
-        AboutPanel about = new AboutPanel(this);
-        MainFrame.remove(0);
-        MainFrame.remove(0);
-        MainFrame.add(about);
-        MainFrame.revalidate();
-        MainFrame.repaint();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         javax.swing.JPanel MainFrame = (javax.swing.JPanel) this.getParent();
         LoginPanel login = new LoginPanel();
@@ -269,7 +215,6 @@ public class SignUpPanel extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
