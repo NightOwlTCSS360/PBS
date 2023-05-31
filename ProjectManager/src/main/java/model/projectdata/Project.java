@@ -58,8 +58,8 @@ public class Project implements Serializable {
         myTasks = new HashMap<>();
         myProjectName = theName;
         myUser = theUser;
-        currentExpenses = new BigDecimal("0.0");
-        myEstimate = new BigDecimal("0.0");
+        currentExpenses = new BigDecimal("0.00");
+        myEstimate = new BigDecimal("0.00");
         completedStatus = false;
         updatePaths();
 
@@ -115,7 +115,7 @@ public class Project implements Serializable {
      * @param theTask the Task to add
      */
     public void addTask(final Task theTask) {
-        this.myTasks.put(theTask.getMyTaskName(), theTask);
+        this.myTasks.put(theTask.getTaskName(), theTask);
     }
 
     /**
@@ -131,23 +131,23 @@ public class Project implements Serializable {
     /**
      * Static method to deserialize a Project.ser file into a Project obj
      * @author Paul Schmidt
-     * @param filename the Name of the file to add
+     * @param filePath the Name of the file to add
      * @return the deserialized Project obj
      * @throws IOException if there is an issue deserialized the given file into a Project object
      */
-    public static Project deserialize(final String filename) throws IOException {
+    public static Project deserialize(final String filePath) throws IOException {
         Project theProject = null;
         try {
             // Reading the object from a file
-            FileInputStream file = new FileInputStream(filename);
+            FileInputStream file = new FileInputStream(filePath);
             ObjectInputStream in = new ObjectInputStream(file);
             // Method for deserialization of object
             theProject = (Project) in.readObject();
             theProject.updatePaths();
             in.close();
             file.close();
-            System.out.println(theProject.myProjectName + " has been deserialized\nData after Deserialization:");
-            System.out.println(theProject);
+//            System.out.println(theProject.myProjectName + " has been deserialized\nData after Deserialization:");
+//            System.out.println(theProject);
         } catch (IOException ex) {
             throw new IOException(ex);
         } finally {
@@ -158,13 +158,13 @@ public class Project implements Serializable {
     /**
      * Serialize this Project object to a Project.ser file written to the given filepath
      * @author Paul Schmidt
-     * @param filename the path of the file to write to
+     * @param filePath the path of the file to write to
      */
-    public void serialize(final String filename) {
+    public void serialize(final String filePath) {
         ObjectOutputStream oos = null;
         FileOutputStream fout = null;
         try{
-            fout = new FileOutputStream(filename + "src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
+            fout = new FileOutputStream(filePath + "src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
                     myProjectName + "/" + myProjectName + ".ser", false);
             oos = new ObjectOutputStream(fout);
             oos.writeObject(this);
@@ -204,7 +204,7 @@ public class Project implements Serializable {
      * @author Paul Schmidt
      */
     public void recalculateTotalCost() {
-        BigDecimal total = new BigDecimal("0.0");
+        BigDecimal total = new BigDecimal("0.00");
         for (Task t : myTasks.values()) {
             t.recalculateCost();
             total = total.add(t.getTotalCost());

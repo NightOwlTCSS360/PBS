@@ -47,8 +47,18 @@ public class PDC {
     }
 
     /**
+     * Sets the currentUser to null.
+     * @author Derek J. Ruiz Garcia
+     */
+    public void logoutUser(){
+        currentUser = null;
+        currentProject = null;
+        currentTask = null;
+    }
+
+    /**
      * Creates a settings file using the user information.
-     * @uthor Derek J. Ruiz Garcia
+     * @author Derek J. Ruiz Garcia
      */
     public void createSettingsFile(){
         final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
@@ -159,50 +169,24 @@ public class PDC {
     }
 
     /**
-     * This method allows for the User's first name and Email address to be updated after the creation of the account.
-     * TODO Update the User's CSV line and the Users data folder name with the new email
-     * @author Paul Schmidt
-     * @param theFirstName The new first name of the User
-     * @param theEmail The new last name of the User
+     * Creates a project and checks if a project with the provided name already exists. If a project with the
+     * provided name doesn't exist, then the project is added to the projects in the user's folder,
+     * to the list of projects of the user, and the method returns true. If a project with the
+     * provided name does exist, then the project is not added and the method returns false.
+     * @param theProjectName the name of the project we want to add
+     * @return a boolean value indicating whether the project was added to the users projects or not.
+     * @throws IOException if the Directory for this Project can't be made
+     * @author Derek J. Ruiz Garcia
      */
-    public void setUserInfo(final String theFirstName, final String theEmail) {
-        currentUser.setUserFirstName(theFirstName);
-        currentUser.setUserEmail(theEmail);
-        createSettingsFile();
-    }
-
-    /**
-     * This method is used for containing a reference to the User object after they've logged in. This reference is used
-     * in order to access information about the User including name, email, the User's Projects, etc.
-     * @author Paul Schmidt
-     * @param theUser The reference to the User instance to be saved for use by the program.
-     */
-    public void setCurrentUser( final User theUser) {
-        currentUser = theUser;
-    }
-
-    /**
-     * This method returns a Set of Strings that represent the names of the Users Project. Use to populate information
-     * to the UI.
-     * @author Paul Schmidt
-     * @return the Set of Project Names
-     */
-    public Set<String> getProjectNames() {
-        return currentUser.getProjects().keySet();
-    }
-
-    /**
-     * Set the current active Project obj via passing the Project's name as a parameter.
-     * By setting the current project, the UI can populate Fields via other methods defined in the PDC class.
-     * @author Paul Schmidt
-     * @param theProjectName the name of the Project
-     */
-    public void setCurrentProject(final String theProjectName) {
-        try {
-            currentProject = currentUser.getProject(theProjectName);
-        } catch (NoSuchObjectException e) {
-            e.printStackTrace();
+    public boolean addNewProject(String theProjectName) throws IOException {
+        Map<String, Project> userProjects = currentUser.getProjects();
+        boolean wasAdded = false;
+        if (!userProjects.containsKey(theProjectName)){
+            Project brandNewProject = new Project(currentUser, theProjectName);
+            currentUser.addProject(brandNewProject);
+            wasAdded = true;
         }
+        return wasAdded;
     }
 
     /**
@@ -215,23 +199,22 @@ public class PDC {
         try {
             // Get the project's serialized file path
             Path projectFilePath = currentUser.getProject(theProjectName).getMyFilePath();
-            System.out.println("TRYING EXPORT FROM: " + projectFilePath);
-            System.out.println("TRYING EXPORT TO: " + theFile.toPath());
+            //System.out.println("TRYING EXPORT FROM: " + projectFilePath);
+            //System.out.println("TRYING EXPORT TO: " + theFile.toPath());
             // Copy the project's serialized file to the specified destination
             Files.copy(projectFilePath, theFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-            System.out.println(theProjectName + " exported to " + theFile.getPath() + "\n");
+            //System.out.println(theProjectName + " exported to " + theFile.getPath() + "\n");
         } catch (NoSuchObjectException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
-            System.out.println("Error exporting: " + theProjectName);
+            //System.out.println("Error exporting: " + theProjectName);
             throw new RuntimeException(e);
         } catch (NullPointerException e) {
             System.out.println("Error exporting: " + theProjectName);
             e.printStackTrace();
         }
     }
-
 
     /**
      * Imports a Project to the Current User's List of Projects, then creates the appropriate file structure for the
@@ -253,52 +236,34 @@ public class PDC {
     }
 
     /**
-     * Creates a project using the provided string as a name, adds the project to the projects in the user's folder
-     *  and adds it to the list of projects of the user.
-     * @author Derek J. Ruiz Garcia
-     * @param theProjectName the name of the project we want to create and add to the users project list.
-     * @throws IOException if the users' folder doesn't exist in the appdata folder.
-     */
-
-    /**
-     * Creates a project and checks if a project with the provided name already exists. If a project with the
-     * provided name doesn't exist, then the project is added to the projects in the user's folder,
-     * to the list of projects of the user, and the method returns true. If a project with the
-     * provided name does exist, then the project is not added and the method returns false.
-     * @param theProjectName the name of the project we want to add
-     * @return a boolean value indicating whether the project was added to the users projects or not.
-     * @throws IOException if the Directory for this Project can't be made
-     * @author Derek J. Ruiz Garcia
-     */
-    public boolean addNewProject(String theProjectName) throws IOException {
-        Map<String, Project> userProjects = currentUser.getProjects();
-        boolean wasAdded = false;
-        if (!userProjects.containsKey(theProjectName)){
-            Project brandNewProject = new Project(currentUser, theProjectName);
-            currentUser.addProject(brandNewProject);
-            wasAdded = true;
-        }
-        return wasAdded;
-    }
-
-
-    /**
      * Deletes the project from the project's folder of the current user, and removes it from the list of projects
      * of the user.
      * @author Derek J. Ruiz Garcia
-     * @param theProjectName the name of the project we want to delete.
      * @return a boolean value indicating whether the project was deleted or not.
      * @throws NoSuchObjectException if the project we want to delete doesn't exist.
      * @throws NullPointerException if the current user or the current project is null.
      */
-    public boolean deleteCurrentProject(String theProjectName) throws NoSuchObjectException {
-        Project projectToDelete = currentUser.getProject(theProjectName);
-//        System.out.println("The project to delete is located at " + projectToDelete.getMyFilePath());
-        File projectFile = new File(projectToDelete.getMyFilePath().toString());
+    public boolean deleteCurrentProject() throws NoSuchObjectException {
+        boolean deleted = true;
+        File projectDirectory = new File(currentProject.getDirectoryPath().toString());
+        for(File nested : projectDirectory.listFiles()) {
+            try {
+                java.nio.file.Files.delete(nested.toPath());
+            } catch(IOException e) {
+                e.printStackTrace();
+                deleted = false;
+            }
+        }
+        try {
+            java.nio.file.Files.delete(projectDirectory.toPath());
+        } catch(IOException e) {
+            e.printStackTrace();
+            deleted = false;
+        }
         currentUser.deleteProject(currentProject.getMyProjectName());
         currentProject = null;
         currentTask = null;
-        return projectFile.delete();
+        return deleted;
     }
 
     /**
@@ -314,6 +279,8 @@ public class PDC {
         if(!purchaseExists){                                                    // if the purchase doesn't exist
             Purchase brandNewPurchase = new Purchase(thePurchaseName, theCost);
             currentTask.addPurchase(brandNewPurchase);
+            currentProject.recalculateTotalCost();
+            currentProject.recalculateCompleted();
         }
         return !purchaseExists;
     }
@@ -341,6 +308,8 @@ public class PDC {
         Purchase purchaseToDelete = currentTask.getPurchase(thePurchaseName);
         if(purchaseToDelete != null){
             currentTask.deletePurchase(purchaseToDelete);
+            currentProject.recalculateCompleted();
+            currentProject.recalculateTotalCost();
         }
     }
 
@@ -356,21 +325,9 @@ public class PDC {
         if(!theTaskExists){
             Task brandNewTask = new Task(theTaskName);
             currentProject.addTask(brandNewTask);
+            currentProject.recalculateCompleted();
         }
         return !theTaskExists;
-    }
-
-    /**
-     * Sets the current task to the task wih the name passed as a string. If there is not a task with the
-     * given name, the current task won't change.
-     * @param theTaskName the name of the task we want to set as current task.
-     * @author Derek J. Ruiz Garcia
-     */
-    public void setCurrentTask(String theTaskName){
-        boolean theTaskExists = currentProject.getAllTaskNames().contains(theTaskName);
-        if (theTaskExists) {
-            currentTask = currentProject.getTask(theTaskName);
-        }
     }
 
     /**
@@ -378,8 +335,14 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void deleteCurrentTask(){
-        currentProject.deleteTask(currentTask.getMyTaskName());
+        currentProject.deleteTask(currentTask.getTaskName());
+        currentProject.recalculateCompleted();
+        currentProject.recalculateTotalCost();
         currentTask = null;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
 
     /**
@@ -409,6 +372,7 @@ public class PDC {
         }
         return result;
     }
+<<<<<<< HEAD
     
     /**
      * Gets the status of a given task name.
@@ -424,6 +388,19 @@ public class PDC {
 //        }
         return false;
     }
+=======
+
+    /**
+     * This method returns a Set of Strings that represent the names of the Users Project. Use to populate information
+     * to the UI.
+     * @author Paul Schmidt
+     * @return the Set of Project Names
+     */
+    public Set<String> getProjectNames() {
+        return currentUser.getProjects().keySet();
+    }
+
+>>>>>>> origin/Model_Control
     /**
      * Returns a list of the tasks contained in the current project.
      * @return list of task objects located in the current project.
@@ -439,6 +416,15 @@ public class PDC {
     }
 
     /**
+     * Returns the completed status of the task.
+     * @param theTaskName the name of the task.
+     * @return true if completed, false otherwise.
+     */
+    public boolean getTaskStatus(final String theTaskName) {
+        return currentProject.getTask(theTaskName).getCompletedStatus();
+    }
+
+    /**
      * Returns the budget of the project.
      * @return the budget of the project as a BigDecimal.
      * @author Derek J. Ruiz Garcia
@@ -448,36 +434,12 @@ public class PDC {
     }
 
     /**
-     * Sets the budget of the project to the estimated budget passed as a parameter.
-     * @param theEstimatedBudget the budget that the project is going to have.
-     * @author Derek J. Ruiz Garcia
-     */
-    public void setProjectBudget(BigDecimal theEstimatedBudget){
-        currentProject.setProjectEstimate(theEstimatedBudget);
-    }
-
-    /**
      * Returns the cost of the project.
      * @return the total cost of the project as a BigDecimal.
      * @author Derek J. Ruiz Garcia
      */
     public BigDecimal getProjectCost(){
         return currentProject.getProjectCost();
-    }
-
-    /**
-     * Looks for the passed purchase name in the list of purchases of the current task, and
-     * if a purchase with the passed name is found, its completed status is set to the passed boolean value.
-     * @param thePurchaseName the name of the purchase as a String to which the status is going to be set to.
-     * @param theStatus a boolean value that will be given to the specified purchase (true means completed,
-     *                  false means incomplete).
-     * @author Derek J. Ruiz Garcia
-     */
-    public void setPurchaseStatus(String thePurchaseName, boolean theStatus){
-        if (currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
-            currentTask.getPurchase(thePurchaseName).setCompletedStatus(theStatus);
-            currentProject.recalculateCompleted();
-        }
     }
 
     /**
@@ -510,17 +472,91 @@ public class PDC {
     }
 
     /**
-     * Sets the currentUser to null.
+     * Returns the completed status of the Project.
+     * @return true if complete, false otherwise
+     */
+    public boolean getProjectStatus() {
+        return currentProject.getCompletedStatus();
+    }
+
+    /**
+     * Sets the budget of the project to the estimated budget passed as a parameter.
+     * @param theEstimatedBudget the budget that the project is going to have.
      * @author Derek J. Ruiz Garcia
      */
-    public void logoutUser(){
-        currentUser = null;
+    public void setProjectBudget(BigDecimal theEstimatedBudget){
+        currentProject.setProjectEstimate(theEstimatedBudget);
     }
 
-    public User getCurrentUser() {
-        return currentUser;
+    /**
+     * Looks for the passed purchase name in the list of purchases of the current task, and
+     * if a purchase with the passed name is found, its completed status is set to the passed boolean value.
+     * @param thePurchaseName the name of the purchase as a String to which the status is going to be set to.
+     * @param theStatus a boolean value that will be given to the specified purchase (true means completed,
+     *                  false means incomplete).
+     * @author Derek J. Ruiz Garcia
+     */
+    public void setPurchaseStatus(String thePurchaseName, boolean theStatus){
+        if (currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
+            currentTask.getPurchase(thePurchaseName).setCompletedStatus(theStatus);
+            currentProject.recalculateCompleted();
+        }
     }
 
+    /**
+     * Set the current active Project obj via passing the Project's name as a parameter.
+     * By setting the current project, the UI can populate Fields via other methods defined in the PDC class.
+     * @author Paul Schmidt
+     * @param theProjectName the name of the Project
+     */
+    public void setCurrentProject(final String theProjectName) {
+        try {
+            currentProject = currentUser.getProject(theProjectName);
+        } catch (NoSuchObjectException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Sets the current task to the task wih the name passed as a string. If there is not a task with the
+     * given name, the current task won't change.
+     * @param theTaskName the name of the task we want to set as current task.
+     * @author Derek J. Ruiz Garcia
+     */
+    public void setCurrentTask(String theTaskName){
+        boolean theTaskExists = currentProject.getAllTaskNames().contains(theTaskName);
+        if (theTaskExists) {
+            currentTask = currentProject.getTask(theTaskName);
+        }
+    }
+
+    /**
+     * This method is used for containing a reference to the User object after they've logged in. This reference is used
+     * in order to access information about the User including name, email, the User's Projects, etc.
+     * @author Paul Schmidt
+     * @param theUser The reference to the User instance to be saved for use by the program.
+     */
+    public void setCurrentUser( final User theUser) {
+        currentUser = theUser;
+    }
+
+    /**
+     * This method allows for the User's first name and Email address to be updated after the creation of the account.
+     * TODO Update the User's CSV line and the Users data folder name with the new email
+     * @author Paul Schmidt
+     * @param theFirstName The new first name of the User
+     * @param theEmail The new last name of the User
+     */
+    public void setUserInfo(final String theFirstName, final String theEmail) {
+        currentUser.setUserFirstName(theFirstName);
+        currentUser.setUserEmail(theEmail);
+        createSettingsFile();
+    }
+
+    /**
+     * DEPRECATED
+     * @param newProject
+     */
     public void addProjectToCurrentUser(Project newProject) {
         currentUser.addProject(newProject);
     }
