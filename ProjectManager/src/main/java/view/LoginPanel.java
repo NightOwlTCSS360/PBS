@@ -7,6 +7,7 @@ package view;
 import control.PDC;
 import model.CSVHandler;
 import model.User;
+import sdmxdl.desktop.Main;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -80,7 +81,9 @@ public class LoginPanel extends javax.swing.JPanel {
                         //Open the DashboardPanel
                         JOptionPane.showMessageDialog(LoginPanel.this,"Succeed", "Succeed", JOptionPane.ERROR_MESSAGE);
                         View v = (View)getParent().getParent().getParent().getParent().getParent();
-                        JPanel MainFrame = (JPanel)getParent().getParent().getParent().getParent();
+                        System.out.println("the view class: " + v.getClass().toString());
+                        JPanel MainFrame = (JPanel)getParent();
+                        System.out.println("the mainframe class: " +MainFrame.getClass().toString());
                         PDC controller = v.getController();
                         user.loadInUserProjects();
                         controller.setCurrentUser(user);
@@ -91,14 +94,17 @@ public class LoginPanel extends javax.swing.JPanel {
 //                        v.dispose();
                         //return;
 
+//                        ProjectPanel customProjectPanel = new ProjectPanel(controller);
+                        DashboardPanel customDashPanel = new DashboardPanel();
+//                        customDashPanel.add(customProjectPanel, 0);
+                        customDashPanel.setVisible(true);
+
                         //Remove twice
                         MainFrame.remove(0);
                         MainFrame.remove(0);
 
-
-
-                        //MainFrame.add(new DashboardPanel());
-                       // MainFrame.revalidate();
+                        MainFrame.add(customDashPanel);
+                        MainFrame.revalidate();
                         MainFrame.repaint();
 
                     } else {

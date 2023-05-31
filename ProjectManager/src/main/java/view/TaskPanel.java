@@ -42,7 +42,9 @@ public class TaskPanel extends javax.swing.JPanel {
         TaskName.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
         TaskName.setText(myTask);
 
-        status.setSelected(myController.getTaskStatus(myTask));
+        /** TODO Testing error for getting a task form a project that doesn't exist */
+//        status.setSelected(myController.getTaskStatus(myTask));
+        status.setSelected(false);
         status.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 statusActionPerformed(evt);
