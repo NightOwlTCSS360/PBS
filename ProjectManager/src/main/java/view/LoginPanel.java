@@ -65,6 +65,54 @@ public class LoginPanel extends javax.swing.JPanel {
         });
 
         jButton2.setText("Sign In");
+        CSVHandler csvHandler = new CSVHandler("users.csv");
+
+        jButton2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                String email = jTextField1.getText();
+                String password = new String(jPasswordField1.getPassword());
+
+                try {
+                    User user = csvHandler.loadUser(email);
+                    if (user != null && user.getMyPassword().equals(password)) {
+                        //Open the DashboardPanel
+                        JOptionPane.showMessageDialog(LoginPanel.this,"Succeed", "Succeed", JOptionPane.ERROR_MESSAGE);
+                        View v = (View)getParent().getParent().getParent().getParent().getParent();
+                        JPanel MainFrame = (JPanel)getParent().getParent().getParent().getParent();
+                        PDC controller = v.getController();
+                        user.loadInUserProjects();
+                        controller.setCurrentUser(user);
+//                        System.out.println("Current user set successfully!");
+//                        Dashboard dash = new Dashboard(controller);
+//                        dash.setLocationRelativeTo(null);
+//                        dash.setVisible(true);
+//                        v.dispose();
+                        //return;
+
+                        //Remove twice
+                        MainFrame.remove(0);
+                        MainFrame.remove(0);
+
+
+
+                        //MainFrame.add(new DashboardPanel());
+                       // MainFrame.revalidate();
+                        MainFrame.repaint();
+
+                    } else {
+                        // Display error message
+                        JOptionPane.showMessageDialog(LoginPanel.this,
+                                "Invalid username or password",
+                                "Login Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
 
         jLabel2.setText("Email");
 
