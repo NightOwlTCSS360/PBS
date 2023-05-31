@@ -150,9 +150,9 @@ public class ProjectPanel extends javax.swing.JPanel {
         PurchasesTitleLayout.setHorizontalGroup(
             PurchasesTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PurchasesTitleLayout.createSequentialGroup()
-                .addGap(138, 138, 138)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PurchasesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(139, 139, 139)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(PurchaseAdd)
                 .addGap(10, 10, 10))
         );
@@ -192,17 +192,17 @@ public class ProjectPanel extends javax.swing.JPanel {
         DescriptionLayout.setHorizontalGroup(
             DescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DescriptionLayout.createSequentialGroup()
-                .addGap(76, 76, 76)
+                .addContainerGap(76, Short.MAX_VALUE)
                 .addComponent(nameLabel)
-                .addGap(75, 75, 75)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(CostLabel)
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(StatusLabel)
-                .addGap(22, 22, 22))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         DescriptionLayout.setVerticalGroup(
             DescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,9 +289,15 @@ public class ProjectPanel extends javax.swing.JPanel {
         TaskList.setBackground(new java.awt.Color(250, 250, 250));
         TaskList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         TaskList.setPreferredSize(new java.awt.Dimension(200, 120));
+        //ArrayList<String> arr = myController.getTasks();
         ArrayList<String> arr = new ArrayList<>();
-        arr.add("task 1");
-        arr.add("task 2");
+        arr.add("task test");
+        arr.add("task test");
+        arr.add("task test");
+        arr.add("task test");
+        arr.add("task test");
+        arr.add("task test");
+        arr.add("task test");
         for (String task : arr) {
             TaskPanel t = new TaskPanel(task, myController);
             TaskList.add(t);
@@ -324,9 +330,7 @@ public class ProjectPanel extends javax.swing.JPanel {
                     .addComponent(ProjectTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(TaskTitle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PurchasesTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(Description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(Description, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(TaskListTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -353,9 +357,7 @@ public class ProjectPanel extends javax.swing.JPanel {
                         .addComponent(TaskListTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(TaskList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(PurchasesList, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))))
+                    .addComponent(PurchasesList, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -391,8 +393,6 @@ public class ProjectPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel nameLabel;
