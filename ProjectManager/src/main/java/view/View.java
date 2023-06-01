@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import control.PDC;
+import java.awt.Component;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -7,6 +7,9 @@ package view;
 import control.PDC;
 import java.util.ArrayList;
 import java.util.Set;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,11 +19,14 @@ public class ProjectList extends javax.swing.JPanel {
 
     private final PDC controller;
     
+    private ProjectPanel pp;
+    
     /**
      * Creates new form ProjectList
      * @param controller
      */
-    public ProjectList(final PDC controller) {
+    public ProjectList(final PDC controller, ProjectPanel pp) {
+        this.pp = pp;
         this.controller = controller;
         initComponents();
     }
@@ -34,10 +40,67 @@ public class ProjectList extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        createProjectDialog = new javax.swing.JDialog();
+        projectNameTextField = new javax.swing.JTextField();
+        projectNameLabel = new javax.swing.JLabel();
+        createProjectButton = new javax.swing.JButton();
+        cancelProjectButton = new javax.swing.JButton();
         ProjectListTitle = new javax.swing.JPanel();
         ProjectAdd = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         ProjectList = new javax.swing.JPanel();
+
+        projectNameTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                projectNameTextFieldActionPerformed(evt);
+            }
+        });
+
+        projectNameLabel.setText("Project Name:");
+
+        createProjectButton.setText("Create");
+        createProjectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createProjectButtoncreateProjectAction(evt);
+            }
+        });
+
+        cancelProjectButton.setText("Cancel");
+        cancelProjectButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelProjectButtoncancelProjectAction(evt);
+            }
+        });
+
+        javax.swing.GroupLayout createProjectDialogLayout = new javax.swing.GroupLayout(createProjectDialog.getContentPane());
+        createProjectDialog.getContentPane().setLayout(createProjectDialogLayout);
+        createProjectDialogLayout.setHorizontalGroup(
+            createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, createProjectDialogLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(createProjectDialogLayout.createSequentialGroup()
+                        .addComponent(projectNameLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(projectNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cancelProjectButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(createProjectButton)
+                .addContainerGap())
+        );
+        createProjectDialogLayout.setVerticalGroup(
+            createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(createProjectDialogLayout.createSequentialGroup()
+                .addGap(51, 51, 51)
+                .addGroup(createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(projectNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(projectNameLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
+                .addGroup(createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(createProjectButton)
+                    .addComponent(cancelProjectButton))
+                .addContainerGap())
+        );
 
         setBackground(new java.awt.Color(250, 250, 250));
 
@@ -110,14 +173,42 @@ public class ProjectList extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void ProjectAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProjectAddActionPerformed
-        // TODO add your handling code here:
+        createProjectDialog.pack();
+        createProjectDialog.setLocationRelativeTo(null);
+        projectNameTextField.setText("");
+        createProjectDialog.setVisible(true);
     }//GEN-LAST:event_ProjectAddActionPerformed
+
+    private void createProjectButtoncreateProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProjectButtoncreateProjectAction
+        try {
+            controller.addNewProject(projectNameTextField.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.ProjectList.add(new ProjectsPanel(this.projectNameTextField.getText(), controller));
+        this.ProjectList.revalidate();
+        this.ProjectList.repaint();
+        createProjectDialog.dispose();
+    }//GEN-LAST:event_createProjectButtoncreateProjectAction
+
+    private void cancelProjectButtoncancelProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelProjectButtoncancelProjectAction
+        createProjectDialog.dispose();
+    }//GEN-LAST:event_cancelProjectButtoncancelProjectAction
+
+    private void projectNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_projectNameTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_projectNameTextFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ProjectAdd;
     private javax.swing.JPanel ProjectList;
     private javax.swing.JPanel ProjectListTitle;
+    private javax.swing.JButton cancelProjectButton;
+    private javax.swing.JButton createProjectButton;
+    private javax.swing.JDialog createProjectDialog;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel projectNameLabel;
+    private javax.swing.JTextField projectNameTextField;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,6 +4,8 @@
  */
 package view;
 import control.PDC;
+import java.awt.Component;
+import java.util.List;
 import javax.swing.SwingUtilities;
 
 /**

@@ -40,8 +40,8 @@ public class DashboardPanel extends javax.swing.JPanel {
     public DashboardPanel(PDC controller) {
         this.controller = controller;
         initComponents();
-        ProjectList pl = new ProjectList(controller);
         ProjectPanel pp = new ProjectPanel(controller);
+        ProjectList pl = new ProjectList(controller, pp);
         this.add(pl, 0);
         this.add(pp, 1);
         this.revalidate();
