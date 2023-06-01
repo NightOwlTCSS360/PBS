@@ -34,29 +34,20 @@ public class TaskPanel extends javax.swing.JPanel {
 
         TaskName = new javax.swing.JLabel();
         status = new javax.swing.JCheckBox();
-        taskButton = new javax.swing.JToggleButton();
-
-        TaskName.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
-        TaskName.setText(myTask);
 
         setBackground(new java.awt.Color(250, 250, 250));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         setPreferredSize(new java.awt.Dimension(200, 30));
 
+        TaskName.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
+        TaskName.setText(myTask);
+
         /** TODO Testing error for getting a task form a project that doesn't exist */
 //        status.setSelected(myController.getTaskStatus(myTask));
         status.setSelected(false);
-
         status.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 statusActionPerformed(evt);
-            }
-        });
-
-        taskButton.setText(myTask);
-        taskButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                taskButtonActionPerformed(evt);
             }
         });
 
@@ -67,16 +58,16 @@ public class TaskPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(status)
-                .addGap(46, 46, 46)
-                .addComponent(taskButton)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(TaskName)
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(3, 3, 3)
+                .addGap(5, 5, 5)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(taskButton)
+                    .addComponent(TaskName)
                     .addComponent(status))
                 .addContainerGap())
         );
@@ -86,16 +77,9 @@ public class TaskPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_statusActionPerformed
 
-    private void taskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-        System.out.println("The task button is pressed");
-
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel TaskName;
-    private javax.swing.JToggleButton taskButton;
     private javax.swing.JCheckBox status;
     // End of variables declaration//GEN-END:variables
 }

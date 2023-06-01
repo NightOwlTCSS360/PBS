@@ -387,9 +387,15 @@ public class ProjectPanel extends javax.swing.JPanel {
 
     private void PurchaseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseAddActionPerformed
         // TODO add your handling code here:
-
-        // add the way to ask for the name and cost
-
+//        ArrayList<String> arr = new ArrayList<>();
+//        arr.add("task test");
+//        arr.add("task test");
+//        arr.add("task test");
+//        arr.add("task test");
+//        arr.add("task test");
+//        arr.add("task test");
+//        arr.add("task test");
+//        for (String task : arr) {
 //            String purchaseName = "";
 //            String purchaseCost = "";
 //            myController.addNewPurchase(purchaseName, new BigDecimal(purchaseCost));
