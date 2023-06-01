@@ -1,2 +1,2 @@
-NewUserName
-NewUserEmail@junit.org
+Ruiz
+derek@gmail
