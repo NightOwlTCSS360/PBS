@@ -81,9 +81,9 @@ public class LoginPanel extends javax.swing.JPanel {
                         //Open the DashboardPanel
                         JOptionPane.showMessageDialog(LoginPanel.this,"Succeed", "Succeed", JOptionPane.ERROR_MESSAGE);
                         View v = (View)getParent().getParent().getParent().getParent().getParent();
-                        System.out.println("the view class: " + v.getClass().toString());
+//                        System.out.println("the view class: " + v.getClass().toString());
                         JPanel MainFrame = (JPanel)getParent();
-                        System.out.println("the mainframe class: " +MainFrame.getClass().toString());
+//                        System.out.println("the mainframe class: " +MainFrame.getClass().toString());
                         PDC controller = v.getController();
                         user.loadInUserProjects();
                         controller.setCurrentUser(user);
