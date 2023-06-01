@@ -18,33 +18,25 @@ import java.util.Map;
  */
 public class User implements Serializable {
 
-    /**
-     * The Users Last Name
-     */
+    /** The Users Last Name */
     private String myUserLastName;
-    /**
-     * The User's First Name
-     */
+
+    /** The User's First Name */
     private String myUserFirstName;
-    /**
-     * The User's email
-     */
+
+    /** The User's email */
     private String myUserEmail;
-    /**
-     * The User's password
-     */
+
+    /** The User's password */
     private String myPassword;
-    /**
-     * Map of the User's Projects using the Projects' names as keys (String)
-     */
+
+    /** Map of the User's Projects using the Projects' names as keys (String) */
     private Map<String, Project> myProjects;
-    /**
-     * Path to the User's folder
-     */
+
+    /** Path to the User's folder */
     private transient Path myPath;
-    /**
-     * Serial ID
-     */
+
+    /** Serial ID */
     private static final long serialVersionUID = 15152023L;
 
     /**
@@ -67,16 +59,17 @@ public class User implements Serializable {
         myPassword = thePassword;
         myProjects = new HashMap<>();
         try {
+//            System.out.println("The directory: " + PDC.myDir);
             myPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUserEmail);
             if (Files.exists(myPath)) {
-                System.out.println(myPath.toRealPath() + " exists (User Directory)");
+               // System.out.println(myPath.toRealPath() + " exists (User Directory)");
             } else {
-                System.out.println(myPath.toString() + " doesn't exist. Creating Directory now...");
+                //System.out.println(myPath.toString() + " doesn't exist. Creating Directory now...");
                 Files.createDirectory(myPath);
                 if (Files.exists(myPath)) {
-                    System.out.println(myPath.toRealPath() + " created!");
+                    //System.out.println(myPath.toRealPath() + " created!");
                 } else {
-                    System.out.println("Error creating " + myPath.toString());
+                    //System.out.println("Error creating " + myPath.toString());
                 }
             }
         } catch (Exception e) {
@@ -99,9 +92,9 @@ public class User implements Serializable {
      */
     public void loadInUserProjects() {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(myPath)) {
-            System.out.println("Printing Directories in " + myUserFirstName + "'s directory:");
+            //System.out.println("Printing Directories in " + myUserFirstName + "'s directory:");
             for (Path projectFolder : stream) {
-                System.out.println(projectFolder.getFileName());
+                //System.out.println(projectFolder.getFileName());
                 try {
                     Project p = Project.deserialize(projectFolder + "/" + projectFolder.getFileName() + ".ser");
                     addProject(p);
@@ -123,13 +116,22 @@ public class User implements Serializable {
      */
     public void addProject(final Project theProject) {
         String pName = theProject.getMyProjectName();
-        if (myProjects.containsKey(pName)) {
-            System.out.println("Project " + pName + " already exists in " + myUserFirstName + "'s Projects, overwriting old project. . .");
-        } else {
-            System.out.println("Project " + pName + " doesn't exist in "+ myUserFirstName + "'s Projects, adding now. . .");
-        }
+//        if (myProjects.containsKey(pName)) {
+//            System.out.println("Project " + pName + " already exists in " + myUserFirstName + "'s Projects, overwriting old project. . .");
+//        } else {
+//            System.out.println("Project " + pName + " doesn't exist in "+ myUserFirstName + "'s Projects, adding now. . .");
+//        }
         theProject.serialize(PDC.myDir);
         myProjects.put(theProject.getMyProjectName(), theProject);
+    }
+
+    /**
+     * Deletes the project from the list of projects from the current user.
+     * @author Derek J. Ruiz Garcia
+     * @param theProjectName the name of the project we want to remove.
+     */
+    public void deleteProject(String theProjectName){
+        myProjects.remove(theProjectName);
     }
 
     /**
@@ -138,7 +140,7 @@ public class User implements Serializable {
      * @return the map of Projects
      */
     public Map<String, Project> getProjects() {
-        return myProjects;
+        return Map.copyOf(myProjects);
     }
 
     /**
@@ -157,6 +159,7 @@ public class User implements Serializable {
         }
         return result;
     }
+
     public void setUserLastName(String theUserLastname){
         myUserLastName = theUserLastname;
     }
