@@ -4,6 +4,8 @@
  */
 package view;
 import control.PDC;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -152,8 +154,8 @@ public class ProjectPanel extends javax.swing.JPanel {
             PurchasesTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PurchasesTitleLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(PurchasesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PurchasesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(125, 125, 125)
                 .addComponent(PurchaseAdd)
                 .addGap(10, 10, 10))
         );
@@ -193,7 +195,7 @@ public class ProjectPanel extends javax.swing.JPanel {
         DescriptionLayout.setHorizontalGroup(
             DescriptionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DescriptionLayout.createSequentialGroup()
-                .addContainerGap(76, Short.MAX_VALUE)
+                .addContainerGap(72, Short.MAX_VALUE)
                 .addComponent(nameLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -303,17 +305,7 @@ public class ProjectPanel extends javax.swing.JPanel {
         PurchasesList.setBackground(new java.awt.Color(250, 250, 250));
         PurchasesList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         PurchasesList.setPreferredSize(new java.awt.Dimension(200, 120));
-
-        javax.swing.GroupLayout PurchasesListLayout = new javax.swing.GroupLayout(PurchasesList);
-        PurchasesList.setLayout(PurchasesListLayout);
-        PurchasesListLayout.setHorizontalGroup(
-            PurchasesListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        PurchasesListLayout.setVerticalGroup(
-            PurchasesListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 298, Short.MAX_VALUE)
-        );
+        PurchasesList.setLayout(new javax.swing.BoxLayout(PurchasesList, javax.swing.BoxLayout.Y_AXIS));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -332,7 +324,7 @@ public class ProjectPanel extends javax.swing.JPanel {
                     .addComponent(TaskListTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TaskList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, 0)
-                .addComponent(PurchasesList, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+                .addComponent(PurchasesList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,16 +345,53 @@ public class ProjectPanel extends javax.swing.JPanel {
                         .addComponent(TaskListTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(TaskList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(PurchasesList, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)))
+                    .addComponent(PurchasesList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void TaskAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TaskAddActionPerformed
         // TODO add your handling code here:
+//        ArrayList<String> arr = new ArrayList<>();
+//        arr.add("task test");
+//        arr.add("task test");
+//        arr.add("task test");
+//        arr.add("task test");
+//        arr.add("task test");
+//        arr.add("task test");
+//        arr.add("task test");
+//        for (String task : arr) {
+
+        final String taskName = JOptionPane.showInputDialog(null, "Enter the task name",
+                        "Task name");
+
+        try{
+            if(taskName != null){
+//                myController.addNewTask(taskName);
+                TaskPanel t = new TaskPanel(taskName, myController);
+                TaskList.add(t);
+//                jLabel5.setText(taskName); //sets the label in the project panel
+                revalidate();
+                repaint();
+            }
+        } catch (NullPointerException e){
+            System.out.println("You canceled");
+        }
+
     }//GEN-LAST:event_TaskAddActionPerformed
 
     private void PurchaseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseAddActionPerformed
         // TODO add your handling code here:
+
+        // add the way to ask for the name and cost
+
+//            String purchaseName = "";
+//            String purchaseCost = "";
+//            myController.addNewPurchase(purchaseName, new BigDecimal(purchaseCost));
+            PurchasePanel pur = new PurchasePanel("owl", new BigDecimal("28.00").toString(), myController);
+            PurchasesList.add(pur);
+            revalidate();
+            repaint();
+//        }
     }//GEN-LAST:event_PurchaseAddActionPerformed
 
     private void TrashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TrashButtonActionPerformed
