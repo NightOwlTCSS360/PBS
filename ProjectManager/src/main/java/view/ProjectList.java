@@ -4,16 +4,24 @@
  */
 package view;
 
+import control.PDC;
+import java.util.ArrayList;
+import java.util.Set;
+
 /**
  *
  * @author Jarvis
  */
 public class ProjectList extends javax.swing.JPanel {
 
+    private final PDC controller;
+    
     /**
      * Creates new form ProjectList
+     * @param controller
      */
-    public ProjectList() {
+    public ProjectList(final PDC controller) {
+        this.controller = controller;
         initComponents();
     }
 
@@ -26,19 +34,97 @@ public class ProjectList extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        ProjectListTitle = new javax.swing.JPanel();
+        ProjectAdd = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        TaskList = new javax.swing.JPanel();
+
+        setBackground(new java.awt.Color(250, 250, 250));
+
+        ProjectListTitle.setBackground(new java.awt.Color(250, 250, 250));
+        ProjectListTitle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        ProjectListTitle.setPreferredSize(new java.awt.Dimension(200, 120));
+
+        ProjectAdd.setBackground(new java.awt.Color(250, 250, 250));
+        ProjectAdd.setFont(new java.awt.Font("Segoe UI Black", 1, 36)); // NOI18N
+        ProjectAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/add-button.png"))); // NOI18N
+        ProjectAdd.setAlignmentY(0.0F);
+        ProjectAdd.setBorder(null);
+        ProjectAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ProjectAddActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Projects List");
+
+        javax.swing.GroupLayout ProjectListTitleLayout = new javax.swing.GroupLayout(ProjectListTitle);
+        ProjectListTitle.setLayout(ProjectListTitleLayout);
+        ProjectListTitleLayout.setHorizontalGroup(
+            ProjectListTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ProjectListTitleLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ProjectAdd)
+                .addGap(14, 14, 14))
+        );
+        ProjectListTitleLayout.setVerticalGroup(
+            ProjectListTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ProjectListTitleLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(ProjectListTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
+                    .addComponent(ProjectAdd))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        TaskList.setBackground(new java.awt.Color(250, 250, 250));
+        TaskList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        TaskList.setPreferredSize(new java.awt.Dimension(200, 120));
+        //ArrayList<String> arr = myController.getTasks();
+        ArrayList<String> arr = new ArrayList<>();
+        arr.add("project test");
+        arr.add("project test");
+        arr.add("project test");
+        arr.add("project test");
+        arr.add("project test");
+        arr.add("project test");
+        arr.add("project test");
+        for (String task : arr) {
+            ProjectsPanel t = new ProjectsPanel(task, controller);
+            TaskList.add(t);
+        }
+        TaskList.setLayout(new javax.swing.BoxLayout(TaskList, javax.swing.BoxLayout.Y_AXIS));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
+            .addComponent(ProjectListTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+            .addComponent(TaskList, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(ProjectListTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(TaskList, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void ProjectAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProjectAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ProjectAddActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ProjectAdd;
+    private javax.swing.JPanel ProjectListTitle;
+    private javax.swing.JPanel TaskList;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

@@ -390,7 +390,6 @@ public class View extends javax.swing.JFrame {
         javax.swing.JPanel MainFrame = (javax.swing.JPanel)this.MainFrame;
         AboutPanel about = new AboutPanel((javax.swing.JPanel)this.MainFrame.getComponent(0));
         MainFrame.remove(0);
-        MainFrame.remove(0);
         MainFrame.add(about);
         MainFrame.revalidate();
         MainFrame.repaint();
