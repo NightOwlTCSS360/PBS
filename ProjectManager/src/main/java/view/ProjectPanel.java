@@ -381,16 +381,30 @@ public class ProjectPanel extends javax.swing.JPanel {
 
     private void PurchaseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseAddActionPerformed
         // TODO add your handling code here:
-
-        // add the way to ask for the name and cost
-
+//        for (String task : arr) {
 //            String purchaseName = "";
 //            String purchaseCost = "";
 //            myController.addNewPurchase(purchaseName, new BigDecimal(purchaseCost));
-            PurchasePanel pur = new PurchasePanel("owl", new BigDecimal("28.00").toString(), myController);
-            PurchasesList.add(pur);
-            revalidate();
-            repaint();
+//            JFrame purchasePopUpFrame = new JFrame();
+//            purchasePopUpFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+//            PurchasePopUpPanel myPPUP = new PurchasePopUpPanel();
+//            purchasePopUpFrame.add(purchasePopUpFrame);
+        PurchasePopUpPanel myPopUpPurchase = new PurchasePopUpPanel();
+        int confirm = JOptionPane.showOptionDialog(null, myPopUpPurchase, "Purchase", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+//        System.out.println("User selected: " + confirm);
+        try{
+            if(confirm == 0){
+                System.out.println("User clicked accept");
+                PurchasePanel pur = new PurchasePanel(myPopUpPurchase.getPurchaseName(), new BigDecimal(myPopUpPurchase.getPurchaseCost()).toString(), myController);
+                PurchasesList.add(pur);
+                revalidate();
+                repaint();
+            } else {
+                System.out.println("User clicked cancel");
+            }
+        } catch (NullPointerException e){
+            System.out.println("Error!");
+        }
 //        }
     }//GEN-LAST:event_PurchaseAddActionPerformed
 

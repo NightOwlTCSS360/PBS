@@ -45,7 +45,6 @@ public class TaskPanel extends javax.swing.JPanel {
         /** TODO Testing error for getting a task form a project that doesn't exist */
 //        status.setSelected(myController.getTaskStatus(myTask));
         status.setSelected(false);
-
         status.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 statusActionPerformed(evt);
