@@ -22,7 +22,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="ProjectListTitle" pref="212" max="32767" attributes="0"/>
-          <Component id="TaskList" alignment="0" pref="212" max="32767" attributes="0"/>
+          <Component id="ProjectList" alignment="0" pref="212" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -30,7 +30,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="ProjectListTitle" min="-2" pref="50" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              <Component id="TaskList" min="-2" pref="464" max="-2" attributes="0"/>
+              <Component id="ProjectList" min="-2" pref="464" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -111,7 +111,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="TaskList">
+    <Container class="javax.swing.JPanel" name="ProjectList">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="fa" green="fa" red="fa" type="rgb"/>
@@ -128,7 +128,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="//ArrayList&lt;String&gt; arr = myController.getTasks();&#xd;&#xa;ArrayList&lt;String&gt; arr = new ArrayList&lt;&gt;();&#xd;&#xa;arr.add(&quot;project test&quot;);&#xd;&#xa;arr.add(&quot;project test&quot;);&#xd;&#xa;arr.add(&quot;project test&quot;);&#xd;&#xa;arr.add(&quot;project test&quot;);&#xd;&#xa;arr.add(&quot;project test&quot;);&#xd;&#xa;arr.add(&quot;project test&quot;);&#xd;&#xa;arr.add(&quot;project test&quot;);&#xd;&#xa;for (String task : arr) {&#xd;&#xa;    ProjectsPanel t = new ProjectsPanel(task, controller);&#xd;&#xa;    TaskList.add(t);&#xd;&#xa;}"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="Set&lt;String&gt; s = controller.getProjectNames();&#xd;&#xa;//ArrayList&lt;String&gt; arr = new ArrayList&lt;&gt;();&#xd;&#xa;for (String project : s) {&#xd;&#xa;    ProjectsPanel p = new ProjectsPanel(project, controller);&#xd;&#xa;    ProjectList.add(p);&#xd;&#xa;}"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">

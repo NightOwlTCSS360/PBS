@@ -37,7 +37,7 @@ public class ProjectList extends javax.swing.JPanel {
         ProjectListTitle = new javax.swing.JPanel();
         ProjectAdd = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        TaskList = new javax.swing.JPanel();
+        ProjectList = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(250, 250, 250));
 
@@ -81,37 +81,30 @@ public class ProjectList extends javax.swing.JPanel {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        TaskList.setBackground(new java.awt.Color(250, 250, 250));
-        TaskList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        TaskList.setPreferredSize(new java.awt.Dimension(200, 120));
-        //ArrayList<String> arr = myController.getTasks();
-        ArrayList<String> arr = new ArrayList<>();
-        arr.add("project test");
-        arr.add("project test");
-        arr.add("project test");
-        arr.add("project test");
-        arr.add("project test");
-        arr.add("project test");
-        arr.add("project test");
-        for (String task : arr) {
-            ProjectsPanel t = new ProjectsPanel(task, controller);
-            TaskList.add(t);
+        ProjectList.setBackground(new java.awt.Color(250, 250, 250));
+        ProjectList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        ProjectList.setPreferredSize(new java.awt.Dimension(200, 120));
+        Set<String> s = controller.getProjectNames();
+        //ArrayList<String> arr = new ArrayList<>();
+        for (String project : s) {
+            ProjectsPanel p = new ProjectsPanel(project, controller);
+            ProjectList.add(p);
         }
-        TaskList.setLayout(new javax.swing.BoxLayout(TaskList, javax.swing.BoxLayout.Y_AXIS));
+        ProjectList.setLayout(new javax.swing.BoxLayout(ProjectList, javax.swing.BoxLayout.Y_AXIS));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(ProjectListTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-            .addComponent(TaskList, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+            .addComponent(ProjectList, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(ProjectListTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(TaskList, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ProjectList, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -123,8 +116,8 @@ public class ProjectList extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ProjectAdd;
+    private javax.swing.JPanel ProjectList;
     private javax.swing.JPanel ProjectListTitle;
-    private javax.swing.JPanel TaskList;
     private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

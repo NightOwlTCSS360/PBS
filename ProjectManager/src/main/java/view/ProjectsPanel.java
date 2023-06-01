@@ -4,6 +4,7 @@
  */
 package view;
 import control.PDC;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -37,6 +38,11 @@ public class ProjectsPanel extends javax.swing.JPanel {
         setBackground(new java.awt.Color(250, 250, 250));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         setPreferredSize(new java.awt.Dimension(200, 30));
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         TaskName.setFont(new java.awt.Font("Segoe UI Emoji", 1, 12)); // NOI18N
         TaskName.setText(myProject);
@@ -58,6 +64,10 @@ public class ProjectsPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        myController.setCurrentProject(this.TaskName.getText());
+    }//GEN-LAST:event_formMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

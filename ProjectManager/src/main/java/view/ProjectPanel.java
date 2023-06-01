@@ -5,6 +5,7 @@
 package view;
 import control.PDC;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 
@@ -289,15 +290,10 @@ public class ProjectPanel extends javax.swing.JPanel {
         TaskList.setBackground(new java.awt.Color(250, 250, 250));
         TaskList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         TaskList.setPreferredSize(new java.awt.Dimension(200, 120));
-        //ArrayList<String> arr = myController.getTasks();
-        ArrayList<String> arr = new ArrayList<>();
-        arr.add("task test");
-        arr.add("task test");
-        arr.add("task test");
-        arr.add("task test");
-        arr.add("task test");
-        arr.add("task test");
-        arr.add("task test");
+        List<String> arr = new ArrayList<String>();
+        if (myController.getCurrProjectName() != null)
+        arr = myController.getTasks();
+        //ArrayList<String> arr = new ArrayList<>();
         for (String task : arr) {
             TaskPanel t = new TaskPanel(task, myController);
             TaskList.add(t);

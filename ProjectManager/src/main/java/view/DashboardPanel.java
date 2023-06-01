@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
 import model.AppInfo;
 
@@ -35,7 +37,8 @@ public class DashboardPanel extends javax.swing.JPanel {
     /**
      * Creates new form AboutPanel
      */
-    public DashboardPanel() {
+    public DashboardPanel(PDC controller) {
+        this.controller = controller;
         initComponents();
         ProjectList pl = new ProjectList(controller);
         ProjectPanel pp = new ProjectPanel(controller);
