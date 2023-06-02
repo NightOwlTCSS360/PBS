@@ -164,7 +164,7 @@ public class Project implements Serializable {
         ObjectOutputStream oos = null;
         FileOutputStream fout = null;
         try{
-            fout = new FileOutputStream(filePath + "src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
+            fout = new FileOutputStream(filePath + "\\" + myUser.getUserEmail() + "/" +
                     myProjectName + "/" + myProjectName + ".ser", false);
             oos = new ObjectOutputStream(fout);
             oos.writeObject(this);
@@ -309,8 +309,8 @@ public class Project implements Serializable {
      * @author Paul Schmidt
      */
     private void updatePaths() {
-        myDirectoryPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUser.getUserEmail() + "/" +
+        myDirectoryPath = Paths.get(PDC.myDir + "\\" + myUser.getUserEmail() + "\\" +
                 myProjectName);
-        myFilePath = Paths.get(myDirectoryPath + "/" + myProjectName + ".ser");
+        myFilePath = Paths.get(myDirectoryPath + "\\" + myProjectName + ".ser");
     }
 }

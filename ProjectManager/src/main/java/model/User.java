@@ -60,7 +60,7 @@ public class User implements Serializable {
         myProjects = new HashMap<>();
         try {
 //            System.out.println("The directory: " + PDC.myDir);
-            myPath = Paths.get(PDC.myDir + "src/main/resources/appdata/" + myUserEmail);
+            myPath = Paths.get(PDC.myDir + "\\" + myUserEmail);
             if (Files.exists(myPath)) {
                // System.out.println(myPath.toRealPath() + " exists (User Directory)");
             } else {
@@ -96,7 +96,7 @@ public class User implements Serializable {
             for (Path projectFolder : stream) {
                 //System.out.println(projectFolder.getFileName());
                 try {
-                    Project p = Project.deserialize(projectFolder + "/" + projectFolder.getFileName() + ".ser");
+                    Project p = Project.deserialize(projectFolder + "\\" + projectFolder.getFileName() + ".ser");
                     addProject(p);
                 } catch (Exception e) {
                     throw new RuntimeException(e);

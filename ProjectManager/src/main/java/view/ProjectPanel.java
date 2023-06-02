@@ -27,10 +27,10 @@ public class ProjectPanel extends javax.swing.JPanel {
         initComponents();
     }
 
-    public void repopulateProjectsList() {
+    public void repopulatePurchasesList() {
         PurchasesList.removeAll();
-        for (String purchasename : myController.getPurchases()) {
-            PurchasesList.add(new PurchasePanel(purchasename, myController.getPurchaseCost(purchasename).toString(), myController));
+        for (String purchaseName : myController.getPurchases()) {
+            PurchasesList.add(new PurchasePanel(purchaseName, myController.getPurchaseCost(purchaseName).toString(), myController));
         }
         CurrentTaskNameField.setText(myController.getCurrTaskName());
         revalidate();
@@ -382,6 +382,7 @@ public class ProjectPanel extends javax.swing.JPanel {
                 TaskPanel t = new TaskPanel(taskName, myController);
                 TaskList.add(t);
                 myController.addNewTask(taskName);
+
 //                jLabel5.setText(taskName); //sets the label in the project panel
                 revalidate();
                 repaint();

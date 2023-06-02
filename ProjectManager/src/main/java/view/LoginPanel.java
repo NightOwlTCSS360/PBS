@@ -7,7 +7,6 @@ package view;
 import control.PDC;
 import model.CSVHandler;
 import model.User;
-import sdmxdl.desktop.Main;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;

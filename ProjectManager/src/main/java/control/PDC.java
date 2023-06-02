@@ -4,13 +4,18 @@ import model.projectdata.Project;
 import model.projectdata.Purchase;
 import model.projectdata.Task;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.rmi.NoSuchObjectException;
 import java.util.*;
+import java.util.List;
 
 /**
  * This class, PDC (aka Persistent Data Controller), acts as a control layer entity that helps manage the interactions
@@ -39,10 +44,24 @@ public class PDC {
         currentUser = null;
         currentProject = null;
         currentTask = null;
-        if (!System.getProperty("user.dir").contains("ProjectManager")) {
-            myDir = "ProjectManager\\";
-        } else {
-            myDir = "";
+        JFrame test = new JFrame();
+        test.setLayout(new GridLayout());
+        JLabel label = new JLabel();
+        label.setText(System.getProperty("user.home"));
+        test.add(label);
+        test.pack();
+        test.setPreferredSize(new Dimension(500, 500));
+        test.setLocationRelativeTo(null);
+        test.setVisible(true);
+        try {
+            Path appInfoDir = Paths.get(System.getProperty("user.home") + "\\ProjectBudgetingSystem\\");
+            if(!Files.exists(appInfoDir)) {
+                Files.createDirectory(appInfoDir);
+                Files.createFile(new File(appInfoDir + "\\users.csv").toPath());
+            }
+            myDir = appInfoDir.toString() + "\\";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -61,7 +80,7 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void createSettingsFile(){
-        final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
+        final String settingsLocation = myDir + "Settings.txt";
         File settingsFile = new File(settingsLocation);
 
         try {
@@ -91,7 +110,7 @@ public class PDC {
     public void importSettings(File theFileToImport) throws IOException {
         String fileName = theFileToImport.getName();
 
-        final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
+        final String settingsLocation = myDir + "Settings.txt";
         File settingsFile = new File(settingsLocation);
 
         try {
@@ -133,7 +152,7 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void exportSettings(File theFile) throws FileNotFoundException {
-        final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
+        final String settingsLocation = myDir + "Settings.txt";
         File localSettingsFile = new File(settingsLocation);
         final String exportingLocation = theFile.getPath();
 
@@ -184,6 +203,7 @@ public class PDC {
         if (!userProjects.containsKey(theProjectName)){
             Project brandNewProject = new Project(currentUser, theProjectName);
             currentUser.addProject(brandNewProject);
+            currentProject = brandNewProject;
             wasAdded = true;
         }
         return wasAdded;
@@ -330,6 +350,7 @@ public class PDC {
             currentProject.addTask(brandNewTask);
             currentProject.recalculateCompleted();
             currentProject.serialize(PDC.myDir);
+            currentTask = brandNewTask;
         }
         return !theTaskExists;
     }
