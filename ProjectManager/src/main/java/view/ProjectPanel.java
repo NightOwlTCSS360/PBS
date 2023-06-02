@@ -32,6 +32,7 @@ public class ProjectPanel extends javax.swing.JPanel {
         for (String purchasename : myController.getPurchases()) {
             PurchasesList.add(new PurchasePanel(purchasename, myController.getPurchaseCost(purchasename).toString(), myController));
         }
+        CurrentTaskNameField.setText(myController.getCurrTaskName());
         revalidate();
         repaint();
     }
@@ -48,7 +49,7 @@ public class ProjectPanel extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         TaskTitle = new javax.swing.JPanel();
         TrashButton = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
+        CurrentTaskNameField = new javax.swing.JLabel();
         PurchasesTitle = new javax.swing.JPanel();
         PurchaseAdd = new javax.swing.JButton();
         PurchasesLabel = new javax.swing.JLabel();
@@ -108,8 +109,12 @@ public class ProjectPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        jLabel5.setText(myController.getCurrTaskName());
+        CurrentTaskNameField.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        try{
+            CurrentTaskNameField.setText(myController.getCurrTaskName());
+        } catch (Exception e) {
+            CurrentTaskNameField.setText("");
+        }
 
         javax.swing.GroupLayout TaskTitleLayout = new javax.swing.GroupLayout(TaskTitle);
         TaskTitle.setLayout(TaskTitleLayout);
@@ -117,7 +122,7 @@ public class ProjectPanel extends javax.swing.JPanel {
             TaskTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TaskTitleLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5)
+                .addComponent(CurrentTaskNameField)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(TrashButton)
                 .addGap(7, 7, 7))
@@ -128,7 +133,7 @@ public class ProjectPanel extends javax.swing.JPanel {
                 .addGroup(TaskTitleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(TaskTitleLayout.createSequentialGroup()
                         .addGap(15, 15, 15)
-                        .addComponent(jLabel5))
+                        .addComponent(CurrentTaskNameField))
                     .addGroup(TaskTitleLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(TrashButton)))
@@ -439,7 +444,7 @@ public class ProjectPanel extends javax.swing.JPanel {
     private javax.swing.JPanel TaskTitle;
     private javax.swing.JButton TrashButton;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel CurrentTaskNameField;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
