@@ -6,7 +6,6 @@ nbproject/
 .idea/
 *.iml
 nb-configuration.xml
-nbactions.xml
 /nbbuild/
 /build/
 
