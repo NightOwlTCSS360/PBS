@@ -69,6 +69,8 @@ public class ProjectsPanel extends javax.swing.JPanel {
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         myController.setCurrentProject(this.TaskName.getText());
+        DashboardPanel db = (DashboardPanel)getParent().getParent().getParent();
+        db.repopulateProjectPanel();
     }//GEN-LAST:event_formMouseClicked
 
 
