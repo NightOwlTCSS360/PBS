@@ -44,22 +44,15 @@ public class PDC {
         currentUser = null;
         currentProject = null;
         currentTask = null;
-        JFrame test = new JFrame();
-        test.setLayout(new GridLayout());
-        JLabel label = new JLabel();
-        label.setText(System.getProperty("user.home"));
-        test.add(label);
-        test.pack();
-        test.setPreferredSize(new Dimension(500, 500));
-        test.setLocationRelativeTo(null);
-        test.setVisible(true);
+        //This looks for a ProjectBudgetingSystem in the user's home directory to store information.
+        //Creates one and adds a blank users.csv if they don't exist.
         try {
             Path appInfoDir = Paths.get(System.getProperty("user.home") + "\\ProjectBudgetingSystem\\");
             if(!Files.exists(appInfoDir)) {
                 Files.createDirectory(appInfoDir);
                 Files.createFile(new File(appInfoDir + "\\users.csv").toPath());
             }
-            myDir = appInfoDir.toString() + "\\";
+            myDir = appInfoDir + "\\";
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
