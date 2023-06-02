@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import control.PDC;
+import java.awt.Component;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -390,7 +391,6 @@ public class View extends javax.swing.JFrame {
         javax.swing.JPanel MainFrame = (javax.swing.JPanel)this.MainFrame;
         AboutPanel about = new AboutPanel((javax.swing.JPanel)this.MainFrame.getComponent(0));
         MainFrame.remove(0);
-        MainFrame.remove(0);
         MainFrame.add(about);
         MainFrame.revalidate();
         MainFrame.repaint();
@@ -406,7 +406,12 @@ public class View extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelSettingsButtoncancelSettingsAction
 
     private void createProjectButtoncreateProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProjectButtoncreateProjectAction
-        // TODO add your handling code here:
+        try {
+            controller.addNewProject(projectNameTextField.getText());
+        } catch (IOException ex) {
+            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        createProjectDialog.dispose();
     }//GEN-LAST:event_createProjectButtoncreateProjectAction
 
     private void cancelProjectButtoncancelProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelProjectButtoncancelProjectAction

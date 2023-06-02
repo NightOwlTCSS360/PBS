@@ -7,6 +7,7 @@ import control.PDC;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 
@@ -291,21 +292,14 @@ public class ProjectPanel extends javax.swing.JPanel {
         TaskList.setBackground(new java.awt.Color(250, 250, 250));
         TaskList.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         TaskList.setPreferredSize(new java.awt.Dimension(200, 120));
-        //ArrayList<String> arr = myController.getTasks();
-
-        //testing adding tasks
-//        ArrayList<String> arr = new ArrayList<>();
-//        arr.add("task test");
-//        arr.add("task test");
-//        arr.add("task test");
-//        arr.add("task test");
-//        arr.add("task test");
-//        arr.add("task test");
-//        arr.add("task test");
-//        for (String task : arr) {
-//            TaskPanel t = new TaskPanel(task, myController);
-//            TaskList.add(t);
-//        }
+        List<String> arr = new ArrayList<String>();
+        if (myController.getCurrProjectName() != null)
+        arr = myController.getTasks();
+        //ArrayList<String> arr = new ArrayList<>();
+        for (String task : arr) {
+            TaskPanel t = new TaskPanel(task, myController);
+            TaskList.add(t);
+        }
         TaskList.setLayout(new javax.swing.BoxLayout(TaskList, javax.swing.BoxLayout.Y_AXIS));
 
         PurchasesList.setBackground(new java.awt.Color(250, 250, 250));
@@ -387,16 +381,30 @@ public class ProjectPanel extends javax.swing.JPanel {
 
     private void PurchaseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseAddActionPerformed
         // TODO add your handling code here:
-
-        // add the way to ask for the name and cost
-
+//        for (String task : arr) {
 //            String purchaseName = "";
 //            String purchaseCost = "";
 //            myController.addNewPurchase(purchaseName, new BigDecimal(purchaseCost));
-            PurchasePanel pur = new PurchasePanel("owl", new BigDecimal("28.00").toString(), myController);
-            PurchasesList.add(pur);
-            revalidate();
-            repaint();
+//            JFrame purchasePopUpFrame = new JFrame();
+//            purchasePopUpFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+//            PurchasePopUpPanel myPPUP = new PurchasePopUpPanel();
+//            purchasePopUpFrame.add(purchasePopUpFrame);
+        PurchasePopUpPanel myPopUpPurchase = new PurchasePopUpPanel();
+        int confirm = JOptionPane.showOptionDialog(null, myPopUpPurchase, "Purchase", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+//        System.out.println("User selected: " + confirm);
+        try{
+            if(confirm == 0){
+                System.out.println("User clicked accept");
+                PurchasePanel pur = new PurchasePanel(myPopUpPurchase.getPurchaseName(), new BigDecimal(myPopUpPurchase.getPurchaseCost()).toString(), myController);
+                PurchasesList.add(pur);
+                revalidate();
+                repaint();
+            } else {
+                System.out.println("User clicked cancel");
+            }
+        } catch (NullPointerException e){
+            System.out.println("Error!");
+        }
 //        }
     }//GEN-LAST:event_PurchaseAddActionPerformed
 

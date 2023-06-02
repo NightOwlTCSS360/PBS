@@ -95,7 +95,7 @@ public class LoginPanel extends javax.swing.JPanel {
                         //return;
 
 //                        ProjectPanel customProjectPanel = new ProjectPanel(controller);
-                        DashboardPanel customDashPanel = new DashboardPanel();
+                        DashboardPanel customDashPanel = new DashboardPanel(controller);
 //                        customDashPanel.add(customProjectPanel, 0);
                         customDashPanel.setVisible(true);
 
