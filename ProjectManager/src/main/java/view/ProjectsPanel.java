@@ -4,9 +4,6 @@
  */
 package view;
 import control.PDC;
-import java.awt.Component;
-import java.util.List;
-import javax.swing.SwingUtilities;
 
 /**
  *
@@ -42,7 +39,7 @@ public class ProjectsPanel extends javax.swing.JPanel {
         setPreferredSize(new java.awt.Dimension(200, 30));
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                formMouseClicked(evt);
+                setCurrentProjectAction(evt);
             }
         });
 
@@ -67,7 +64,7 @@ public class ProjectsPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+    private void setCurrentProjectAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         myController.setCurrentProject(this.TaskName.getText());
         DashboardPanel db = (DashboardPanel)getParent().getParent().getParent();
         db.repopulateProjectPanel();

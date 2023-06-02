@@ -500,6 +500,7 @@ public class PDC {
     public void setCurrentProject(final String theProjectName) {
         try {
             currentProject = currentUser.getProject(theProjectName);
+            currentTask = null;
         } catch (NoSuchObjectException e) {
             e.printStackTrace();
         }

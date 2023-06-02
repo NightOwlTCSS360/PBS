@@ -28,6 +28,7 @@ public class DashboardPanel extends javax.swing.JPanel {
     private javax.swing.JPanel myLast;
     
     private PDC controller = new PDC();
+    private ProjectList pl;
     
     /**
      * The AppInfo object used by the GUI
@@ -41,7 +42,7 @@ public class DashboardPanel extends javax.swing.JPanel {
         this.controller = controller;
         initComponents();
         ProjectPanel pp = new ProjectPanel(controller);
-        ProjectList pl = new ProjectList(controller, pp);
+        pl = new ProjectList(controller, pp);
         this.add(pl, 0);
         this.add(pp, 1);
         this.revalidate();
@@ -53,6 +54,12 @@ public class DashboardPanel extends javax.swing.JPanel {
         this.add(new ProjectPanel(controller),1);
         this.revalidate();
         this.repaint();
+    }
+
+    public void repopulateProjectList() {
+        pl.repopulateProjectsList();
+        revalidate();
+        repaint();
     }
     
     /**
@@ -113,6 +120,8 @@ public class DashboardPanel extends javax.swing.JPanel {
     public javax.swing.JPanel getObject() {
         return myLast;
     }
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables

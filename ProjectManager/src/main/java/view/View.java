@@ -3,13 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-import java.util.Arrays;
 
-import javax.swing.BorderFactory;
-
-import com.formdev.flatlaf.FlatLightLaf;
 import control.PDC;
-import java.awt.Component;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,6 +19,8 @@ import javax.swing.JFileChooser;
 public class View extends javax.swing.JFrame {
 
     private PDC controller;
+
+    private DashboardPanel dbp;
     /**
      * Creates new form StartGUI
      */
@@ -233,7 +231,7 @@ public class View extends javax.swing.JFrame {
         importProjectsMenuItem.setText("Import Projects");
         importProjectsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                importProjectsMenuItemimportSettingsAction(evt);
+                importProjectAction(evt);
             }
         });
         fileMenu.add(importProjectsMenuItem);
@@ -241,7 +239,7 @@ public class View extends javax.swing.JFrame {
         exportProjectsMenuItem.setText("Export Projects");
         exportProjectsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportProjectsMenuItemimportSettingsAction(evt);
+                exportProjectAction(evt);
             }
         });
         fileMenu.add(exportProjectsMenuItem);
@@ -324,24 +322,19 @@ public class View extends javax.swing.JFrame {
         createProjectDialog.setVisible(true);
     }//GEN-LAST:event_createProjectMenuItemcreateProjectMenuAction
 
-    private void importProjectsMenuItemimportSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importProjectsMenuItemimportSettingsAction
+    private void importProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importProjectsMenuItemimportSettingsAction
         int returnVal = jFileChooser1.showOpenDialog(View.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                controller.importSettings(jFileChooser1.getSelectedFile());
-            } catch (IOException ex) {
-                Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            controller.importProject(jFileChooser1.getSelectedFile());
+            dbp.repopulateProjectList();
         }
     }//GEN-LAST:event_importProjectsMenuItemimportSettingsAction
 
-    private void exportProjectsMenuItemimportSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportProjectsMenuItemimportSettingsAction
+    private void exportProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportProjectsMenuItemimportSettingsAction
         int returnVal = jFileChooser1.showOpenDialog(View.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
-            try {
-                controller.importSettings(jFileChooser1.getSelectedFile());
-            } catch (IOException ex) {
-                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+            if (controller.getCurrProjectName() != null) {
+                controller.exportProject(controller.getCurrProjectName(),jFileChooser1.getSelectedFile());
             }
         }
     }//GEN-LAST:event_exportProjectsMenuItemimportSettingsAction
@@ -469,5 +462,9 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JMenuItem signOutMenuItem;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernameTextField;
+
+    public void setDashBoardPanel(DashboardPanel customDashPanel) {
+        dbp = customDashPanel;
+    }
     // End of variables declaration//GEN-END:variables
 }
