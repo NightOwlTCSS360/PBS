@@ -281,6 +281,7 @@ public class PDC {
             currentTask.addPurchase(brandNewPurchase);
             currentProject.recalculateTotalCost();
             currentProject.recalculateCompleted();
+            currentProject.serialize(PDC.myDir);
         }
         return !purchaseExists;
     }
@@ -297,6 +298,7 @@ public class PDC {
             Purchase theChosenPurchase = currentTask.getPurchase(thePurchaseName);
             theChosenPurchase.editCost(theNewCost);
             currentProject.recalculateTotalCost();
+            currentProject.serialize(PDC.myDir);
         }
     }
 
@@ -310,6 +312,7 @@ public class PDC {
             currentTask.deletePurchase(purchaseToDelete);
             currentProject.recalculateCompleted();
             currentProject.recalculateTotalCost();
+            currentProject.serialize(PDC.myDir);
         }
     }
 
@@ -326,6 +329,7 @@ public class PDC {
             Task brandNewTask = new Task(theTaskName);
             currentProject.addTask(brandNewTask);
             currentProject.recalculateCompleted();
+            currentProject.serialize(PDC.myDir);
         }
         return !theTaskExists;
     }
@@ -338,6 +342,7 @@ public class PDC {
         currentProject.deleteTask(currentTask.getTaskName());
         currentProject.recalculateCompleted();
         currentProject.recalculateTotalCost();
+        currentProject.serialize(PDC.myDir);
         currentTask = null;
     }
 
@@ -482,6 +487,7 @@ public class PDC {
         if (currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
             currentTask.getPurchase(thePurchaseName).setCompletedStatus(theStatus);
             currentProject.recalculateCompleted();
+            currentProject.serialize(PDC.myDir);
         }
     }
 

@@ -47,6 +47,13 @@ public class DashboardPanel extends javax.swing.JPanel {
         this.revalidate();
         this.repaint();
     }
+
+    public void repopulateProjectPanel() {
+        this.remove(1);
+        this.add(new ProjectPanel(controller),1);
+        this.revalidate();
+        this.repaint();
+    }
     
     /**
      * Creates new About with type obj

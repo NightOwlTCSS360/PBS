@@ -27,6 +27,14 @@ public class ProjectPanel extends javax.swing.JPanel {
         initComponents();
     }
 
+    public void repopulateProjectsList() {
+        PurchasesList.removeAll();
+        for (String purchasename : myController.getPurchases()) {
+            PurchasesList.add(new PurchasePanel(purchasename, myController.getPurchaseCost(purchasename).toString(), myController));
+        }
+        revalidate();
+        repaint();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -366,9 +374,9 @@ public class ProjectPanel extends javax.swing.JPanel {
 
         try{
             if(taskName != null){
-//                myController.addNewTask(taskName);
                 TaskPanel t = new TaskPanel(taskName, myController);
                 TaskList.add(t);
+                myController.addNewTask(taskName);
 //                jLabel5.setText(taskName); //sets the label in the project panel
                 revalidate();
                 repaint();
@@ -397,6 +405,7 @@ public class ProjectPanel extends javax.swing.JPanel {
                 System.out.println("User clicked accept");
                 PurchasePanel pur = new PurchasePanel(myPopUpPurchase.getPurchaseName(), new BigDecimal(myPopUpPurchase.getPurchaseCost()).toString(), myController);
                 PurchasesList.add(pur);
+                myController.addNewPurchase(myPopUpPurchase.getPurchaseName(), new BigDecimal(myPopUpPurchase.getPurchaseCost().toString()));
                 revalidate();
                 repaint();
             } else {
@@ -435,5 +444,6 @@ public class ProjectPanel extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JLabel nameLabel;
+
     // End of variables declaration//GEN-END:variables
 }

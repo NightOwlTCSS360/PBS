@@ -21,6 +21,11 @@ public class TaskPanel extends javax.swing.JPanel {
         myTask = theTask;
         myController = theController;
         initComponents();
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
     }
 
     /**
@@ -76,7 +81,13 @@ public class TaskPanel extends javax.swing.JPanel {
     private void statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_statusActionPerformed
-
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        myController.setCurrentTask(this.myTask);
+        ProjectPanel pp = (ProjectPanel)getParent().getParent();
+        pp.repopulateProjectsList();
+        revalidate();
+        repaint();
+    }//GEN-LAST:event_formMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel TaskName;
