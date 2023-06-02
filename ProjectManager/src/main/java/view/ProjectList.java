@@ -31,6 +31,16 @@ public class ProjectList extends javax.swing.JPanel {
         initComponents();
     }
 
+    public void repopulateProjectsList() {
+        ProjectList.removeAll();
+        Set<String> s = controller.getProjectNames();
+        for (String project : s) {
+            ProjectsPanel p = new ProjectsPanel(project, controller);
+            ProjectList.add(p);
+        }
+        revalidate();
+        repaint();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
