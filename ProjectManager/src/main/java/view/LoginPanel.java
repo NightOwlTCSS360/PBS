@@ -47,7 +47,6 @@ public class LoginPanel extends javax.swing.JPanel {
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
-        jButton3 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setToolTipText("");
@@ -81,16 +80,32 @@ public class LoginPanel extends javax.swing.JPanel {
                         //Open the DashboardPanel
                         JOptionPane.showMessageDialog(LoginPanel.this,"Succeed", "Succeed", JOptionPane.ERROR_MESSAGE);
                         View v = (View)getParent().getParent().getParent().getParent().getParent();
+//                        System.out.println("the view class: " + v.getClass().toString());
+                        JPanel MainFrame = (JPanel)getParent();
+//                        System.out.println("the mainframe class: " +MainFrame.getClass().toString());
                         PDC controller = v.getController();
                         user.loadInUserProjects();
                         controller.setCurrentUser(user);
-                        System.out.println("Current user set successfully!");
-                        Dashboard dash = new Dashboard(controller);
-                        dash.setLocationRelativeTo(null);
-                        dash.setVisible(true);
-                        v.dispose();
+//                        System.out.println("Current user set successfully!");
+//                        Dashboard dash = new Dashboard(controller);
+//                        dash.setLocationRelativeTo(null);
+//                        dash.setVisible(true);
+//                        v.dispose();
                         //return;
 
+//                        ProjectPanel customProjectPanel = new ProjectPanel(controller);
+                        DashboardPanel customDashPanel = new DashboardPanel(controller);
+//                        customDashPanel.add(customProjectPanel, 0);
+                        v.setDashBoardPanel(customDashPanel);
+                        customDashPanel.setVisible(true);
+
+                        //Remove twice
+                        MainFrame.remove(0);
+                        MainFrame.remove(0);
+
+                        MainFrame.add(customDashPanel);
+                        MainFrame.revalidate();
+                        MainFrame.repaint();
 
                     } else {
                         // Display error message
@@ -121,13 +136,6 @@ public class LoginPanel extends javax.swing.JPanel {
             }
         });
 
-        jButton3.setLabel("About");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,13 +153,8 @@ public class LoginPanel extends javax.swing.JPanel {
                     .addComponent(jPasswordField1))
                 .addGap(62, 62, 62))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(122, 122, 122)
-                        .addComponent(jLabel1)))
+                .addGap(122, 122, 122)
+                .addComponent(jLabel1)
                 .addGap(122, 122, 122))
         );
         layout.setVerticalGroup(
@@ -171,9 +174,7 @@ public class LoginPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addContainerGap())
+                .addContainerGap(126, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -195,21 +196,10 @@ public class LoginPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        javax.swing.JPanel MainFrame = ((javax.swing.JPanel)this.getParent());
-        AboutPanel about = new AboutPanel();
-        MainFrame.remove(0);
-        MainFrame.remove(0);
-        MainFrame.add(about);
-        MainFrame.revalidate();
-        MainFrame.repaint();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

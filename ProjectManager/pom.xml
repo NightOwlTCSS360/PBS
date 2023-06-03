@@ -29,7 +29,7 @@
     <dependency>
         <groupId>com.formdev</groupId>
         <artifactId>flatlaf</artifactId>
-        <version>1.2</version>
+        <version>3.0</version>
       <type>jar</type>
     </dependency>
         <dependency>
@@ -37,11 +37,40 @@
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-migration-support</artifactId>
+            <version>5.0.0-M4</version>
+        </dependency>
         <!--        <dependency>
                     <groupId>unknown.binary</groupId>
                     <artifactId>AbsoluteLayout</artifactId>
                     <version>SNAPSHOT</version>
                 </dependency>-->
-   </dependencies>
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>AbsoluteLayout</artifactId>
+            <version>RELEASE170</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <!-- Build an executable JAR -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>control.ProjectManagerMain</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
   
 </project>

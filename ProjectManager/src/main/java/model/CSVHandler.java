@@ -15,7 +15,7 @@ public class CSVHandler {
     private final String fileName;
 
     public CSVHandler(String fileName) {
-        this.fileName = PDC.myDir + "src/main/resources/" + fileName;
+        this.fileName = PDC.myDir + fileName;
     }
 
     public List<String[]> readAll() throws IOException {
