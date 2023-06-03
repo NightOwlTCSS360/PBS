@@ -26,7 +26,7 @@ class PDCSettingsTest {
     void createSettingsFile() {
         control.createSettingsFile();
         try {
-            Scanner input = new Scanner(new File(PDC.myDir + "src\\main\\resources\\Settings\\Settings.txt"));
+            Scanner input = new Scanner(new File(PDC.myDir + "Settings.txt"));
             assertEquals(control.getCurrentUser().getMyUserFirstName(), input.nextLine());
             assertEquals(control.getCurrentUser().getUserEmail(), input.nextLine());
         } catch (FileNotFoundException e) {
@@ -37,9 +37,9 @@ class PDCSettingsTest {
     @Test
     void importSettings() {
         try {
-            control.importSettings(new File(PDC.myDir + "src\\test\\java\\test\\testdata\\Settings.txt"));
+            control.importSettings(new File(PDC.myDir + "ImportedSettings.txt"));
             try {
-                Scanner input = new Scanner(new File(PDC.myDir + "src\\main\\resources\\Settings\\Settings.txt"));
+                Scanner input = new Scanner(new File(PDC.myDir + "ImportedSettings.txt"));
                 assertEquals("NewUserName", input.nextLine());
                 assertEquals("NewUserEmail@junit.org", input.nextLine());
             } catch (IOException e) {
@@ -54,8 +54,8 @@ class PDCSettingsTest {
     void exportSettings() {
         try {
             control.createSettingsFile();
-            control.exportSettings(new File(PDC.myDir + "src\\test\\java\\test\\testdata\\ExportedSettings.txt"));
-            Scanner export = new Scanner(new File(PDC.myDir + "src\\test\\java\\test\\testdata\\ExportedSettings.txt"));
+            control.exportSettings(new File(PDC.myDir + "ExportedSettings.txt"));
+            Scanner export = new Scanner(new File(PDC.myDir + "ExportedSettings.txt"));
 
             assertEquals(control.getCurrentUser().getMyUserFirstName(), export.nextLine());
             assertEquals(control.getCurrentUser().getUserEmail(), export.nextLine());

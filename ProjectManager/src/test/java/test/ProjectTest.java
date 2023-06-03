@@ -62,7 +62,7 @@ class ProjectTest {
         control.setCurrentTask("testTask");
 
         secondTestProject.serialize(PDC.myDir);
-        String filePath = "src\\main\\resources\\appdata\\myEmail\\mySecondProject\\mySecondProject.ser";
+        String filePath = PDC.myDir + "myEmail\\mySecondProject\\mySecondProject.ser";
         File projectFile = new File(filePath);
         if(projectFile.exists()){
             Project obtainedProject = new Project(testUser, Project.deserialize(filePath));
@@ -225,13 +225,13 @@ class ProjectTest {
 
     @Test
     void getDirectoryPath() {
-        String path = "src\\main\\resources\\appdata\\myEmail\\myProject";
+        String path = PDC.myDir + "myEmail\\myProject";
         assertEquals(path, testProject.getDirectoryPath().toString());
     }
 
     @Test
     void getMyFilePath() {
-        String path = "src\\main\\resources\\appdata\\myEmail\\myProject\\myProject.ser";
+        String path = PDC.myDir + "myEmail\\myProject\\myProject.ser";
         assertEquals(path, testProject.getMyFilePath().toString());
     }
 
