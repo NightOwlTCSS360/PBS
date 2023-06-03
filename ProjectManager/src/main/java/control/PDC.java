@@ -471,6 +471,21 @@ public class PDC {
         }
         return result;
     }
+    
+    /**
+     * Returns the status of a purchase associated with the current task, given the purchase name.
+     * @author Derek J. Ruiz Garcia
+     * @param thePurchaseName the name of the purchase.
+     * @return the status of the purchase as a boolean, will return false if the purchase is not
+     * selected, and if it's not found.
+     */
+    public boolean getPurchaseStatus(final String thePurchaseName){
+        boolean result = false;
+        if(currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
+            result = currentTask.getPurchase(thePurchaseName).getCompletedStatus();
+        }
+        return result;
+    }
 
     /**
      * Returns the completed status of the Project.
