@@ -271,11 +271,11 @@ public class AboutPanel extends javax.swing.JPanel {
         if (myLast == null) {
             LoginPanel login = new LoginPanel();
             MainFrame.add(login, 0);
+            MainFrame.add(logo, 1);
         } else {
             MainFrame.add(myLast, 0);
         }
-
-        //MainFrame.add(logo, 1);
+        
         MainFrame.revalidate();
         MainFrame.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed

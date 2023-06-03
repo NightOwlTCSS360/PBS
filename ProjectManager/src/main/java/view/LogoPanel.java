@@ -32,9 +32,7 @@ public class LogoPanel extends javax.swing.JPanel {
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/OwlLogo.png"))); // NOI18N
         jLabel4.setDoubleBuffered(true);
-        jLabel4.setMaximumSize(new java.awt.Dimension(400, 500));
-        jLabel4.setMinimumSize(new java.awt.Dimension(400, 500));
-        jLabel4.setPreferredSize(new java.awt.Dimension(400, 500));
+        jLabel4.setPreferredSize(new java.awt.Dimension(405, 500));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
