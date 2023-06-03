@@ -9,8 +9,9 @@ import control.PDC;
 import javax.swing.*;
 
 /**
- *
- * @author derek
+ * A Panel used to represent a purchase.
+ * @author Derek J. Ruiz Garcia
+ * @version 6/3/2023
  */
 public class PurchasePanel extends javax.swing.JPanel {
 
@@ -24,13 +25,21 @@ public class PurchasePanel extends javax.swing.JPanel {
     private final PDC myController;
 
     /**
-     * Creates new form PurchasePanel
+     * A constructor for the purchase panel.
+     * @param thePurchaseName the name of the purchase this panel will represent as a string.
+     * @param theCost the cost of the purchase as a string linked to this panel.
+     * @param theStatus the completed status of the purchase as a boolean.
+     * @param theController the PDC controller that this panel will use to update the data.
+     * @author Derek J. Ruiz Garcia
      */
-    public PurchasePanel(String thePurchaseName, String theCost, PDC theController) {
+    public PurchasePanel(String thePurchaseName, String theCost, boolean theStatus, PDC theController) {
         myPurchaseName = thePurchaseName;
         myCost = theCost;
         myController = theController;
         initComponents();
+        purchaseLabel.setText(thePurchaseName);
+        costLabel.setText(theCost);
+        statusCheckBox.setSelected(theStatus);
     }
 
     /**
@@ -43,26 +52,22 @@ public class PurchasePanel extends javax.swing.JPanel {
     private void initComponents() {
 
         costLabel = new javax.swing.JLabel();
-        checkBoxStatus = new javax.swing.JCheckBox();
-        purchaseNameLabel = new javax.swing.JLabel();
+        statusCheckBox = new javax.swing.JCheckBox();
+        purchaseLabel = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         setPreferredSize(new java.awt.Dimension(400, 30));
 
-        costLabel.setText(myCost);
+        costLabel.setText("<Purchase Cost>");
 
-        checkBoxStatus.addActionListener(new java.awt.event.ActionListener() {
+        statusCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkBoxStatusActionPerformed(evt);
             }
         });
 
-        /** TODO Testing error for getting a task form a project that doesn't exist */
-//        status.setSelected(myController.getTaskStatus(myTask));
-        checkBoxStatus.setSelected(false);
-
-        purchaseNameLabel.setText(myPurchaseName);
+        purchaseLabel.setText("<PurchaseName>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -70,11 +75,11 @@ public class PurchasePanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(purchaseNameLabel)
+                .addComponent(purchaseLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(costLabel)
                 .addGap(48, 48, 48)
-                .addComponent(checkBoxStatus)
+                .addComponent(statusCheckBox)
                 .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
@@ -82,23 +87,30 @@ public class PurchasePanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(checkBoxStatus)
+                    .addComponent(statusCheckBox)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(costLabel)
-                        .addComponent(purchaseNameLabel)))
+                        .addComponent(purchaseLabel)))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Action performed listener for the checkbox.
+     * @param evt the event linked to the checkbox
+     * @author Derek J. Ruiz Garcia
+     */
     private void checkBoxStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusActionPerformed
         // TODO add your handling code here:
         AbstractButton abs = (AbstractButton) evt.getSource();
-//        myController.setPurchaseStatus(myPurchaseName, abs.getModel().isSelected());
+        myController.setPurchaseStatus(myPurchaseName, abs.getModel().isSelected());
+        revalidate();
+        repaint();
     }//GEN-LAST:event_statusActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox checkBoxStatus;
     private javax.swing.JLabel costLabel;
-    private javax.swing.JLabel purchaseNameLabel;
+    private javax.swing.JLabel purchaseLabel;
+    private javax.swing.JCheckBox statusCheckBox;
     // End of variables declaration//GEN-END:variables
 }
