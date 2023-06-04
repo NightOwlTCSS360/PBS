@@ -98,6 +98,7 @@ public class LoginPanel extends javax.swing.JPanel {
 //                        customDashPanel.add(customProjectPanel, 0);
                         v.setDashBoardPanel(customDashPanel);
                         customDashPanel.setVisible(true);
+                        v.setMenuBarVisibility(true);
 
                         //Remove twice
                         MainFrame.remove(0);
