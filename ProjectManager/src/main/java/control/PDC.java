@@ -4,12 +4,9 @@ import model.projectdata.Project;
 import model.projectdata.Purchase;
 import model.projectdata.Task;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -297,6 +294,7 @@ public class PDC {
         if(!currentTask.getAllPurchaseNames().contains(thePurchaseName) && isNonNegativeDouble(theCost)){            // if the purchase doesn't exist
             Purchase brandNewPurchase = new Purchase(thePurchaseName, new BigDecimal(theCost));
             currentTask.addPurchase(brandNewPurchase);
+            currentTask.recalculateCompleted();
             currentProject.recalculateTotalCost();
             currentProject.recalculateCompleted();
             currentProject.serialize(PDC.myDir);
@@ -329,6 +327,7 @@ public class PDC {
         Purchase purchaseToDelete = currentTask.getPurchase(thePurchaseName);
         if(purchaseToDelete != null){
             currentTask.deletePurchase(purchaseToDelete);
+            currentTask.recalculateCompleted();
             currentProject.recalculateCompleted();
             currentProject.recalculateTotalCost();
             currentProject.serialize(PDC.myDir);
@@ -521,6 +520,7 @@ public class PDC {
     public void setPurchaseStatus(String thePurchaseName, boolean theStatus){
         if (currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
             currentTask.getPurchase(thePurchaseName).setCompletedStatus(theStatus);
+            currentTask.recalculateCompleted();
             currentProject.recalculateCompleted();
             currentProject.serialize(PDC.myDir);
         }

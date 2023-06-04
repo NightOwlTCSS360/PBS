@@ -6,11 +6,14 @@ package view;
 import control.PDC;
 import java.awt.Color;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 /**
- * A panel used to represent a Task.
+ * A panel used to represent a single Task.
  * @author David
  */
-public class TaskPanel extends javax.swing.JPanel {
+public class TaskPanel extends javax.swing.JPanel implements PropertyChangeListener{
 
     /** The name of the task this panel represents. */
     private final String myTask;
@@ -24,8 +27,9 @@ public class TaskPanel extends javax.swing.JPanel {
      * A constructor for the TaskPanel
      * @param theTask the name of the task this panel will represent as a string.
      * @param theController the data controller used by this panel.
+     * @param theStatus the state of the checkBox this task panel will have.
      */
-    public TaskPanel(final String theTask, final PDC theController) {
+    public TaskPanel(final String theTask, boolean theStatus, final PDC theController) {
         myTask = theTask;
         myController = theController;
         initComponents();
@@ -43,6 +47,19 @@ public class TaskPanel extends javax.swing.JPanel {
             setBackground(Color.LIGHT_GRAY);
         }
         TaskName.setText(myTask);
+        status.setSelected(theStatus);
+        status.setEnabled(false);
+    }
+
+    /** A property listener that catches a signal indicating that a property has changed.
+     *  @param theEvenOfThePropertyChanged A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent theEvenOfThePropertyChanged) {
+        if (theEvenOfThePropertyChanged.getPropertyName().equals("the task " + myTask + " status has changed")){        // if the one that send the message gave the signal this name,
+            status.setSelected(myController.getTaskStatus(myTask));                                                     // we update the status of the checkBox.
+        }
     }
 
     /**

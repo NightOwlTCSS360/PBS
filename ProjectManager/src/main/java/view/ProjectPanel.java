@@ -7,21 +7,26 @@ import control.PDC;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.math.BigDecimal;
-import java.security.AllPermission;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
 
 /**
- *
+ * A project Panel that holds all the tasks, purchases and budget of the project.
  * @author David
  */
 public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeListener {
 
+    /** The data controller */
     private final PDC myController;
     private DashboardPanel dbp;
+
+    /** Helps with firing events. */
+    private final PropertyChangeSupport myPropertycs = new PropertyChangeSupport(this);
+
     /**
      * Creates new form ProjectPanel
      * @param theController The data controller.
@@ -51,25 +56,46 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
     }
 
     public void repopulateTasksList(){
-        List<String> arr = new ArrayList<String>();
+        List<String> arr = new ArrayList<>();
         TaskList.removeAll();
         if(myController.getCurrProjectName() != null) arr = myController.getTasks();
 
         for(String taskName: arr){
-            TaskPanel t = new TaskPanel(taskName, myController);
+            TaskPanel t = new TaskPanel(taskName, myController.getTaskStatus(taskName), myController);
+            addPropertyChangeLister(t);
             TaskList.add(t);
         }
         revalidate();
         repaint();
     }
 
+    /**
+     * A property change listener that will catch a signal send when a specific property has changed.
+     * @param thePropertyEvent A PropertyChangeEvent object describing the event source
+     *          and the property that has changed.
+     */
     @Override
-    public void propertyChange(PropertyChangeEvent theEvenOfThePropertyChanged) {
-        if (theEvenOfThePropertyChanged.getPropertyName().equals("The purchase was deleted")){
-            System.out.println("Message received, repopulating purchases and removing " + theEvenOfThePropertyChanged.getOldValue());
-            myController.deletePurchase(theEvenOfThePropertyChanged.getOldValue().toString());
+    public void propertyChange(PropertyChangeEvent thePropertyEvent) {
+        if (thePropertyEvent.getPropertyName().equals("The purchase was deleted")){
+
+            boolean oldTaskStatus = myController.getTaskStatus(myController.getCurrTaskName());
+            myController.deletePurchase(thePropertyEvent.getOldValue().toString());
+            boolean newTaskStatus = myController.getTaskStatus(myController.getCurrTaskName());
+            myPropertycs.firePropertyChange("the task " + myController.getCurrTaskName() + " status has changed", oldTaskStatus, newTaskStatus);
             repopulatePurchasesList();
+
+        } else if (thePropertyEvent.getPropertyName().equals("The purchase checkBox was selected")){
+            myPropertycs.firePropertyChange("the task " + myController.getCurrTaskName() + " status has changed", thePropertyEvent.getOldValue(), thePropertyEvent.getNewValue());
         }
+    }
+
+    /**
+     * Adds a listener to this property change.
+     * @param theListener the listener of the property changed.
+     * @author Derek J. Ruiz Garcia
+     */
+    public void addPropertyChangeLister(PropertyChangeListener theListener){
+        myPropertycs.addPropertyChangeListener(theListener);
     }
 
     /**
@@ -427,15 +453,19 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
         if (myController.getCurrProjectName() != null){             // If we have selected a project
             final String taskName = JOptionPane.showInputDialog(null, "Enter the task name",
                     "Task name");
-
             try{
-                if(taskName != null){                               // If the user has not entered anything or hit cancel
-                    myController.addNewTask(taskName);
-                    TaskPanel t = new TaskPanel(taskName, myController);
-                    TaskList.add(t);
-                    this.repopulatePurchasesList();
-                    revalidate();
-                    repaint();
+                if(taskName != null){
+                    if (!myController.getTasks().contains(taskName)){
+                        myController.addNewTask(taskName);
+                        TaskPanel t = new TaskPanel(taskName, true,  myController);
+                        addPropertyChangeLister(t);
+                        TaskList.add(t);
+                        this.repopulatePurchasesList();
+                        revalidate();
+                        repaint();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "That task already exists!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }// If the user has entered anything
                 }
             } catch (NullPointerException e){
                 System.out.println("You canceled");
@@ -445,30 +475,31 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
         }
     }//GEN-LAST:event_TaskAddActionPerformed
 
+    /**
+     * A purchase action performed that is connected to the purhaseAdd button.
+     * @param evt the event generated by the purchaseAdd button.
+     */
     private void PurchaseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseAddActionPerformed
         // TODO add your handling code here:
 
         if (myController.getCurrTaskName() != null){                                            // If we have a task selected
             PurchasePopUpPanel myPopUpPurchase = new PurchasePopUpPanel();
-            int confirm = JOptionPane.showOptionDialog(null, myPopUpPurchase, "Purchase", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
-
+            int confirm = JOptionPane.showOptionDialog(null, myPopUpPurchase, "Purchase",
+                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
             try{
                 if(confirm == 0){
-                    System.out.println("User clicked accept");
                     boolean purchaseWasAdded = myController.addNewPurchase(myPopUpPurchase.getPurchaseName(), myPopUpPurchase.getPurchaseCost());
                     if (purchaseWasAdded){
                         PurchasePanel pur = new PurchasePanel(myPopUpPurchase.getPurchaseName(),
-                                new BigDecimal(myPopUpPurchase.getPurchaseCost()).toString(),
-                                false, myController);
-                        pur.addPropertyChangeLister(this);
+                                new BigDecimal(myPopUpPurchase.getPurchaseCost()).toString(), false, myController);
+                        pur.addPropertyChangeLister(this);                                                    // This project panel will be listening to the property changed of this purchasePanel
                         PurchasesList.add(pur);
+                        myPropertycs.firePropertyChange("the task " + myController.getCurrTaskName() + " status has changed", true, false); // Since we added a new purchase, the task is no longer completed
                         revalidate();
                         repaint();
                     } else {
-                        JOptionPane.showMessageDialog(this, "The quantity entered was invalid", "Error!", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "Invalid name or cost", "Error!", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    System.out.println("User clicked cancel");
                 }
             } catch (NullPointerException e){
                 System.out.println("Error!");
