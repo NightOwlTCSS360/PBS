@@ -140,8 +140,6 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-
-
         cancelProjectButton.setText("Cancel");
         cancelProjectButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,6 +178,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(950, 510));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setToolTipText("");
@@ -201,7 +200,7 @@ public class Dashboard extends javax.swing.JFrame {
         createProjectMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createProjectAction(evt);
-                //createProjectMenuAction(evt);
+                createProjectMenuAction(evt);
             }
         });
         fileMenu.add(createProjectMenuItem);
@@ -209,63 +208,18 @@ public class Dashboard extends javax.swing.JFrame {
         importProjectsMenuItem.setText("Import Projects");
         importProjectsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // Create a file chooser dialog
-                JFileChooser fileChooser = new JFileChooser();
-
-                // Set the file chooser to accept only files with the ".ser" extension
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Serialized Files", "ser");
-                fileChooser.setFileFilter(filter);
-
-                // Show the dialog and wait for the user to select a file
-                int result = fileChooser.showOpenDialog(Dashboard.this); // 'Dashboard.this' refers to the current instance of the Dashboard
-
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    // Get the selected file
-                    File selectedFile = fileChooser.getSelectedFile();
-
-                    // Call the importProject method in the PDC controller and pass the selected file
-                    myController.importProject(selectedFile);
-                }
+                importSettingsAction(evt);
             }
         });
-
         fileMenu.add(importProjectsMenuItem);
 
         exportProjectsMenuItem.setText("Export Projects");
         exportProjectsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                // Create a file chooser dialog
-                JFileChooser fileChooser = new JFileChooser();
-
-                // Set the file chooser to accept only directories
-                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-                // Show the dialog and wait for the user to select a directory
-                int result = fileChooser.showSaveDialog(Dashboard.this); // 'Dashboard.this' refers to the current instance of the Dashboard
-
-                if (result == JFileChooser.APPROVE_OPTION) {
-                    // Get the selected directory
-                    File selectedDirectory = fileChooser.getSelectedFile();
-
-                    // Get the names of the user's projects
-                    Set<String> projectNames = myController.getProjectNames();
-
-                    // Export each project to the selected directory
-                    for (String projectName : projectNames) {
-                        // Create a file for the project in the selected directory
-                        File projectFile = new File(selectedDirectory, projectName + ".ser");
-                        // Call the exportProject method in the PDC controller
-                        myController.exportProject(projectName, projectFile);
-                    }
-                }
+                importSettingsAction(evt);
             }
         });
-
         fileMenu.add(exportProjectsMenuItem);
-
-
-
-
 
         jMenuBar1.add(fileMenu);
 
@@ -290,7 +244,7 @@ public class Dashboard extends javax.swing.JFrame {
         exportSettingsMenuItem.setText("Export Settings");
         exportSettingsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                //importSettingsAction(evt);
+                importSettingsAction(evt);
                 exportSettingsAction(evt);
             }
         });

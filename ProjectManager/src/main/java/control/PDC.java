@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -284,19 +285,20 @@ public class PDC {
      * then the purchase is added to the current task.
      * @param thePurchaseName the name of the purchase we want to add.
      * @param theCost the cost that the purchase is going to have.
-     * @return a boolean value indicating if a purchase with the provided name was added to the current task.
+     * @return a boolean value returning true if there is not a purchase with the same name, and if the cost is a non-negative numeric value.
      * @author Derek J. Ruiz Garcia
      */
-    public boolean addNewPurchase(String thePurchaseName, BigDecimal theCost){
-        boolean purchaseExists = currentTask.getAllPurchaseNames().contains(thePurchaseName);
-        if(!purchaseExists){                                                    // if the purchase doesn't exist
-            Purchase brandNewPurchase = new Purchase(thePurchaseName, theCost);
+    public boolean addNewPurchase(String thePurchaseName, String theCost){
+        boolean purchaseWasAddedSuccessfully = false;
+        if(!currentTask.getAllPurchaseNames().contains(thePurchaseName) && isNonNegativeDouble(theCost)){            // if the purchase doesn't exist
+            Purchase brandNewPurchase = new Purchase(thePurchaseName, new BigDecimal(theCost));
             currentTask.addPurchase(brandNewPurchase);
             currentProject.recalculateTotalCost();
             currentProject.recalculateCompleted();
             currentProject.serialize(PDC.myDir);
+            purchaseWasAddedSuccessfully = true;
         }
-        return !purchaseExists;
+        return purchaseWasAddedSuccessfully;
     }
 
     /**
@@ -519,6 +521,25 @@ public class PDC {
             currentProject.serialize(PDC.myDir);
         }
     }
+    
+    /**
+     * Sets the passed cost to the purchase with the passed name, rounding to two decimal places. 
+     * @param thePurchaseName the name of the purchase as a string.
+     * @param theNewPurchaseCost the new cost as a string.
+     * @return a boolean value returning true if the cost was set correctly, false otherwise.
+     */
+    public boolean setPurchaseCost(String thePurchaseName, String theNewPurchaseCost){
+        boolean addedSuccessfully = false;
+        if (currentTask.getAllPurchaseNames().contains(thePurchaseName) && isNonNegativeDouble(theNewPurchaseCost)) {
+            BigDecimal cost = new BigDecimal(theNewPurchaseCost);
+            cost.setScale(2, RoundingMode.HALF_EVEN);
+            currentTask.getPurchase(thePurchaseName).editCost(cost);
+            currentProject.recalculateTotalCost();
+            currentProject.serialize(PDC.myDir);
+            addedSuccessfully = true;
+        }
+        return addedSuccessfully;
+    }
 
     /**
      * Set the current active Project obj via passing the Project's name as a parameter.
@@ -577,5 +598,24 @@ public class PDC {
      */
     public void addProjectToCurrentUser(Project newProject) {
         currentUser.addProject(newProject);
+    }
+    
+    /**
+     * Checks if the input passed as a parameter is a double or a negative value.
+     * @param input the input as a string to be checked
+     * @return a boolean value returning false if the input is a double or a negative value, true otherwise.
+     * @author Derek J. Ruiz Garcia
+     */
+    private boolean isNonNegativeDouble(String input){
+        boolean response = true;
+        try{
+            double doubleInput = Double.parseDouble(input);
+            if (doubleInput < 0){
+                response = false;
+            }
+        } catch (NumberFormatException e){
+            response = false;
+        }
+        return response;
     }
 }
