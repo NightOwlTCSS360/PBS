@@ -5,6 +5,8 @@
 package view;
 import control.PDC;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
 import java.security.AllPermission;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import javax.swing.*;
  *
  * @author David
  */
-public class ProjectPanel extends javax.swing.JPanel {
+public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeListener {
 
     private final PDC myController;
     /**
@@ -37,9 +39,10 @@ public class ProjectPanel extends javax.swing.JPanel {
     public void repopulatePurchasesList() {
         PurchasesList.removeAll();
         for (String purchaseName : myController.getPurchases()) {
-            PurchasesList.add(new PurchasePanel(purchaseName, 
-                    myController.getPurchaseCost(purchaseName).toString(), 
-                    myController.getPurchaseStatus(purchaseName), myController));
+            PurchasePanel pPanel = new PurchasePanel(purchaseName, myController.getPurchaseCost(purchaseName).toString(),
+                    myController.getPurchaseStatus(purchaseName), myController);
+            pPanel.addPropertyChangeLister(this);
+            PurchasesList.add(pPanel);
         }
         currentTaskNameField.setText(myController.getCurrTaskName());
         revalidate();
@@ -48,11 +51,23 @@ public class ProjectPanel extends javax.swing.JPanel {
 
     public void repopulateTasksList(){
         List<String> arr = new ArrayList<String>();
+        TaskList.removeAll();
         if(myController.getCurrProjectName() != null) arr = myController.getTasks();
 
         for(String taskName: arr){
             TaskPanel t = new TaskPanel(taskName, myController);
             TaskList.add(t);
+        }
+        revalidate();
+        repaint();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent theEvenOfThePropertyChanged) {
+        if (theEvenOfThePropertyChanged.getPropertyName().equals("The purchase was deleted")){
+            System.out.println("Message received, repopulating purchases and removing " + theEvenOfThePropertyChanged.getOldValue());
+            myController.deletePurchase(theEvenOfThePropertyChanged.getOldValue().toString());
+            repopulatePurchasesList();
         }
     }
 
@@ -409,30 +424,47 @@ public class ProjectPanel extends javax.swing.JPanel {
     private void PurchaseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseAddActionPerformed
         // TODO add your handling code here:
 
-        PurchasePopUpPanel myPopUpPurchase = new PurchasePopUpPanel();
-        int confirm = JOptionPane.showOptionDialog(null, myPopUpPurchase, "Purchase", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+        if (myController.getCurrTaskName() != null){
+            PurchasePopUpPanel myPopUpPurchase = new PurchasePopUpPanel();
+            int confirm = JOptionPane.showOptionDialog(null, myPopUpPurchase, "Purchase", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
-        try{
-            if(confirm == 0){
-                System.out.println("User clicked accept");
-                PurchasePanel pur = new PurchasePanel(myPopUpPurchase.getPurchaseName(), 
-                        new BigDecimal(myPopUpPurchase.getPurchaseCost()).toString(), 
-                        false, myController);
-                PurchasesList.add(pur);
-                myController.addNewPurchase(myPopUpPurchase.getPurchaseName(), new BigDecimal(myPopUpPurchase.getPurchaseCost()));
-                revalidate();
-                repaint();
-            } else {
-                System.out.println("User clicked cancel");
+            try{
+                if(confirm == 0){
+                    System.out.println("User clicked accept");
+                    PurchasePanel pur = new PurchasePanel(myPopUpPurchase.getPurchaseName(),
+                            new BigDecimal(myPopUpPurchase.getPurchaseCost()).toString(),
+                            false, myController);
+                    pur.addPropertyChangeLister(this);
+                    PurchasesList.add(pur);
+                    myController.addNewPurchase(myPopUpPurchase.getPurchaseName(), new BigDecimal(myPopUpPurchase.getPurchaseCost()));
+                    revalidate();
+                    repaint();
+                } else {
+                    System.out.println("User clicked cancel");
+                }
+            } catch (NullPointerException e){
+                System.out.println("Error!");
             }
-        } catch (NullPointerException e){
-            System.out.println("Error!");
+        } else {
+            JOptionPane.showMessageDialog(this, "Select a project and a task first before adding a purchase!", "No project or task selected", JOptionPane.WARNING_MESSAGE);
         }
 //        }
     }//GEN-LAST:event_PurchaseAddActionPerformed
 
     private void TrashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TrashButtonActionPerformed
         // TODO add your handling code here:
+        if (myController.getCurrTaskName() != null){
+            int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the task: " + myController.getCurrTaskName() + "?",
+                    "Confirm changes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (response == 0){
+                myController.deleteCurrentTask();
+                repopulateTasksList();
+                PurchasesList.removeAll();
+                currentTaskNameField.setText("");
+                revalidate();
+                repaint();
+            }
+        }
     }//GEN-LAST:event_TrashButtonActionPerformed
 
 

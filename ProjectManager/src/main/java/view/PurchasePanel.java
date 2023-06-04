@@ -4,6 +4,8 @@
  */
 package view;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import control.PDC;
@@ -26,6 +28,9 @@ public class PurchasePanel extends javax.swing.JPanel {
     /** The controller used to change and retrieve data. */
     private final PDC myController;
 
+    /** Helps with firing events. */
+    private final PropertyChangeSupport myPropertycs = new PropertyChangeSupport(this);
+
     /**
      * A constructor for the purchase panel.
      * @param thePurchaseName the name of the purchase this panel will represent as a string.
@@ -43,6 +48,22 @@ public class PurchasePanel extends javax.swing.JPanel {
 //        costLabel.setText(theCost);
         costLabel.setText(NumberFormat.getCurrencyInstance().format(new BigDecimal(theCost)));
         statusCheckBox.setSelected(theStatus);
+    }
+
+    /**
+     * Adds a listener to this property change.
+     * @param theListener the listener of the property changed.
+     */
+    public void addPropertyChangeLister(PropertyChangeListener theListener){
+        myPropertycs.addPropertyChangeListener(theListener);
+    }
+
+    /**
+     * ARemoves a listener to this property change.
+     * @param theListener the listener of the property changed.
+     */
+    public void removePropertyChangeLister(PropertyChangeListener theListener){
+        myPropertycs.removePropertyChangeListener(theListener);
     }
 
     /**
@@ -169,6 +190,11 @@ public class PurchasePanel extends javax.swing.JPanel {
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
+        int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the purchase: " + myPurchaseName + "?",
+                "Confirm changes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (response == 0){
+            myPropertycs.firePropertyChange("The purchase was deleted", myPurchaseName, "");
+        }
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
