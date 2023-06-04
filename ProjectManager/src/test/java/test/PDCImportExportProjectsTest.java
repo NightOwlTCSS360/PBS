@@ -67,7 +67,7 @@ class PDCImportExportProjectsTest {
         try {
             control.setCurrentProject("TestProject");
             control.deleteCurrentProject();
-        } catch (NoSuchObjectException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -87,7 +87,7 @@ class PDCImportExportProjectsTest {
         try {
             control.setCurrentProject("MyNewProject");
             control.deleteCurrentProject();
-        } catch (NoSuchObjectException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }

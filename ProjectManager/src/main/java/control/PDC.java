@@ -254,29 +254,33 @@ public class PDC {
      * of the user.
      * @author Derek J. Ruiz Garcia
      * @return a boolean value indicating whether the project was deleted or not.
-     * @throws NoSuchObjectException if the project we want to delete doesn't exist.
      * @throws NullPointerException if the current user or the current project is null.
      */
-    public boolean deleteCurrentProject() throws NoSuchObjectException {
+    public boolean deleteCurrentProject() throws NullPointerException {
         boolean deleted = true;
-        File projectDirectory = new File(currentProject.getDirectoryPath().toString());
-        for(File nested : projectDirectory.listFiles()) {
+        try {
+            File projectDirectory = new File(currentProject.getDirectoryPath().toString());
+            for(File nested : projectDirectory.listFiles()) {
+                try {
+                    java.nio.file.Files.delete(nested.toPath());
+                } catch(IOException e) {
+                    e.printStackTrace();
+                    deleted = false;
+                }
+            }
             try {
-                java.nio.file.Files.delete(nested.toPath());
+                java.nio.file.Files.delete(projectDirectory.toPath());
             } catch(IOException e) {
                 e.printStackTrace();
                 deleted = false;
             }
+            currentUser.deleteProject(currentProject.getMyProjectName());
+            currentProject = null;
+            currentTask = null;
+        } catch (NullPointerException e) {
+            throw e;
         }
-        try {
-            java.nio.file.Files.delete(projectDirectory.toPath());
-        } catch(IOException e) {
-            e.printStackTrace();
-            deleted = false;
-        }
-        currentUser.deleteProject(currentProject.getMyProjectName());
-        currentProject = null;
-        currentTask = null;
+
         return deleted;
     }
 

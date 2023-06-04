@@ -39,7 +39,7 @@ class PDCMainTest {
     void tearDown() {
     }
     @AfterAll
-    static void cleanUp() throws NoSuchObjectException {
+    static void cleanUp() throws NullPointerException {
         for(String project : control.getProjectNames()) {
             System.out.println(project);
             control.setCurrentProject(project);
@@ -77,9 +77,10 @@ class PDCMainTest {
 
     @Test
     void deleteCurrentProject() throws IOException {
-        control.deleteCurrentProject();
+        boolean result = control.deleteCurrentProject();
         assertFalse(control.getProjectNames().contains("TestProject"));
         assertFalse(new ArrayList(List.of(new File(testUser.getUserPath().toString()).list())).contains("TestProject"));
+        assertTrue(result);
     }
 
     @Test

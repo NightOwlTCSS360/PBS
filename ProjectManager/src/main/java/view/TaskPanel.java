@@ -4,6 +4,7 @@
  */
 package view;
 import control.PDC;
+import java.awt.Color;
 
 /**
  * A panel used to represent a Task.
@@ -16,6 +17,8 @@ public class TaskPanel extends javax.swing.JPanel {
     
     /** The data controller. */
     private final PDC myController;
+    
+    private static TaskPanel selectedTaskPanel;
     
     /**
      * A constructor for the TaskPanel
@@ -31,6 +34,14 @@ public class TaskPanel extends javax.swing.JPanel {
                 formMouseClicked(evt);
             }
         });
+        if(myController.getCurrTaskName() != null
+                && myController.getCurrTaskName().equals(myTask)) {
+            if (selectedTaskPanel != null) {
+                selectedTaskPanel.setBackground(new Color(250,250,250));
+            }
+            selectedTaskPanel = this;
+            setBackground(Color.LIGHT_GRAY);
+        }
         TaskName.setText(myTask);
     }
 
@@ -88,6 +99,14 @@ public class TaskPanel extends javax.swing.JPanel {
         myController.setCurrentTask(this.myTask);
         ProjectPanel pp = (ProjectPanel)getParent().getParent();
         myController.setCurrentTask(myTask);
+        if(myController.getCurrTaskName() != null
+                && myController.getCurrTaskName().equals(myTask)) {
+            if (selectedTaskPanel != null) {
+                selectedTaskPanel.setBackground(new Color(250,250,250));
+            }
+            selectedTaskPanel = this;
+            setBackground(Color.LIGHT_GRAY);
+        }
         pp.repopulatePurchasesList();
         revalidate();
         repaint();
