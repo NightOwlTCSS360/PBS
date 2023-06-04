@@ -401,44 +401,54 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * A task action performed that is connected to the taskAdd Button.
+     * @param evt the event connected to the taskAdd button.
+     */
     private void TaskAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TaskAddActionPerformed
         // TODO add your handling code here:
+        if (myController.getCurrProjectName() != null){             // If we have selected a project
+            final String taskName = JOptionPane.showInputDialog(null, "Enter the task name",
+                    "Task name");
 
-        final String taskName = JOptionPane.showInputDialog(null, "Enter the task name",
-                        "Task name");
-
-        try{
-            if(taskName != null){
-                TaskPanel t = new TaskPanel(taskName, myController);
-                TaskList.add(t);
-                myController.addNewTask(taskName);
-//                jLabel5.setText(taskName); //sets the label in the project panel
-                revalidate();
-                repaint();
+            try{
+                if(taskName != null){                               // If the user has not entered anything or hit cancel
+                    TaskPanel t = new TaskPanel(taskName, myController);
+                    TaskList.add(t);
+                    myController.addNewTask(taskName);
+                    revalidate();
+                    repaint();
+                }
+            } catch (NullPointerException e){
+                System.out.println("You canceled");
             }
-        } catch (NullPointerException e){
-            System.out.println("You canceled");
+        } else {
+            JOptionPane.showMessageDialog(this, "Select a project before adding a task!", "No project selected", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_TaskAddActionPerformed
 
     private void PurchaseAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PurchaseAddActionPerformed
         // TODO add your handling code here:
 
-        if (myController.getCurrTaskName() != null){
+        if (myController.getCurrTaskName() != null){                                            // If we have a task selected
             PurchasePopUpPanel myPopUpPurchase = new PurchasePopUpPanel();
             int confirm = JOptionPane.showOptionDialog(null, myPopUpPurchase, "Purchase", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
 
             try{
                 if(confirm == 0){
                     System.out.println("User clicked accept");
-                    PurchasePanel pur = new PurchasePanel(myPopUpPurchase.getPurchaseName(),
-                            new BigDecimal(myPopUpPurchase.getPurchaseCost()).toString(),
-                            false, myController);
-                    pur.addPropertyChangeLister(this);
-                    PurchasesList.add(pur);
-                    myController.addNewPurchase(myPopUpPurchase.getPurchaseName(), new BigDecimal(myPopUpPurchase.getPurchaseCost()));
-                    revalidate();
-                    repaint();
+                    boolean purchaseWasAdded = myController.addNewPurchase(myPopUpPurchase.getPurchaseName(), myPopUpPurchase.getPurchaseCost());
+                    if (purchaseWasAdded){
+                        PurchasePanel pur = new PurchasePanel(myPopUpPurchase.getPurchaseName(),
+                                new BigDecimal(myPopUpPurchase.getPurchaseCost()).toString(),
+                                false, myController);
+                        pur.addPropertyChangeLister(this);
+                        PurchasesList.add(pur);
+                        revalidate();
+                        repaint();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "The quantity entered was invalid", "Error!", JOptionPane.ERROR_MESSAGE);
+                    }
                 } else {
                     System.out.println("User clicked cancel");
                 }

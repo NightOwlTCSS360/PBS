@@ -31,8 +31,8 @@ class PDCMainTest {
         control.setCurrentProject("TestProject");
         control.addNewTask("TestTask");
         control.setCurrentTask("TestTask");
-        control.addNewPurchase("TestPurchase1", new BigDecimal("1.00"));
-        control.addNewPurchase("TestPurchase2", new BigDecimal("0.50"));
+        control.addNewPurchase("TestPurchase1", "1.00");
+        control.addNewPurchase("TestPurchase2", "0.50");
     }
 
     @AfterEach
@@ -84,7 +84,7 @@ class PDCMainTest {
 
     @Test
     void addNewPurchase() {
-        control.addNewPurchase("NewPurchase", new BigDecimal("3.00"));
+        control.addNewPurchase("NewPurchase", "3.00");
         assertTrue(control.getPurchases().contains("NewPurchase"));
         double expected = 4.50;
         assertEquals(expected, control.getProjectCost().doubleValue());

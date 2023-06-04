@@ -285,19 +285,20 @@ public class PDC {
      * then the purchase is added to the current task.
      * @param thePurchaseName the name of the purchase we want to add.
      * @param theCost the cost that the purchase is going to have.
-     * @return a boolean value indicating if a purchase with the provided name was added to the current task.
+     * @return a boolean value returning true if there is not a purchase with the same name, and if the cost is a non-negative numeric value.
      * @author Derek J. Ruiz Garcia
      */
-    public boolean addNewPurchase(String thePurchaseName, BigDecimal theCost){
-        boolean purchaseExists = currentTask.getAllPurchaseNames().contains(thePurchaseName);
-        if(!purchaseExists){                                                    // if the purchase doesn't exist
-            Purchase brandNewPurchase = new Purchase(thePurchaseName, theCost);
+    public boolean addNewPurchase(String thePurchaseName, String theCost){
+        boolean purchaseWasAddedSuccessfully = false;
+        if(!currentTask.getAllPurchaseNames().contains(thePurchaseName) && isNonNegativeDouble(theCost)){            // if the purchase doesn't exist
+            Purchase brandNewPurchase = new Purchase(thePurchaseName, new BigDecimal(theCost));
             currentTask.addPurchase(brandNewPurchase);
             currentProject.recalculateTotalCost();
             currentProject.recalculateCompleted();
             currentProject.serialize(PDC.myDir);
+            purchaseWasAddedSuccessfully = true;
         }
-        return !purchaseExists;
+        return purchaseWasAddedSuccessfully;
     }
 
     /**
