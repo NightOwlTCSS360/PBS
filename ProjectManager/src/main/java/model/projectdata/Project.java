@@ -86,8 +86,12 @@ public class Project implements Serializable {
      * @throws IOException If something goes wrong when creating the Directory for the new Project or the Project.ser
      */
     public Project(final User theUser, final Project theProject) throws IOException {
-        myProjectName = theProject.myProjectName;
         myUser = theUser;
+        if (myUser.getProjects().containsKey(theProject.myProjectName)) {
+            myProjectName = theProject.myProjectName + "_imported";
+        } else {
+            myProjectName = theProject.myProjectName;
+        }
         myTasks = theProject.myTasks;
         currentExpenses = theProject.getProjectCost();
         myEstimate = theProject.getProjectEstimate();

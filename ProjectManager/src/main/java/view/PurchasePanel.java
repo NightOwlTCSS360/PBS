@@ -15,7 +15,7 @@ import javax.swing.*;
 /**
  * A Panel used to represent a purchase.
  * @author Derek J. Ruiz Garcia
- * @version 6/3/2023
+ * @version 6/4/2023
  */
 public class PurchasePanel extends javax.swing.JPanel {
 
@@ -53,17 +53,10 @@ public class PurchasePanel extends javax.swing.JPanel {
     /**
      * Adds a listener to this property change.
      * @param theListener the listener of the property changed.
+     * @author Derek J. Ruiz Garcia
      */
     public void addPropertyChangeLister(PropertyChangeListener theListener){
         myPropertycs.addPropertyChangeListener(theListener);
-    }
-
-    /**
-     * ARemoves a listener to this property change.
-     * @param theListener the listener of the property changed.
-     */
-    public void removePropertyChangeLister(PropertyChangeListener theListener){
-        myPropertycs.removePropertyChangeListener(theListener);
     }
 
     /**
@@ -152,7 +145,10 @@ public class PurchasePanel extends javax.swing.JPanel {
     private void checkBoxStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusActionPerformed
         // TODO add your handling code here:
         AbstractButton abs = (AbstractButton) evt.getSource();
+        boolean oldTaskStatus = myController.getTaskStatus(myController.getCurrTaskName());
         myController.setPurchaseStatus(myPurchaseName, abs.getModel().isSelected());
+        boolean newTaskStatus = myController.getTaskStatus(myController.getCurrTaskName());
+        myPropertycs.firePropertyChange("The purchase checkBox was selected", oldTaskStatus, newTaskStatus);
         revalidate();
         repaint();
     }//GEN-LAST:event_statusActionPerformed
@@ -160,34 +156,39 @@ public class PurchasePanel extends javax.swing.JPanel {
     /**
      * A listener for the edit button that allows the user to change the cost of a purchase
      * @param evt the event connected to the edit button.
+     * @author Derek J. Ruiz Garcia
      */
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
-        String message = "Please enter the new cost for " + myPurchaseName;
-        String userInput = JOptionPane.showInputDialog(this, message, "Edit purchase", JOptionPane.OK_CANCEL_OPTION);
+        String userInput = JOptionPane.showInputDialog(this,
+                "Please enter the new cost for " + myPurchaseName, "Edit purchase", JOptionPane.OK_CANCEL_OPTION);
 
         if(userInput != null){
             try{
                 boolean confirm = false;
-                int secondResponse = JOptionPane.showConfirmDialog(this, "Do you want to change the cost of " + myPurchaseName + " to $" + userInput + "?", 
+                int secondResponse = JOptionPane.showConfirmDialog(this,
+                        "Do you want to change the cost of " + myPurchaseName + " to $" + userInput + "?",
                         "Confirm changes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (secondResponse == 0) confirm = true;
-
-            if (confirm){
-                boolean wasAdded = myController.setPurchaseCost(myPurchaseName, 
-                        userInput);
-                if (wasAdded){
-                    costLabel.setText(NumberFormat.getCurrencyInstance().format(new BigDecimal(userInput)));
-                } else {
+                if (confirm){
+                    boolean wasAdded = myController.setPurchaseCost(myPurchaseName, userInput);
+                    if (wasAdded){
+                        costLabel.setText(NumberFormat.getCurrencyInstance().format(new BigDecimal(userInput)));
+                    } else {
                     JOptionPane.showMessageDialog(this, "The quantity entered was invalid", "Error!", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
-            }
             } catch (NullPointerException e){
                 System.out.println("Error!");
             }
         }
     }//GEN-LAST:event_editButtonActionPerformed
 
+    /**
+     * A listener for the delete button that allows the user to change the cost of a purchase.
+     * @param evt the event linked to the delete button.
+     * @author Derek J.Ruiz Garcia
+     */
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         // TODO add your handling code here:
         int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the purchase: " + myPurchaseName + "?",

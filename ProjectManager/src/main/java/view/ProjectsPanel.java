@@ -4,6 +4,7 @@
  */
 package view;
 import control.PDC;
+import java.awt.Color;
 
 /**
  *
@@ -14,6 +15,7 @@ public class ProjectsPanel extends javax.swing.JPanel {
     private final String myProject;
     
     private final PDC myController;
+    static ProjectsPanel selectedProjectsPanel;
     /**
      * Creates new form TaskPanel
      */
@@ -21,6 +23,14 @@ public class ProjectsPanel extends javax.swing.JPanel {
         myProject = theProject;
         myController = theController;
         initComponents();
+        if(myController.getCurrProjectName() != null
+                && myController.getCurrProjectName().equals(myProject)) {
+            if (selectedProjectsPanel != null) {
+                selectedProjectsPanel.setBackground(new Color(250,250,250));
+            }
+            selectedProjectsPanel = this;
+            setBackground(Color.LIGHT_GRAY);
+        }
     }
 
     /**
@@ -67,6 +77,11 @@ public class ProjectsPanel extends javax.swing.JPanel {
     private void setCurrentProjectAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         myController.setCurrentProject(this.TaskName.getText());
         DashboardPanel db = (DashboardPanel)getParent().getParent().getParent();
+        if(selectedProjectsPanel != null) {
+            selectedProjectsPanel.setBackground(new Color(250, 250, 250));
+        }
+        selectedProjectsPanel = this;
+        selectedProjectsPanel.setBackground(Color.LIGHT_GRAY);
         db.repopulateProjectPanel();
     }//GEN-LAST:event_formMouseClicked
 

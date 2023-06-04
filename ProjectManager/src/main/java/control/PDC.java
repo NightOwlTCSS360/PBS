@@ -4,12 +4,9 @@ import model.projectdata.Project;
 import model.projectdata.Purchase;
 import model.projectdata.Task;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -254,29 +251,33 @@ public class PDC {
      * of the user.
      * @author Derek J. Ruiz Garcia
      * @return a boolean value indicating whether the project was deleted or not.
-     * @throws NoSuchObjectException if the project we want to delete doesn't exist.
      * @throws NullPointerException if the current user or the current project is null.
      */
-    public boolean deleteCurrentProject() throws NoSuchObjectException {
+    public boolean deleteCurrentProject() throws NullPointerException {
         boolean deleted = true;
-        File projectDirectory = new File(currentProject.getDirectoryPath().toString());
-        for(File nested : projectDirectory.listFiles()) {
+        try {
+            File projectDirectory = new File(currentProject.getDirectoryPath().toString());
+            for(File nested : projectDirectory.listFiles()) {
+                try {
+                    java.nio.file.Files.delete(nested.toPath());
+                } catch(IOException e) {
+                    e.printStackTrace();
+                    deleted = false;
+                }
+            }
             try {
-                java.nio.file.Files.delete(nested.toPath());
+                java.nio.file.Files.delete(projectDirectory.toPath());
             } catch(IOException e) {
                 e.printStackTrace();
                 deleted = false;
             }
+            currentUser.deleteProject(currentProject.getMyProjectName());
+            currentProject = null;
+            currentTask = null;
+        } catch (NullPointerException e) {
+            throw e;
         }
-        try {
-            java.nio.file.Files.delete(projectDirectory.toPath());
-        } catch(IOException e) {
-            e.printStackTrace();
-            deleted = false;
-        }
-        currentUser.deleteProject(currentProject.getMyProjectName());
-        currentProject = null;
-        currentTask = null;
+
         return deleted;
     }
 
@@ -293,6 +294,7 @@ public class PDC {
         if(!currentTask.getAllPurchaseNames().contains(thePurchaseName) && isNonNegativeDouble(theCost)){            // if the purchase doesn't exist
             Purchase brandNewPurchase = new Purchase(thePurchaseName, new BigDecimal(theCost));
             currentTask.addPurchase(brandNewPurchase);
+            currentTask.recalculateCompleted();
             currentProject.recalculateTotalCost();
             currentProject.recalculateCompleted();
             currentProject.serialize(PDC.myDir);
@@ -325,6 +327,7 @@ public class PDC {
         Purchase purchaseToDelete = currentTask.getPurchase(thePurchaseName);
         if(purchaseToDelete != null){
             currentTask.deletePurchase(purchaseToDelete);
+            currentTask.recalculateCompleted();
             currentProject.recalculateCompleted();
             currentProject.recalculateTotalCost();
             currentProject.serialize(PDC.myDir);
@@ -517,6 +520,7 @@ public class PDC {
     public void setPurchaseStatus(String thePurchaseName, boolean theStatus){
         if (currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
             currentTask.getPurchase(thePurchaseName).setCompletedStatus(theStatus);
+            currentTask.recalculateCompleted();
             currentProject.recalculateCompleted();
             currentProject.serialize(PDC.myDir);
         }
