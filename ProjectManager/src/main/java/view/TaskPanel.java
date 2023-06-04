@@ -87,6 +87,7 @@ public class TaskPanel extends javax.swing.JPanel {
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         myController.setCurrentTask(this.myTask);
         ProjectPanel pp = (ProjectPanel)getParent().getParent();
+        myController.setCurrentTask(myTask);
         pp.repopulatePurchasesList();
         revalidate();
         repaint();
