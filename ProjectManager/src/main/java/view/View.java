@@ -35,6 +35,7 @@ public class View extends javax.swing.JFrame {
         MainFrame.add(logo, 1);
         MainFrame.revalidate();
         MainFrame.repaint();
+        this.pack();
     }
 
     /**
