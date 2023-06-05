@@ -4,6 +4,7 @@
  */
 package view;
 
+import control.PDC;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -29,6 +30,8 @@ public class AboutPanel extends javax.swing.JPanel {
      */
     private static final AppInfo myAppInfo = new AppInfo();
     
+    private PDC controller;
+    
     /**
      * Creates new form AboutPanel
      */
@@ -39,10 +42,15 @@ public class AboutPanel extends javax.swing.JPanel {
     /**
      * Creates new About with type obj
      * @param obj 
+     * @param controller 
      */
-    public AboutPanel(javax.swing.JPanel obj) {
+    public AboutPanel(javax.swing.JPanel obj, PDC controller) {
         myLast = obj;
+        this.controller = controller;
         initComponents();
+        jLabel5.setText("This app is registered to: " + 
+                controller.getCurrentUser().getMyUserFirstName() + 
+                " " + controller.getCurrentUser().getMyUserLastName());
     }
     
     
@@ -275,7 +283,8 @@ public class AboutPanel extends javax.swing.JPanel {
         } else {
             MainFrame.add(myLast, 0);
         }
-        
+        View v = (View)MainFrame.getParent().getParent().getParent().getParent();
+        v.setMenuBarVisibility(true);
         MainFrame.revalidate();
         MainFrame.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed

@@ -386,8 +386,9 @@ public class View extends javax.swing.JFrame {
 
     private void aboutMenuItemaboutAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemaboutAction
         javax.swing.JPanel MainFrame = (javax.swing.JPanel)this.MainFrame;
-        AboutPanel about = new AboutPanel((javax.swing.JPanel)this.MainFrame.getComponent(0));
+        AboutPanel about = new AboutPanel((javax.swing.JPanel)this.MainFrame.getComponent(0), controller);
         MainFrame.remove(0);
+        setMenuBarVisibility(false);
         MainFrame.add(about);
         MainFrame.revalidate();
         MainFrame.repaint();

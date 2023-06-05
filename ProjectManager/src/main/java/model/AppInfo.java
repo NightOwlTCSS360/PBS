@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AppInfo {
 
-    private static final String myVersionNum = "0.01";
+    private static final String myVersionNum = "0.30";
     private final List<Developer> myDevs;
 
 
