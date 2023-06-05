@@ -622,4 +622,16 @@ public class PDC {
         }
         return response;
     }
+
+    public BigDecimal calculateCurrentBudget() {
+        BigDecimal projectBudget = currentProject.getProjectEstimate();
+
+        if (currentTask == null) {
+            return projectBudget; // Return the original project budget if currentTask is null
+        }
+
+        BigDecimal totalCost = currentProject.recalculateTotalCost();
+        BigDecimal currentBudget = projectBudget.subtract(totalCost);
+        return currentBudget;
+    }
 }

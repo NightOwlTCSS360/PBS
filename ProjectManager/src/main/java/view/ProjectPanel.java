@@ -5,6 +5,7 @@
 package view;
 import control.PDC;
 
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -40,6 +41,15 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
             currentTaskNameField.setText("");
         }
         repopulateTasksList();
+    }
+
+    public void repopulateBudgetInfo(){
+        BudgetInfo.removeAll();
+        // Add BudgetPanel to BudgetInfo
+        BudgetInfo.setLayout(new BorderLayout()); // Set layout for BudgetInfo container
+        BudgetInfo.add(new BudgetPanel(myController), BorderLayout.CENTER); // Add BudgetPanel to BudgetInfo
+        revalidate();
+        repaint();
     }
 
     public void repopulatePurchasesList() {

@@ -205,15 +205,18 @@ public class Project implements Serializable {
 
     /**
      * Recalculate the total cost of this Project.
+     *
+     * @return
      * @author Paul Schmidt
      */
-    public void recalculateTotalCost() {
+    public BigDecimal recalculateTotalCost() {
         BigDecimal total = new BigDecimal("0.00");
         for (Task t : myTasks.values()) {
             t.recalculateCost();
             total = total.add(t.getTotalCost());
         }
         currentExpenses = total;
+        return total;
     }
 
     /**
