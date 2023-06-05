@@ -5,7 +5,7 @@
 package view;
 
 import control.PDC;
-import java.util.ArrayList;
+
 import java.util.Set;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -20,6 +20,8 @@ public class ProjectList extends javax.swing.JPanel {
     private final PDC controller;
     
     private ProjectPanel pp;
+
+    private DashboardPanel dbp;
     
     /**
      * Creates new form ProjectList
@@ -27,6 +29,7 @@ public class ProjectList extends javax.swing.JPanel {
      */
     public ProjectList(final PDC controller, ProjectPanel pp) {
         this.pp = pp;
+        this.dbp = (DashboardPanel)getParent();
         this.controller = controller;
         initComponents();
     }
@@ -176,8 +179,8 @@ public class ProjectList extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(ProjectListTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(ProjectList, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(ProjectList, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -192,13 +195,15 @@ public class ProjectList extends javax.swing.JPanel {
     private void createProjectButtoncreateProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProjectButtoncreateProjectAction
         try {
             controller.addNewProject(projectNameTextField.getText());
+            dbp = (DashboardPanel)getParent();
+            dbp.repopulateProjectPanel();
+            this.ProjectList.add(new ProjectsPanel(this.projectNameTextField.getText(), controller));
+            this.ProjectList.revalidate();
+            this.ProjectList.repaint();
+            createProjectDialog.dispose();
         } catch (IOException ex) {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.ProjectList.add(new ProjectsPanel(this.projectNameTextField.getText(), controller));
-        this.ProjectList.revalidate();
-        this.ProjectList.repaint();
-        createProjectDialog.dispose();
     }//GEN-LAST:event_createProjectButtoncreateProjectAction
 
     private void cancelProjectButtoncancelProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelProjectButtoncancelProjectAction

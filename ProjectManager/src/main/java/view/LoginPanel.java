@@ -7,7 +7,6 @@ package view;
 import control.PDC;
 import model.CSVHandler;
 import model.User;
-import sdmxdl.desktop.Main;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -99,6 +98,7 @@ public class LoginPanel extends javax.swing.JPanel {
 //                        customDashPanel.add(customProjectPanel, 0);
                         v.setDashBoardPanel(customDashPanel);
                         customDashPanel.setVisible(true);
+                        v.setMenuBarVisibility(true);
 
                         //Remove twice
                         MainFrame.remove(0);

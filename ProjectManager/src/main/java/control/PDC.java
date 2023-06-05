@@ -6,11 +6,14 @@ import model.projectdata.Task;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.rmi.NoSuchObjectException;
 import java.util.*;
+import java.util.List;
 
 /**
  * This class, PDC (aka Persistent Data Controller), acts as a control layer entity that helps manage the interactions
@@ -39,10 +42,17 @@ public class PDC {
         currentUser = null;
         currentProject = null;
         currentTask = null;
-        if (!System.getProperty("user.dir").contains("ProjectManager")) {
-            myDir = "ProjectManager\\";
-        } else {
-            myDir = "";
+        //This looks for a ProjectBudgetingSystem in the user's home directory to store information.
+        //Creates one and adds a blank users.csv if they don't exist.
+        try {
+            Path appInfoDir = Paths.get(System.getProperty("user.home") + "\\ProjectBudgetingSystem\\");
+            if(!Files.exists(appInfoDir)) {
+                Files.createDirectory(appInfoDir);
+                Files.createFile(new File(appInfoDir + "\\users.csv").toPath());
+            }
+            myDir = appInfoDir + "\\";
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -61,7 +71,7 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void createSettingsFile(){
-        final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
+        final String settingsLocation = myDir + "Settings.txt";
         File settingsFile = new File(settingsLocation);
 
         try {
@@ -91,7 +101,7 @@ public class PDC {
     public void importSettings(File theFileToImport) throws IOException {
         String fileName = theFileToImport.getName();
 
-        final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
+        final String settingsLocation = myDir + "Settings.txt";
         File settingsFile = new File(settingsLocation);
 
         try {
@@ -133,7 +143,7 @@ public class PDC {
      * @author Derek J. Ruiz Garcia
      */
     public void exportSettings(File theFile) throws FileNotFoundException {
-        final String settingsLocation = myDir + "src\\main\\resources\\Settings\\Settings.txt";
+        final String settingsLocation = myDir + "Settings.txt";
         File localSettingsFile = new File(settingsLocation);
         final String exportingLocation = theFile.getPath();
 
@@ -184,6 +194,7 @@ public class PDC {
         if (!userProjects.containsKey(theProjectName)){
             Project brandNewProject = new Project(currentUser, theProjectName);
             currentUser.addProject(brandNewProject);
+            currentProject = brandNewProject;
             wasAdded = true;
         }
         return wasAdded;
@@ -240,29 +251,33 @@ public class PDC {
      * of the user.
      * @author Derek J. Ruiz Garcia
      * @return a boolean value indicating whether the project was deleted or not.
-     * @throws NoSuchObjectException if the project we want to delete doesn't exist.
      * @throws NullPointerException if the current user or the current project is null.
      */
-    public boolean deleteCurrentProject() throws NoSuchObjectException {
+    public boolean deleteCurrentProject() throws NullPointerException {
         boolean deleted = true;
-        File projectDirectory = new File(currentProject.getDirectoryPath().toString());
-        for(File nested : projectDirectory.listFiles()) {
+        try {
+            File projectDirectory = new File(currentProject.getDirectoryPath().toString());
+            for(File nested : projectDirectory.listFiles()) {
+                try {
+                    java.nio.file.Files.delete(nested.toPath());
+                } catch(IOException e) {
+                    e.printStackTrace();
+                    deleted = false;
+                }
+            }
             try {
-                java.nio.file.Files.delete(nested.toPath());
+                java.nio.file.Files.delete(projectDirectory.toPath());
             } catch(IOException e) {
                 e.printStackTrace();
                 deleted = false;
             }
+            currentUser.deleteProject(currentProject.getMyProjectName());
+            currentProject = null;
+            currentTask = null;
+        } catch (NullPointerException e) {
+            throw e;
         }
-        try {
-            java.nio.file.Files.delete(projectDirectory.toPath());
-        } catch(IOException e) {
-            e.printStackTrace();
-            deleted = false;
-        }
-        currentUser.deleteProject(currentProject.getMyProjectName());
-        currentProject = null;
-        currentTask = null;
+
         return deleted;
     }
 
@@ -271,19 +286,21 @@ public class PDC {
      * then the purchase is added to the current task.
      * @param thePurchaseName the name of the purchase we want to add.
      * @param theCost the cost that the purchase is going to have.
-     * @return a boolean value indicating if a purchase with the provided name was added to the current task.
+     * @return a boolean value returning true if there is not a purchase with the same name, and if the cost is a non-negative numeric value.
      * @author Derek J. Ruiz Garcia
      */
-    public boolean addNewPurchase(String thePurchaseName, BigDecimal theCost){
-        boolean purchaseExists = currentTask.getAllPurchaseNames().contains(thePurchaseName);
-        if(!purchaseExists){                                                    // if the purchase doesn't exist
-            Purchase brandNewPurchase = new Purchase(thePurchaseName, theCost);
+    public boolean addNewPurchase(String thePurchaseName, String theCost){
+        boolean purchaseWasAddedSuccessfully = false;
+        if(!currentTask.getAllPurchaseNames().contains(thePurchaseName) && isNonNegativeDouble(theCost)){            // if the purchase doesn't exist
+            Purchase brandNewPurchase = new Purchase(thePurchaseName, new BigDecimal(theCost));
             currentTask.addPurchase(brandNewPurchase);
+            currentTask.recalculateCompleted();
             currentProject.recalculateTotalCost();
             currentProject.recalculateCompleted();
             currentProject.serialize(PDC.myDir);
+            purchaseWasAddedSuccessfully = true;
         }
-        return !purchaseExists;
+        return purchaseWasAddedSuccessfully;
     }
 
     /**
@@ -310,6 +327,7 @@ public class PDC {
         Purchase purchaseToDelete = currentTask.getPurchase(thePurchaseName);
         if(purchaseToDelete != null){
             currentTask.deletePurchase(purchaseToDelete);
+            currentTask.recalculateCompleted();
             currentProject.recalculateCompleted();
             currentProject.recalculateTotalCost();
             currentProject.serialize(PDC.myDir);
@@ -330,6 +348,7 @@ public class PDC {
             currentProject.addTask(brandNewTask);
             currentProject.recalculateCompleted();
             currentProject.serialize(PDC.myDir);
+            currentTask = brandNewTask;
         }
         return !theTaskExists;
     }
@@ -457,6 +476,21 @@ public class PDC {
         }
         return result;
     }
+    
+    /**
+     * Returns the status of a purchase associated with the current task, given the purchase name.
+     * @author Derek J. Ruiz Garcia
+     * @param thePurchaseName the name of the purchase.
+     * @return the status of the purchase as a boolean, will return false if the purchase is not
+     * selected, and if it's not found.
+     */
+    public boolean getPurchaseStatus(final String thePurchaseName){
+        boolean result = false;
+        if(currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
+            result = currentTask.getPurchase(thePurchaseName).getCompletedStatus();
+        }
+        return result;
+    }
 
     /**
      * Returns the completed status of the Project.
@@ -486,9 +520,29 @@ public class PDC {
     public void setPurchaseStatus(String thePurchaseName, boolean theStatus){
         if (currentTask.getAllPurchaseNames().contains(thePurchaseName)) {
             currentTask.getPurchase(thePurchaseName).setCompletedStatus(theStatus);
+            currentTask.recalculateCompleted();
             currentProject.recalculateCompleted();
             currentProject.serialize(PDC.myDir);
         }
+    }
+    
+    /**
+     * Sets the passed cost to the purchase with the passed name, rounding to two decimal places. 
+     * @param thePurchaseName the name of the purchase as a string.
+     * @param theNewPurchaseCost the new cost as a string.
+     * @return a boolean value returning true if the cost was set correctly, false otherwise.
+     */
+    public boolean setPurchaseCost(String thePurchaseName, String theNewPurchaseCost){
+        boolean addedSuccessfully = false;
+        if (currentTask.getAllPurchaseNames().contains(thePurchaseName) && isNonNegativeDouble(theNewPurchaseCost)) {
+            BigDecimal cost = new BigDecimal(theNewPurchaseCost);
+            cost.setScale(2, RoundingMode.HALF_EVEN);
+            currentTask.getPurchase(thePurchaseName).editCost(cost);
+            currentProject.recalculateTotalCost();
+            currentProject.serialize(PDC.myDir);
+            addedSuccessfully = true;
+        }
+        return addedSuccessfully;
     }
 
     /**
@@ -548,5 +602,24 @@ public class PDC {
      */
     public void addProjectToCurrentUser(Project newProject) {
         currentUser.addProject(newProject);
+    }
+    
+    /**
+     * Checks if the input passed as a parameter is a double or a negative value.
+     * @param input the input as a string to be checked
+     * @return a boolean value returning false if the input is a double or a negative value, true otherwise.
+     * @author Derek J. Ruiz Garcia
+     */
+    private boolean isNonNegativeDouble(String input){
+        boolean response = true;
+        try{
+            double doubleInput = Double.parseDouble(input);
+            if (doubleInput < 0){
+                response = false;
+            }
+        } catch (NumberFormatException e){
+            response = false;
+        }
+        return response;
     }
 }
