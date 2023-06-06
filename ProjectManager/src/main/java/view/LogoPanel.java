@@ -4,6 +4,10 @@
  */
 package view;
 
+import java.awt.Image;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author David
@@ -29,24 +33,17 @@ public class LogoPanel extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(0, 0, 0));
+        setLayout(new java.awt.GridBagLayout());
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/OwlLogo.png"))); // NOI18N
+        jLabel4.setAlignmentX(1.0F);
+        jLabel4.setAlignmentY(0.0F);
         jLabel4.setDoubleBuffered(true);
+        jLabel4.setMaximumSize(new java.awt.Dimension(2000, 2000));
+        jLabel4.setMinimumSize(new java.awt.Dimension(400, 500));
+        jLabel4.setNextFocusableComponent(jLabel4);
         jLabel4.setPreferredSize(new java.awt.Dimension(405, 500));
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        add(jLabel4, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
 
