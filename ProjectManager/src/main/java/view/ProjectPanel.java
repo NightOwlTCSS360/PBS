@@ -41,14 +41,6 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
         }
         repopulateTasksList();
     }
-    
-    public void repopulateProjectInfo() {
-        if(myController.getCurrProjectName() != null) {
-            BudgetEstimateLabel.setText(NumberFormat.getCurrencyInstance().format(myController.getProjectBudget()));
-            CostEstimateLabel.setText(NumberFormat.getCurrencyInstance().format(myController.getProjectCost()));
-            DifferenceLabel.setText(NumberFormat.getCurrencyInstance().format(myController.getProjectBudget().subtract(myController.getProjectCost())));
-        }
-    }
 
     /**
      * Repopulates the List of Purchases based on the current Task's data.
