@@ -6,7 +6,8 @@ package view;
 
 import control.PDC;
 
-import javax.swing.*;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.math.BigDecimal;
 
 /**
@@ -18,7 +19,6 @@ public class BudgetPanel extends javax.swing.JPanel {
     private final PDC myController;
 
 
-
     /** The controller used to change and retrieve data. */
     //private final String myBudget;
     //private final String myBudget;
@@ -26,18 +26,36 @@ public class BudgetPanel extends javax.swing.JPanel {
 
 
 
-    public String getBudget(){
-        return getBudget.getText();
-    }
 
-    /**
-     * Creates new form budgetPanel
-     * @param
-     */
     public BudgetPanel(PDC myController) {
         //myBudget = theBudget;
         this.myController = myController;
         initComponents();
+
+        // Register hierarchy change listener
+        addHierarchyListener(new HierarchyListener() {
+            @Override
+            public void hierarchyChanged(HierarchyEvent e) {
+                if ((e.getChangeFlags() & HierarchyEvent.DISPLAYABILITY_CHANGED) != 0) {
+                    if (isDisplayable()) {
+                        // Update labels when the panel becomes displayable
+                        updateLabels();
+                    }
+                }
+            }
+        });
+    }
+
+    private void updateLabels() {
+        // Get the updated values for budget, cost, and balance
+        BigDecimal budget = myController.getProjectBudget();
+        BigDecimal cost = myController.totalCost();
+        BigDecimal balance = myController.calculateCurrentBudget(budget,cost);
+
+        // Update the labels with the new values
+        displayBudget.setText(budget.toString());
+        displayCost.setText(cost.toString());
+        displayBalance.setText(balance.toString());
     }
 
     /**
@@ -51,157 +69,179 @@ public class BudgetPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
 
-        budgetTitle = new javax.swing.JLabel();
-        currentBudget = new javax.swing.JLabel();
-        getBudget = new javax.swing.JTextField();
-        dollarSign1 = new javax.swing.JLabel();
         Budget = new javax.swing.JLabel();
-        dollarSign2 = new javax.swing.JLabel();
-        showCurrentBudget = new javax.swing.JLabel();
+        currentBudget = new javax.swing.JLabel();
+        moneySign1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        moneySign3 = new javax.swing.JLabel();
+        displayBalance = new javax.swing.JLabel();
         confirmButton = new javax.swing.JButton();
+        displayBudget = new javax.swing.JLabel();
+        purchaseCost = new javax.swing.JLabel();
+        displayCost = new javax.swing.JLabel();
+        moneySign2 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(250, 250, 250));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        budgetTitle.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        budgetTitle.setText("Budget :");
+        Budget.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        Budget.setText("Budget :");
 
         currentBudget.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        currentBudget.setText("Current Budget :");
+        currentBudget.setText("Current Balance :");
 
-        getBudget.setText("Budget");
-        getBudget.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                getBudgetActionPerformed(evt);
-            }
-        });
+        moneySign1.setText("$");
+        moneySign1.setToolTipText("");
 
-        dollarSign1.setText("$");
-        dollarSign1.setToolTipText("");
+        jLabel1.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
+        jLabel1.setText("Budget");
 
-        Budget.setFont(new java.awt.Font("Segoe UI Emoji", 1, 18)); // NOI18N
-        Budget.setText("Budget");
+        moneySign3.setText("$");
+        moneySign3.setToolTipText("");
 
-        dollarSign2.setText("$");
-        dollarSign2.setToolTipText("");
-
-        showCurrentBudget.setText("Current Budget");
+        displayBalance.setText("balance");
 
         confirmButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        confirmButton.setText("CONFIRM");
-        confirmButton.setActionCommand("CONFIRM");
-        /**confirmButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        confirmButton.setText("RECALCULATE");
+        confirmButton.setActionCommand("CALCULATE");
+        confirmButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 confirmButtonMouseClicked(evt);
             }
-        });**/
+        });
         confirmButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 confirmButtonActionPerformed(evt);
             }
         });
 
+        displayBudget.setText("budget");
+
+        purchaseCost.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        purchaseCost.setText("Purchase cost :");
+
+        displayCost.setText("Display cost");
+
+        moneySign2.setText("$");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(budgetTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(currentBudget, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(showCurrentBudget, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(getBudget))
-                                .addGap(18, 18, 18)
+                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(dollarSign1, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
-                                        .addComponent(dollarSign2, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(currentBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(displayBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(moneySign3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(Budget, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(displayBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(moneySign1, javax.swing.GroupLayout.PREFERRED_SIZE, 6, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(77, 77, 77))))
                         .addGroup(layout.createSequentialGroup()
-                                .addGap(75, 75, 75)
-                                .addComponent(Budget, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(confirmButton)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(confirmButton))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addGap(75, 75, 75)
+                                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(layout.createSequentialGroup()
+                                                                .addContainerGap()
+                                                                .addComponent(purchaseCost)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(displayCost)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(moneySign2)))
+                                                .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap())
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(Budget, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(budgetTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(getBudget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(dollarSign1))
-                                .addGap(1, 1, 1)
-                                .addComponent(confirmButton)
+                                        .addComponent(Budget, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(moneySign1)
+                                        .addComponent(displayBudget))
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(purchaseCost)
+                                        .addComponent(displayCost)
+                                        .addComponent(moneySign2))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(currentBudget, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(showCurrentBudget)
-                                        .addComponent(dollarSign2))
-                                .addContainerGap(56, Short.MAX_VALUE))
+                                        .addComponent(displayBalance)
+                                        .addComponent(moneySign3))
+                                .addGap(18, 18, 18)
+                                .addComponent(confirmButton)
+                                .addContainerGap(11, Short.MAX_VALUE))
         );
     }// </editor-fold>
 
-    private void getBudgetActionPerformed(java.awt.event.ActionEvent evt) {
-        /**  String budgetText = getBudget.getText(); // Get the budget entered by the user
-
-         // Pass the budget to the PDC or perform any other desired action
-
-         myController.setProjectBudget(budgetText); // Assuming you have a `setBudget` method in your PDC class
-
-         // You can also update the UI or perform any other necessary operations
-
-         currentBudget.setText("Current Budget: " + budgetText);**/
-
-    }
-
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-
-        // TODO add your handling code here:
-        String budgetText = getBudget.getText();
-
-        try {
-            BigDecimal budget = new BigDecimal(budgetText); // Parse the budget text to a BigDecimal value
-
-            myController.setProjectBudget(budget); // Set the project budget in the PDC
-
-            BigDecimal currentBudget = myController.calculateCurrentBudget();
-
-            showCurrentBudget.setText(currentBudget.toString());
-
-            // Check if the current budget is negative and display a dialog if true
-            if (currentBudget.compareTo(BigDecimal.ZERO) < 0) {
-                JOptionPane.showMessageDialog(this, "Warning: you should ask help from your mom.", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (NumberFormatException e) {
-            // Handle invalid input
-            JOptionPane.showMessageDialog(this, "Invalid budget value. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // Check if the current budget is negative and display a dialog if true
-
     }
 
-
-    /**private void confirmButtonMouseClicked(java.awt.event.MouseEvent evt) {
+    private void confirmButtonMouseClicked(java.awt.event.MouseEvent evt) {
         // TODO add your handling code here:
-    }**/
+    }
 
 
     // Variables declaration - do not modify
-    private javax.swing.JLabel dollarSign1;
-    private javax.swing.JLabel dollarSign2;
-    private javax.swing.JLabel budgetTitle;
+    private javax.swing.JLabel Budget;
     private javax.swing.JButton confirmButton;
     private javax.swing.JLabel currentBudget;
-    private javax.swing.JTextField getBudget;
-    private javax.swing.JLabel Budget;
-    private javax.swing.JLabel showCurrentBudget;
+    private javax.swing.JLabel displayBalance;
+    private javax.swing.JLabel displayBudget;
+    private javax.swing.JLabel displayCost;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel moneySign1;
+    private javax.swing.JLabel moneySign2;
+    private javax.swing.JLabel moneySign3;
+    private javax.swing.JLabel purchaseCost;
     // End of variables declaration
 }
+
+
+/**private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {
+    // TODO add your handling code here:
+
+    // TODO add your handling code here:
+    String budgetText = getBudget.getText();
+
+    try {
+        BigDecimal budget = new BigDecimal(budgetText); // Parse the budget text to a BigDecimal value
+
+        myController.setProjectBudget(budget); // Set the project budget in the PDC
+
+        BigDecimal currentBudget = myController.calculateCurrentBudget();
+
+        showCurrentBudget.setText(currentBudget.toString());
+
+        // Check if the current budget is negative and display a dialog if true
+        if (currentBudget.compareTo(BigDecimal.ZERO) < 0) {
+            JOptionPane.showMessageDialog(this, "Warning: you should ask help from your mom.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
+    } catch (NumberFormatException e) {
+        // Handle invalid input
+        JOptionPane.showMessageDialog(this, "Invalid budget value. Please enter a valid number.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    // Check if the current budget is negative and display a dialog if true
+
+}**/
+
+
+
