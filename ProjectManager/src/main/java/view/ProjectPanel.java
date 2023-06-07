@@ -42,6 +42,10 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
         repopulateTasksList();
     }
 
+    /**
+     * Repopulates the List of Purchases based on the current Task's data.
+     * @author Paul Schmidt`
+     */
     public void repopulatePurchasesList() {
         PurchasesList.removeAll();
         for (String purchaseName : myController.getPurchases()) {
