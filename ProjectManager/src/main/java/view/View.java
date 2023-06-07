@@ -23,10 +23,11 @@ import view.components.ExportDialog;
  */
 public class View extends javax.swing.JFrame {
 
+    /** The Persistent Data Controller used to access and change the User's Data */
     private PDC controller;
-
+    /** The DashboardPanel that gets attached to the JFrame */
     private DashboardPanel dbp;
-    
+    /** The Dialog generated when exporting a Project */
     private ExportDialog exportDialog;
     /**
      * Creates new form StartGUI
@@ -329,13 +330,20 @@ public class View extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Action performed when Importing a Project. Prompts a user for the file of the
+     * project to import.
+     * @author Paul Schmidt
+     * @author Jarvis Kampe
+     * @param evt the button click event
+     */
     private void importProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importProjectsMenuItemimportSettingsAction
         int returnVal = ImportProjectChooser.showOpenDialog(View.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
                 controller.importProject(ImportProjectChooser.getSelectedFile());
                 JOptionPane successPane = new JOptionPane("Imported Successfully!", JOptionPane.INFORMATION_MESSAGE);
-                JDialog successDialog = successPane.createDialog(this, "Import Successfull");
+                JDialog successDialog = successPane.createDialog(this, "Import Successful");
                 successDialog.setAlwaysOnTop(true);
                 successDialog.setVisible(true);
                 dbp.repopulateProjectList();
@@ -349,11 +357,23 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_importProjectsMenuItemimportSettingsAction
 
+    /**
+     * Action performed when Exporting a Project. Prompts a user for the file location to save the
+     * exported project and the project to export.
+     * @author Paul Schmidt
+     * @author Jarvis Kampe
+     * @param evt the button click event.
+     */
     private void exportProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportProjectsMenuItemimportSettingsAction
         exportDialog = new ExportDialog(this, true, controller);
         exportDialog.setVisible(true);
     }//GEN-LAST:event_exportProjectsMenuItemimportSettingsAction
 
+    /**
+     * Action performed when editing Settings.
+     * @author Jarvis Kampe
+     * @param evt the button click event.
+     */
     private void editSettingsMenuItemeditSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSettingsMenuItemeditSettingsAction
         settingsDialog.pack();
         settingsDialog.setLocationRelativeTo(null);
@@ -362,6 +382,11 @@ public class View extends javax.swing.JFrame {
         settingsDialog.setVisible(true);
     }//GEN-LAST:event_editSettingsMenuItemeditSettingsAction
 
+    /**
+     * Action performed when importing Settings.
+     * @author Jarvis Kampe
+     * @param evt the button click event.
+     */
     private void importSettingsMenuItemimportSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importSettingsMenuItemimportSettingsAction
         int returnVal = jFileChooser1.showOpenDialog(View.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -373,6 +398,11 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_importSettingsMenuItemimportSettingsAction
 
+    /**
+     * Action performed when exporting Settings.
+     * @author Jarvis Kampe
+     * @param evt the button click event.
+     */
     private void exportSettingsMenuItemexportSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportSettingsMenuItemexportSettingsAction
         int returnVal = jFileChooser1.showSaveDialog(View.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -384,6 +414,12 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_exportSettingsMenuItemexportSettingsAction
 
+    /**
+     * Action performed when opening the About Information.
+     * @author Jarvis Kampe
+     * @author Paul Schmidt
+     * @param evt the button click event.
+     */
     private void aboutMenuItemaboutAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemaboutAction
         javax.swing.JPanel MainFrame = (javax.swing.JPanel)this.MainFrame;
         AboutPanel about = new AboutPanel((javax.swing.JPanel)this.MainFrame.getComponent(0), controller);
@@ -394,15 +430,30 @@ public class View extends javax.swing.JFrame {
         MainFrame.repaint();
     }//GEN-LAST:event_aboutMenuItemaboutAction
 
+    /**
+     * Action performed when saving Settings.
+     * @author Jarvis Kampe
+     * @param evt the button click event.
+     */
     private void saveSettingsButtonsaveSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsButtonsaveSettingsAction
         controller.setUserInfo(usernameTextField.getText(), emailTextField.getText());
         settingsDialog.dispose();
     }//GEN-LAST:event_saveSettingsButtonsaveSettingsAction
 
+    /**
+     * Action performed when canceling saving Settings.
+     * @author Jarvis Kampe
+     * @param evt the button click event.
+     */
     private void cancelSettingsButtoncancelSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelSettingsButtoncancelSettingsAction
         settingsDialog.dispose();
     }//GEN-LAST:event_cancelSettingsButtoncancelSettingsAction
 
+    /**
+     * Action performed when Creating a Project.
+     * @author Jarvis Kampe
+     * @param evt the button click event.
+     */
     private void createProjectButtoncreateProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProjectButtoncreateProjectAction
         try {
             controller.addNewProject(projectNameTextField.getText());
@@ -412,10 +463,20 @@ public class View extends javax.swing.JFrame {
         createProjectDialog.dispose();
     }//GEN-LAST:event_createProjectButtoncreateProjectAction
 
+    /**
+     * Action performed when cancelling creating a Project.
+     * @author Jarvis Kampe
+     * @param evt the button click event.
+     */
     private void cancelProjectButtoncancelProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelProjectButtoncancelProjectAction
         createProjectDialog.dispose();
     }//GEN-LAST:event_cancelProjectButtoncancelProjectAction
 
+    /**
+     * Action performed when Signing the user out of the application.
+     * @author Jarvis Kampe
+     * @param evt the button click event.
+     */
     private void signOutAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutAction
         if (controller.getCurrentUser() != null) {
             javax.swing.JPanel MainFrame = (javax.swing.JPanel)this.MainFrame;
@@ -431,15 +492,34 @@ public class View extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_signOutAction
 
+    /**
+     * Return a reference to the PDC associated with this JFrame.
+     * @author Paul Schmidt
+     * @return the PDC reference.
+     */
     public PDC getController() {
         return controller;
     }
     private void disableWelcome() {
         
     }
-    
-    public void setMenuBarVisibility(boolean value) {
+
+    /**
+     * Sets the menu bar visibility of this JFrame.
+     * @author Paul Schmidt
+     * @param value the visibility of the menu bar. true for Visible, false otherwise.
+     */
+    public void setMenuBarVisibility(final boolean value) {
         jMenuBar1.setVisible(value);
+    }
+
+    /**
+     * Sets the DashboardPanel object of this JFrame.
+     * @author Paul Schmidt
+     * @param customDashPanel the DashboardPanel object.
+     */
+    void setDashBoardPanel(final DashboardPanel customDashPanel) {
+        dbp = customDashPanel;
     }
 
 
@@ -473,8 +553,4 @@ public class View extends javax.swing.JFrame {
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernameTextField;
     // End of variables declaration//GEN-END:variables
-
-    void setDashBoardPanel(DashboardPanel customDashPanel) {
-        dbp = customDashPanel;
-    }
 }

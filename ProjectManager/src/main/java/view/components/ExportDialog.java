@@ -13,17 +13,21 @@ import javax.swing.JOptionPane;
 
 
 /**
- *
- * @author PaulS
+ * The Dialog that pops up when the User chooses to Export a Project.
+ * @author Paul Schmidt
  */
 public class ExportDialog extends javax.swing.JDialog {
-
+    /** The User's Projects to select from */
     private Set<String> projects;
+    /** The PDC of the application to control Exporting */
     private PDC controller;
+    /** The chosen directory to export the project to */
     private File directory;
+    /** The name of the Project to Export */
     private String selectedProject;
     /**
      * Creates new form ExportDialog
+     * @author Paul Schmidt
      */
     public ExportDialog(java.awt.Frame parent, boolean modal, PDC controller) {
         super(parent, modal);
@@ -151,6 +155,11 @@ public class ExportDialog extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_CancelButtonActionPerformed
 
+    /**
+     * Action performed when Exporting a Project.
+     * @author Paul Schmidt
+     * @param evt the button click event.
+     */
     private void ExportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExportButtonActionPerformed
         if (directory != null && selectedProject != null) {
             try {
@@ -172,6 +181,11 @@ public class ExportDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_ExportButtonActionPerformed
 
+    /**
+     * Action performed when selecting a Project to Export.
+     * @author Paul Schmidt
+     * @param evt the button click event.
+     */
     private void ProjectListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProjectListActionPerformed
         selectedProject = (String)ProjectList.getSelectedItem();
         if (directory != null && selectedProject != null) {
@@ -179,6 +193,11 @@ public class ExportDialog extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_ProjectListActionPerformed
 
+    /**
+     * Action performed when Selecting the output Directory.
+     * @author Paul Schmidt
+     * @param evt the button click event.
+     */
     private void SelectDirectoryAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectDirectoryAction
         int result = DirectoryChooser.showSaveDialog(this);
         if (result == 0) {

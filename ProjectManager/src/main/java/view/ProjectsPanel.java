@@ -15,6 +15,7 @@ public class ProjectsPanel extends javax.swing.JPanel {
     private final String myProject;
     
     private final PDC myController;
+    /** The currently selected Projects Panel*/
     static ProjectsPanel selectedProjectsPanel;
     /**
      * Creates new form TaskPanel
@@ -74,6 +75,13 @@ public class ProjectsPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Sets the currently selected Project based on the ProjectsPanel that was clicked.
+     * Changes the color of the Panel for User visual feedback.
+     * @author Jarvis Kampe
+     * @author Paul Schmidt
+     * @param evt the button click event.
+     */
     private void setCurrentProjectAction(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         myController.setCurrentProject(this.TaskName.getText());
         DashboardPanel db = (DashboardPanel)getParent().getParent().getParent();

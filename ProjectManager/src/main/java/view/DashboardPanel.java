@@ -49,6 +49,10 @@ public class DashboardPanel extends javax.swing.JPanel {
         this.repaint();
     }
 
+    /**
+     * Repopulates the ProjectPanel based on the currently selected Project.
+     * @author Paul Schmidt
+     */
     public void repopulateProjectPanel() {
         this.remove(1);
         this.add(new ProjectPanel(controller),1);
@@ -56,6 +60,10 @@ public class DashboardPanel extends javax.swing.JPanel {
         this.repaint();
     }
 
+    /**
+     * Repopulates the List of Projects based on the User's Projects.
+     * @author Paul Schmidt
+     */
     public void repopulateProjectList() {
         pl.repopulateProjectsList();
         revalidate();

@@ -365,6 +365,11 @@ public class PDC {
         currentTask = null;
     }
 
+    /**
+     * Returns the current User.
+     * @author Paul Schmidt
+     * @return the current User.
+     */
     public User getCurrentUser() {
         return currentUser;
     }
@@ -596,14 +601,6 @@ public class PDC {
         createSettingsFile();
     }
 
-    /**
-     * DEPRECATED
-     * @param newProject
-     */
-    public void addProjectToCurrentUser(Project newProject) {
-        currentUser.addProject(newProject);
-    }
-    
     /**
      * Checks if the input passed as a parameter is a double or a negative value.
      * @param input the input as a string to be checked

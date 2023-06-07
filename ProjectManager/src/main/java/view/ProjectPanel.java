@@ -22,6 +22,7 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
 
     /** The data controller */
     private final PDC myController;
+    /**The DashboardPanel that this ProjectPanel is set on.*/
     private DashboardPanel dbp;
 
     /** Helps with firing events. */
@@ -41,7 +42,19 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
         }
         repopulateTasksList();
     }
+    
+    public void repopulateProjectInfo() {
+        if(myController.getCurrProjectName() != null) {
+            BudgetEstimateLabel.setText(NumberFormat.getCurrencyInstance().format(myController.getProjectBudget()));
+            CostEstimateLabel.setText(NumberFormat.getCurrencyInstance().format(myController.getProjectCost()));
+            DifferenceLabel.setText(NumberFormat.getCurrencyInstance().format(myController.getProjectBudget().subtract(myController.getProjectCost())));
+        }
+    }
 
+    /**
+     * Repopulates the List of Purchases based on the current Task's data.
+     * @author Paul Schmidt`
+     */
     public void repopulatePurchasesList() {
         PurchasesList.removeAll();
         for (String purchaseName : myController.getPurchases()) {
@@ -526,6 +539,11 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
         }
     }//GEN-LAST:event_TrashButtonActionPerformed
 
+    /**
+     * Deletes the Current Project if it is not null. User confirms the action before deletion.
+     * @author Paul Schmidt
+     * @param evt the button click
+     */
     private void ProjectTrashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProjectTrashButtonActionPerformed
         if (myController.getCurrProjectName() != null){
             int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the Project: " + myController.getCurrProjectName() + "?",
