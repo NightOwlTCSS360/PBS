@@ -26,6 +26,7 @@ public class DashboardPanel extends javax.swing.JPanel {
      * Generic object used by the About object
      */
     private javax.swing.JPanel myLast;
+    private View parentJFrame;
     
     private PDC controller = new PDC();
     private ProjectList pl;
@@ -57,6 +58,10 @@ public class DashboardPanel extends javax.swing.JPanel {
         this.remove(1);
         this.add(new ProjectPanel(controller),1);
         this.revalidate();
+        if (parentJFrame == null) {
+            parentJFrame = (View)getParent().getParent().getParent().getParent().getParent();
+        }
+        parentJFrame.pack();
         this.repaint();
     }
 
@@ -67,6 +72,9 @@ public class DashboardPanel extends javax.swing.JPanel {
     public void repopulateProjectList() {
         pl.repopulateProjectsList();
         revalidate();
+        if (parentJFrame == null) {
+            parentJFrame = (View)getParent().getParent().getParent().getParent().getParent();
+        }        parentJFrame.pack();
         repaint();
     }
     

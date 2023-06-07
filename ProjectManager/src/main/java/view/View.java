@@ -489,6 +489,7 @@ public class View extends javax.swing.JFrame {
             MainFrame.repaint();
             this.setMenuBarVisibility(false);
             controller.logoutUser();
+            pack();
         }
     }//GEN-LAST:event_signOutAction
 
