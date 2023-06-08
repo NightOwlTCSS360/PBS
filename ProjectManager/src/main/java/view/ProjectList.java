@@ -20,7 +20,7 @@ public class ProjectList extends javax.swing.JPanel {
     private final PDC controller;
     
     private ProjectPanel pp;
-    /** The DashBoardPanel that holds this List of Projects */
+
     private DashboardPanel dbp;
     
     /**
@@ -34,10 +34,6 @@ public class ProjectList extends javax.swing.JPanel {
         initComponents();
     }
 
-    /**
-     * Repopulates the User's List of Projects
-     * @author Paul Schmidt
-     */
     public void repopulateProjectsList() {
         ProjectList.removeAll();
         Set<String> s = controller.getProjectNames();

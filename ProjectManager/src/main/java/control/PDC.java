@@ -621,4 +621,33 @@ public class PDC {
         }
         return response;
     }
+/**
+    public BigDecimal calculateCurrentBudget() {
+        BigDecimal projectBudget = currentProject.getProjectEstimate();
+
+        if (currentTask == null) {
+            return projectBudget; // Return the original project budget if currentTask is null
+        }
+
+        //BigDecimal totalCost = currentProject.recalculateTotalCost();
+        BigDecimal totalCost = currentTask.getTotalCost();
+        BigDecimal currentBudget = projectBudget.subtract(totalCost);
+        return currentBudget;
+    }**/
+
+    public BigDecimal calculateCurrentBudget(BigDecimal projectBudget, BigDecimal totalCost) {
+        if (currentTask == null) {
+        return projectBudget; // Return the original project budget if currentTask is null
+    }
+
+    BigDecimal currentBudget = projectBudget.subtract(totalCost);
+    return currentBudget;
+}
+
+
+
+    public BigDecimal totalCost(){
+        BigDecimal totalCost = currentProject.recalculateTotalCost();
+        return totalCost;
+    }
 }

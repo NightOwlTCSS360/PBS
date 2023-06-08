@@ -58,7 +58,12 @@ public class DashboardPanel extends javax.swing.JPanel {
      */
     public void repopulateProjectPanel() {
         this.remove(1);
-        this.add(new ProjectPanel(controller),1);
+
+        ProjectPanel projectPanel = new ProjectPanel(controller);
+
+        this.add(projectPanel, 1);
+
+        projectPanel.repopulateBudgetInfo(); // Call the method on the ProjectPanel object
         this.revalidate();
         if (parentJFrame == null) {
             parentJFrame = (View)getParent().getParent().getParent().getParent().getParent();
