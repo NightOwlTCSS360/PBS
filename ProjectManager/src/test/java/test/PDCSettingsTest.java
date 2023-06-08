@@ -17,10 +17,19 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests the Import/Export/Edit Settings functionality in the PDC class.
+ * @author Paul Schmidt
+ */
 class PDCSettingsTest {
 
     PDC control = new PDC();
     User testUser;
+
+    /**
+     * Make sure there is some test settings to work with in the testing Directory.
+     * @author Paul Schmidt
+     */
     @BeforeAll
     static void validateSettingsFiles() {
         try {
@@ -38,12 +47,22 @@ class PDCSettingsTest {
             throw new RuntimeException(e);
         }
     }
+
+    /**
+     * Get a fresh instance of the user and set them to the currentUser in the PDC class.
+     * @author Paul Schmidt
+     */
     @BeforeEach
     void setUp() {
          testUser = new User("Test", "User", "test_user@junit.org","123");
          control.setCurrentUser(testUser);
     }
 
+    /**
+     * Creates a settings file with the current user's information and validates that the file was created with the
+     * correct information.
+     * @author Paul Schmidt
+     */
     @Test
     void createSettingsFile() {
         control.createSettingsFile();
@@ -56,6 +75,10 @@ class PDCSettingsTest {
         }
     }
 
+    /**
+     * Imports settings from a predefined Settings File and validates that the information was created correctly.
+     * @author Paul Schmidt
+     */
     @Test
     void importSettings() {
         try {
@@ -72,6 +95,11 @@ class PDCSettingsTest {
         }
     }
 
+    /**
+     * Creates and exports a settings file then reads the file to make sure that the file was created with the
+     * correct information.
+     * @author Paul Schmidt
+     */
     @Test
     void exportSettings() {
         try {

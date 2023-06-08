@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Class that represents a User
  * @author Hieu Nguyen
- * @author Derek
+ * @author Derek J. Ruiz Garcia
  * @author Paul Schmidt
  */
 public class User implements Serializable {
@@ -44,7 +44,7 @@ public class User implements Serializable {
      * Uses the User's email to generate the User's appdata Folder that will contain the Projects etc. if it
      * doesn't already exist.
      * @author Hieu Nguyen
-     * @author Derek
+     * @author Derek J. Ruiz Garcia
      * @author Paul Schmidt
      * @param theUserFirstName the first name of the User
      * @param theUserLastName the last name of the User
@@ -59,18 +59,9 @@ public class User implements Serializable {
         myPassword = thePassword;
         myProjects = new HashMap<>();
         try {
-//            System.out.println("The directory: " + PDC.myDir);
             myPath = Paths.get(PDC.myDir + "\\" + myUserEmail);
-            if (Files.exists(myPath)) {
-               // System.out.println(myPath.toRealPath() + " exists (User Directory)");
-            } else {
-                //System.out.println(myPath.toString() + " doesn't exist. Creating Directory now...");
+            if (!Files.exists(myPath)) {
                 Files.createDirectory(myPath);
-                if (Files.exists(myPath)) {
-                    //System.out.println(myPath.toRealPath() + " created!");
-                } else {
-                    //System.out.println("Error creating " + myPath.toString());
-                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,12 +80,11 @@ public class User implements Serializable {
     /**
      * Populates the Map of User Projects by looking in the User's appdata Folder and scanning for serialized projects,
      * deserializing them, and adding them to the Map.
+     * @author Paul Schmidt
      */
     public void loadInUserProjects() {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(myPath)) {
-            //System.out.println("Printing Directories in " + myUserFirstName + "'s directory:");
             for (Path projectFolder : stream) {
-                //System.out.println(projectFolder.getFileName());
                 try {
                     Project p = Project.deserialize(projectFolder + "\\" + projectFolder.getFileName() + ".ser");
                     addProject(p);
@@ -103,8 +93,6 @@ public class User implements Serializable {
                 }
             }
         } catch (IOException | DirectoryIteratorException x) {
-            // IOException can never be thrown by the iteration.
-            // In this snippet, it can only be thrown by newDirectoryStream.
             System.err.println(x);
         }
     }
@@ -115,12 +103,6 @@ public class User implements Serializable {
      * @param theProject to add
      */
     public void addProject(final Project theProject) {
-        String pName = theProject.getMyProjectName();
-//        if (myProjects.containsKey(pName)) {
-//            System.out.println("Project " + pName + " already exists in " + myUserFirstName + "'s Projects, overwriting old project. . .");
-//        } else {
-//            System.out.println("Project " + pName + " doesn't exist in "+ myUserFirstName + "'s Projects, adding now. . .");
-//        }
         theProject.serialize(PDC.myDir);
         myProjects.put(theProject.getMyProjectName(), theProject);
     }

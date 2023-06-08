@@ -530,6 +530,11 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
         }
     }//GEN-LAST:event_TrashButtonActionPerformed
 
+    /**
+     * Action performed when deleting a Project.
+     * @author Paul Schmidt
+     * @param evt the button click event.
+     */
     private void ProjectTrashButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProjectTrashButtonActionPerformed
         if (myController.getCurrProjectName() != null){
             int response = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete the Project: " + myController.getCurrProjectName() + "?",

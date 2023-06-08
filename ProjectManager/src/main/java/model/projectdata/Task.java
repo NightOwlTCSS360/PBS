@@ -86,7 +86,6 @@ public class Task implements Serializable {
     public boolean getCompletedStatus() {
         return completedStatus;
     }
-    //TODO Edit for MAP
 
     /**
      * Deletes the passed purchase from the list of purchases.

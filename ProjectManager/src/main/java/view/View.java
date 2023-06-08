@@ -393,7 +393,7 @@ public class View extends javax.swing.JFrame {
             try {
                 controller.importSettings(jFileChooser1.getSelectedFile());
             } catch (IOException ex) {
-                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
         }
     }//GEN-LAST:event_importSettingsMenuItemimportSettingsAction
@@ -409,7 +409,7 @@ public class View extends javax.swing.JFrame {
             try {
                 controller.exportSettings(jFileChooser1.getSelectedFile());
             } catch (IOException ex) {
-                Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
             }
         }
     }//GEN-LAST:event_exportSettingsMenuItemexportSettingsAction

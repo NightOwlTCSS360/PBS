@@ -64,8 +64,10 @@ class ProjectTest {
         secondTestProject.serialize(PDC.myDir);
         String filePath = PDC.myDir + "myEmail\\mySecondProject\\mySecondProject.ser";
         File projectFile = new File(filePath);
+
+        User secondTestUser = new User("Second", "User", "secondTestUser@JUnit.org", "password");
         if(projectFile.exists()){
-            Project obtainedProject = new Project(testUser, Project.deserialize(filePath));
+            Project obtainedProject = new Project(secondTestUser, Project.deserialize(filePath));
             if(!secondTestProject.getMyProjectName().equals(obtainedProject.getMyProjectName())
                     || !secondTestProject.getTask("testTask").getTaskName().equals(obtainedProject.getTask("testTask").getTaskName())
                     || !secondTestProject.getTask("testTask").getPurchase("testPurchase").getName().equals(obtainedProject.getTask("testTask").getPurchase("testPurchase").getName())){

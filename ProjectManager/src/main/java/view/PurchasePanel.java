@@ -76,9 +76,9 @@ public class PurchasePanel extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(250, 250, 250));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        setMinimumSize(new java.awt.Dimension(550, 0));
+        setMinimumSize(new java.awt.Dimension(550, 37));
         setName(""); // NOI18N
-        setPreferredSize(new java.awt.Dimension(550, 35));
+        setPreferredSize(new java.awt.Dimension(550, 37));
 
         costLabel.setText("<Purchase Cost>");
 
