@@ -291,6 +291,7 @@ public class AboutPanel extends javax.swing.JPanel {
 
     /**
      * Generate developer information
+     * @author Jarvis Kampe
      * @param id
      * @return developer info
      */
@@ -301,6 +302,7 @@ public class AboutPanel extends javax.swing.JPanel {
     
     /**
      * Gets the object type if you need it for some reason lol
+     * @author Jarvis Kampe
      * @return the object type what else would it return
      */
     public javax.swing.JPanel getObject() {
