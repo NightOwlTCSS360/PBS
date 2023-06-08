@@ -38,6 +38,8 @@ public class DashboardPanel extends javax.swing.JPanel {
     
     /**
      * Creates new form AboutPanel
+     * @author Jarvis Kampe
+     * @param controller
      */
     public DashboardPanel(PDC controller) {
         this.controller = controller;

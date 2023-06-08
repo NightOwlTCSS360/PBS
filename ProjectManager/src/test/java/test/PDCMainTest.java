@@ -19,11 +19,20 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Tests methods not related to settings or importing/exporting Projects in the PDC class.
+ * @author Paul Schmidt
+ */
 class PDCMainTest {
 
     static PDC control = new PDC();
     User testUser = new User("Test", "User", "test_user@junit.org","123");
 
+    /**
+     * Set up some fresh Projects/Tasks/Purchases to test.
+     * @author Paul Schmidt
+     * @throws IOException if something goes wrong.
+     */
     @BeforeEach
     void setUp() throws IOException {
         control.setCurrentUser(testUser);
@@ -35,9 +44,11 @@ class PDCMainTest {
         control.addNewPurchase("TestPurchase2", "0.50");
     }
 
-    @AfterEach
-    void tearDown() {
-    }
+    /**
+     * Cleans up the Test User's local Persistent Data from the automated testing.
+     * @author Paul Schmidt
+     * @throws NullPointerException if we somehow tried to delete project that doesn't exist.
+     */
     @AfterAll
     static void cleanUp() throws NullPointerException {
         for(String project : control.getProjectNames()) {
@@ -45,9 +56,6 @@ class PDCMainTest {
             control.setCurrentProject(project);
             control.deleteCurrentProject();
         }
-    }
-    @Test
-    void setUserInfo() {
     }
 
     @Test
@@ -186,9 +194,5 @@ class PDCMainTest {
     @Test
     void getCurrentUser() {
         assertSame(testUser, control.getCurrentUser());
-    }
-
-    @Test
-    void addProjectToCurrentUser() {
     }
 }

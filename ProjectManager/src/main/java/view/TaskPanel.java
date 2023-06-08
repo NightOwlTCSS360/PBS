@@ -52,6 +52,7 @@ public class TaskPanel extends javax.swing.JPanel implements PropertyChangeListe
     }
 
     /** A property listener that catches a signal indicating that a property has changed.
+     *  @author Derek J. Ruiz Garcia
      *  @param theEvenOfThePropertyChanged A PropertyChangeEvent object describing the event source
      *          and the property that has changed.
      */

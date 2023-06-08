@@ -18,7 +18,9 @@ import java.util.List;
 /**
  * This class, PDC (aka Persistent Data Controller), acts as a control layer entity that helps manage the interactions
  * between the GUI and the data modeled in the project.
+ * @author Derek J. Ruiz Garcia
  * @author Paul Schmidt
+ * @author Derek J. Ruiz Garcia
  */
 public class PDC {
 

@@ -18,11 +18,20 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class tests the Importing and Exporting Features for Projects Implemented in the PDC class
+ * @author Paul Schmidt
+ */
 class PDCImportExportProjectsTest {
     PDC control = new PDC();
     User testUser;
 
     static Path testDir;
+
+    /**
+     * Set up the Test User's local files so that we can run the automated testing.
+     * @author Paul Schmidt
+     */
     @BeforeAll
     static void validateTestDirectory() {
         try {
@@ -37,6 +46,11 @@ class PDCImportExportProjectsTest {
         }
 
     }
+
+    /**
+     * Get a fresh instance of the User and set it to currentUser.
+     * @author Paul Schmidt
+     */
     @org.junit.jupiter.api.BeforeEach
     void setUp() {
         testUser = new User("Test", "User",
@@ -44,6 +58,11 @@ class PDCImportExportProjectsTest {
         control.setCurrentUser(testUser);
     }
 
+    /**
+     * Creates a new Project with Tasks and Purchases and Exports it to a file in the Testing Directory.
+     * @author Paul Schmidt
+     * @throws IOException If something goes wrong.
+     */
     @org.junit.jupiter.api.Test
     void exportProject() throws IOException {
         Project testProject = new Project(testUser, "TestProject");
@@ -71,6 +90,11 @@ class PDCImportExportProjectsTest {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Imports an already existing serialized Project from the Testing Directory
+     * @author Paul Schmidt
+     */
     @org.junit.jupiter.api.Test
     void importProject() {
         boolean success = false;

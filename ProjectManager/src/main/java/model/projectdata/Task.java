@@ -86,10 +86,10 @@ public class Task implements Serializable {
     public boolean getCompletedStatus() {
         return completedStatus;
     }
-    //TODO Edit for MAP
 
     /**
      * Deletes the passed purchase from the list of purchases.
+     * @author Derek J. Ruiz Garcia
      * @param thePurchase the purchase object we want to delete.
      */
     public void deletePurchase(Purchase thePurchase){
