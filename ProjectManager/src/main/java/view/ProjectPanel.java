@@ -5,6 +5,7 @@
 package view;
 import control.PDC;
 
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -26,6 +27,20 @@ public class ProjectPanel extends javax.swing.JPanel implements PropertyChangeLi
 
     /** Helps with firing events. */
     private final PropertyChangeSupport myPropertycs = new PropertyChangeSupport(this);
+
+
+    public void setBudgetInfo(JPanel budgetInfo) {
+        BudgetInfo = budgetInfo;
+    }
+
+    public void repopulateBudgetInfo(){
+        BudgetInfo.removeAll();
+        // Add BudgetPanel to BudgetInfo
+        BudgetInfo.setLayout(new BorderLayout()); // Set layout for BudgetInfo container
+        BudgetInfo.add(new BudgetPanel(myController), BorderLayout.CENTER); // Add BudgetPanel to BudgetInfo
+        revalidate();
+        repaint();
+    }
 
     /**
      * Creates new form ProjectPanel

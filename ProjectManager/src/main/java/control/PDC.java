@@ -18,9 +18,7 @@ import java.util.List;
 /**
  * This class, PDC (aka Persistent Data Controller), acts as a control layer entity that helps manage the interactions
  * between the GUI and the data modeled in the project.
- * @author Derek J. Ruiz Garcia
  * @author Paul Schmidt
- * @author Derek J. Ruiz Garcia
  */
 public class PDC {
 
@@ -120,7 +118,7 @@ public class PDC {
         } catch (IOException e){
             e.printStackTrace();
         }
-                //Because now we have a file we can write to a file.
+        //Because now we have a file we can write to a file.
         System.out.println("File has been selected!: " + theFileToImport.getName());
         Scanner sc = new Scanner(theFileToImport);
 
@@ -367,11 +365,6 @@ public class PDC {
         currentTask = null;
     }
 
-    /**
-     * Returns the current User.
-     * @author Paul Schmidt
-     * @return the current User.
-     */
     public User getCurrentUser() {
         return currentUser;
     }
@@ -483,7 +476,7 @@ public class PDC {
         }
         return result;
     }
-    
+
     /**
      * Returns the status of a purchase associated with the current task, given the purchase name.
      * @author Derek J. Ruiz Garcia
@@ -532,9 +525,9 @@ public class PDC {
             currentProject.serialize(PDC.myDir);
         }
     }
-    
+
     /**
-     * Sets the passed cost to the purchase with the passed name, rounding to two decimal places. 
+     * Sets the passed cost to the purchase with the passed name, rounding to two decimal places.
      * @param thePurchaseName the name of the purchase as a string.
      * @param theNewPurchaseCost the new cost as a string.
      * @return a boolean value returning true if the cost was set correctly, false otherwise.
@@ -604,6 +597,14 @@ public class PDC {
     }
 
     /**
+     * DEPRECATED
+     * @param newProject
+     */
+    public void addProjectToCurrentUser(Project newProject) {
+        currentUser.addProject(newProject);
+    }
+
+    /**
      * Checks if the input passed as a parameter is a double or a negative value.
      * @param input the input as a string to be checked
      * @return a boolean value returning false if the input is a double or a negative value, true otherwise.
@@ -621,30 +622,12 @@ public class PDC {
         }
         return response;
     }
-/**
-    public BigDecimal calculateCurrentBudget() {
-        BigDecimal projectBudget = currentProject.getProjectEstimate();
-
-        if (currentTask == null) {
-            return projectBudget; // Return the original project budget if currentTask is null
-        }
-
-        //BigDecimal totalCost = currentProject.recalculateTotalCost();
-        BigDecimal totalCost = currentTask.getTotalCost();
-        BigDecimal currentBudget = projectBudget.subtract(totalCost);
-        return currentBudget;
-    }**/
 
     public BigDecimal calculateCurrentBudget(BigDecimal projectBudget, BigDecimal totalCost) {
-        if (currentTask == null) {
-        return projectBudget; // Return the original project budget if currentTask is null
+
+        BigDecimal currentBudget = projectBudget.subtract(totalCost);
+        return currentBudget;
     }
-
-    BigDecimal currentBudget = projectBudget.subtract(totalCost);
-    return currentBudget;
-}
-
-
 
     public BigDecimal totalCost(){
         BigDecimal totalCost = currentProject.recalculateTotalCost();
