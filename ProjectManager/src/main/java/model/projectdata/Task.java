@@ -90,6 +90,7 @@ public class Task implements Serializable {
 
     /**
      * Deletes the passed purchase from the list of purchases.
+     * @author Derek J. Ruiz Garcia
      * @param thePurchase the purchase object we want to delete.
      */
     public void deletePurchase(Purchase thePurchase){
