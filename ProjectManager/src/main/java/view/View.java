@@ -16,10 +16,9 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.JOptionPane;
 import view.components.ExportDialog;
 
-
 /**
  *
- * @author pihol
+ * @author David
  */
 public class View extends javax.swing.JFrame {
 
@@ -29,6 +28,7 @@ public class View extends javax.swing.JFrame {
     private DashboardPanel dbp;
     /** The Dialog generated when exporting a Project */
     private ExportDialog exportDialog;
+
     /**
      * Creates new form StartGUI
      */
@@ -54,7 +54,8 @@ public class View extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jFileChooser1 = new javax.swing.JFileChooser();
@@ -107,40 +108,55 @@ public class View extends javax.swing.JFrame {
         javax.swing.GroupLayout settingsDialogLayout = new javax.swing.GroupLayout(settingsDialog.getContentPane());
         settingsDialog.getContentPane().setLayout(settingsDialogLayout);
         settingsDialogLayout.setHorizontalGroup(
-            settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsDialogLayout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(settingsDialogLayout.createSequentialGroup()
-                        .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(usernameLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(emailLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(18, 18, 18)
-                        .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(usernameTextField)
-                            .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(cancelSettingsButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(saveSettingsButton)
-                .addContainerGap())
-        );
+                settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, settingsDialogLayout
+                                .createSequentialGroup()
+                                .addContainerGap(8, Short.MAX_VALUE)
+                                .addGroup(settingsDialogLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(settingsDialogLayout.createSequentialGroup()
+                                                .addGroup(settingsDialogLayout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(usernameLabel,
+                                                                javax.swing.GroupLayout.Alignment.TRAILING)
+                                                        .addComponent(emailLabel,
+                                                                javax.swing.GroupLayout.Alignment.TRAILING))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(settingsDialogLayout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
+                                                                false)
+                                                        .addComponent(usernameTextField)
+                                                        .addComponent(emailTextField,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 112,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(cancelSettingsButton))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(saveSettingsButton)
+                                .addContainerGap()));
         settingsDialogLayout.setVerticalGroup(
-            settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(settingsDialogLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(usernameLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(emailLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164, Short.MAX_VALUE)
-                .addGroup(settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveSettingsButton)
-                    .addComponent(cancelSettingsButton))
-                .addContainerGap())
-        );
+                settingsDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(settingsDialogLayout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addGroup(settingsDialogLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(usernameTextField, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(usernameLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(settingsDialogLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(emailLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 164,
+                                        Short.MAX_VALUE)
+                                .addGroup(settingsDialogLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(saveSettingsButton)
+                                        .addComponent(cancelSettingsButton))
+                                .addContainerGap()));
 
         projectNameLabel.setText("Project Name:");
 
@@ -158,35 +174,43 @@ public class View extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout createProjectDialogLayout = new javax.swing.GroupLayout(createProjectDialog.getContentPane());
+        javax.swing.GroupLayout createProjectDialogLayout = new javax.swing.GroupLayout(
+                createProjectDialog.getContentPane());
         createProjectDialog.getContentPane().setLayout(createProjectDialogLayout);
         createProjectDialogLayout.setHorizontalGroup(
-            createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, createProjectDialogLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(createProjectDialogLayout.createSequentialGroup()
-                        .addComponent(projectNameLabel)
-                        .addGap(18, 18, 18)
-                        .addComponent(projectNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(cancelProjectButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(createProjectButton)
-                .addContainerGap())
-        );
+                createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                                createProjectDialogLayout.createSequentialGroup()
+                                        .addContainerGap(12, Short.MAX_VALUE)
+                                        .addGroup(createProjectDialogLayout
+                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addGroup(createProjectDialogLayout.createSequentialGroup()
+                                                        .addComponent(projectNameLabel)
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(projectNameTextField,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE, 112,
+                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(cancelProjectButton))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(createProjectButton)
+                                        .addContainerGap()));
         createProjectDialogLayout.setVerticalGroup(
-            createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(createProjectDialogLayout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(projectNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(projectNameLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198, Short.MAX_VALUE)
-                .addGroup(createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(createProjectButton)
-                    .addComponent(cancelProjectButton))
-                .addContainerGap())
-        );
+                createProjectDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(createProjectDialogLayout.createSequentialGroup()
+                                .addGap(51, 51, 51)
+                                .addGroup(createProjectDialogLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(projectNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(projectNameLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 198,
+                                        Short.MAX_VALUE)
+                                .addGroup(createProjectDialogLayout
+                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(createProjectButton)
+                                        .addComponent(cancelProjectButton))
+                                .addContainerGap()));
 
         ImportProjectChooser.setAcceptAllFileFilterUsed(false);
         ImportProjectChooser.setApproveButtonText("Import");
@@ -200,8 +224,9 @@ public class View extends javax.swing.JFrame {
                 }
                 return result;
             }
+
             @Override
-            public String getDescription(){
+            public String getDescription() {
                 return "Filters .ser";
             }
         });
@@ -220,13 +245,11 @@ public class View extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 400, Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 477, Short.MAX_VALUE)
-        );
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 477, Short.MAX_VALUE));
 
         MainFrame.add(jPanel2);
 
@@ -236,13 +259,11 @@ public class View extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 400, Short.MAX_VALUE));
         jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 477, Short.MAX_VALUE)
-        );
+                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 477, Short.MAX_VALUE));
 
         MainFrame.add(jPanel3);
 
@@ -319,13 +340,12 @@ public class View extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MainFrame, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(MainFrame, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(MainFrame, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(MainFrame, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -333,11 +353,12 @@ public class View extends javax.swing.JFrame {
     /**
      * Action performed when Importing a Project. Prompts a user for the file of the
      * project to import.
+     * 
      * @author Paul Schmidt
      * @author Jarvis Kampe
      * @param evt the button click event
      */
-    private void importProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importProjectsMenuItemimportSettingsAction
+    private void importProjectAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_importProjectsMenuItemimportSettingsAction
         int returnVal = ImportProjectChooser.showOpenDialog(View.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
@@ -355,39 +376,43 @@ public class View extends javax.swing.JFrame {
                 System.out.print(e);
             }
         }
-    }//GEN-LAST:event_importProjectsMenuItemimportSettingsAction
+    }// GEN-LAST:event_importProjectsMenuItemimportSettingsAction
 
     /**
-     * Action performed when Exporting a Project. Prompts a user for the file location to save the
+     * Action performed when Exporting a Project. Prompts a user for the file
+     * location to save the
      * exported project and the project to export.
+     * 
      * @author Paul Schmidt
      * @author Jarvis Kampe
      * @param evt the button click event.
      */
-    private void exportProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportProjectsMenuItemimportSettingsAction
+    private void exportProjectAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_exportProjectsMenuItemimportSettingsAction
         exportDialog = new ExportDialog(this, true, controller);
         exportDialog.setVisible(true);
-    }//GEN-LAST:event_exportProjectsMenuItemimportSettingsAction
+    }// GEN-LAST:event_exportProjectsMenuItemimportSettingsAction
 
     /**
      * Action performed when editing Settings.
+     * 
      * @author Jarvis Kampe
      * @param evt the button click event.
      */
-    private void editSettingsMenuItemeditSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editSettingsMenuItemeditSettingsAction
+    private void editSettingsMenuItemeditSettingsAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_editSettingsMenuItemeditSettingsAction
         settingsDialog.pack();
         settingsDialog.setLocationRelativeTo(null);
         usernameTextField.setText(controller.getCurrentUser().getMyUserFirstName());
         emailTextField.setText(controller.getCurrentUser().getUserEmail());
         settingsDialog.setVisible(true);
-    }//GEN-LAST:event_editSettingsMenuItemeditSettingsAction
+    }// GEN-LAST:event_editSettingsMenuItemeditSettingsAction
 
     /**
      * Action performed when importing Settings.
+     * 
      * @author Jarvis Kampe
      * @param evt the button click event.
      */
-    private void importSettingsMenuItemimportSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importSettingsMenuItemimportSettingsAction
+    private void importSettingsMenuItemimportSettingsAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_importSettingsMenuItemimportSettingsAction
         int returnVal = jFileChooser1.showOpenDialog(View.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
@@ -396,14 +421,15 @@ public class View extends javax.swing.JFrame {
                 Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_importSettingsMenuItemimportSettingsAction
+    }// GEN-LAST:event_importSettingsMenuItemimportSettingsAction
 
     /**
      * Action performed when exporting Settings.
+     * 
      * @author Jarvis Kampe
      * @param evt the button click event.
      */
-    private void exportSettingsMenuItemexportSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportSettingsMenuItemexportSettingsAction
+    private void exportSettingsMenuItemexportSettingsAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_exportSettingsMenuItemexportSettingsAction
         int returnVal = jFileChooser1.showSaveDialog(View.this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             try {
@@ -412,74 +438,80 @@ public class View extends javax.swing.JFrame {
                 Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_exportSettingsMenuItemexportSettingsAction
+    }// GEN-LAST:event_exportSettingsMenuItemexportSettingsAction
 
     /**
      * Action performed when opening the About Information.
+     * 
      * @author Jarvis Kampe
      * @author Paul Schmidt
      * @param evt the button click event.
      */
-    private void aboutMenuItemaboutAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemaboutAction
-        javax.swing.JPanel MainFrame = (javax.swing.JPanel)this.MainFrame;
-        AboutPanel about = new AboutPanel((javax.swing.JPanel)this.MainFrame.getComponent(0), controller);
+    private void aboutMenuItemaboutAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_aboutMenuItemaboutAction
+        javax.swing.JPanel MainFrame = (javax.swing.JPanel) this.MainFrame;
+        AboutPanel about = new AboutPanel((javax.swing.JPanel) this.MainFrame.getComponent(0), controller);
         MainFrame.remove(0);
         setMenuBarVisibility(false);
         MainFrame.add(about);
         MainFrame.revalidate();
         MainFrame.repaint();
-    }//GEN-LAST:event_aboutMenuItemaboutAction
+    }// GEN-LAST:event_aboutMenuItemaboutAction
 
     /**
      * Action performed when saving Settings.
+     * 
      * @author Jarvis Kampe
      * @param evt the button click event.
      */
-    private void saveSettingsButtonsaveSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsButtonsaveSettingsAction
+    private void saveSettingsButtonsaveSettingsAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_saveSettingsButtonsaveSettingsAction
         controller.setUserInfo(usernameTextField.getText(), emailTextField.getText());
         settingsDialog.dispose();
-    }//GEN-LAST:event_saveSettingsButtonsaveSettingsAction
+    }// GEN-LAST:event_saveSettingsButtonsaveSettingsAction
 
     /**
      * Action performed when canceling saving Settings.
+     * 
      * @author Jarvis Kampe
      * @param evt the button click event.
      */
-    private void cancelSettingsButtoncancelSettingsAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelSettingsButtoncancelSettingsAction
+    private void cancelSettingsButtoncancelSettingsAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cancelSettingsButtoncancelSettingsAction
         settingsDialog.dispose();
-    }//GEN-LAST:event_cancelSettingsButtoncancelSettingsAction
+    }// GEN-LAST:event_cancelSettingsButtoncancelSettingsAction
 
     /**
      * Action performed when Creating a Project.
+     * 
      * @author Jarvis Kampe
      * @param evt the button click event.
      */
-    private void createProjectButtoncreateProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createProjectButtoncreateProjectAction
+    private void createProjectButtoncreateProjectAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_createProjectButtoncreateProjectAction
         try {
             controller.addNewProject(projectNameTextField.getText());
         } catch (IOException ex) {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
         createProjectDialog.dispose();
-    }//GEN-LAST:event_createProjectButtoncreateProjectAction
+    }// GEN-LAST:event_createProjectButtoncreateProjectAction
 
     /**
      * Action performed when cancelling creating a Project.
+     * 
      * @author Jarvis Kampe
      * @param evt the button click event.
      */
-    private void cancelProjectButtoncancelProjectAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelProjectButtoncancelProjectAction
+    private void cancelProjectButtoncancelProjectAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cancelProjectButtoncancelProjectAction
         createProjectDialog.dispose();
-    }//GEN-LAST:event_cancelProjectButtoncancelProjectAction
+    }// GEN-LAST:event_cancelProjectButtoncancelProjectAction
 
     /**
      * Action performed when Signing the user out of the application.
+     * 
      * @author Jarvis Kampe
      * @param evt the button click event.
      */
-    private void signOutAction(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signOutAction
+    private void signOutAction(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_signOutAction
         if (controller.getCurrentUser() != null) {
-            javax.swing.JPanel MainFrame = (javax.swing.JPanel)this.MainFrame;
+            javax.swing.JPanel MainFrame = (javax.swing.JPanel) this.MainFrame;
             LoginPanel login = new LoginPanel();
             LogoPanel logo = new LogoPanel();
             MainFrame.remove(0);
@@ -491,24 +523,28 @@ public class View extends javax.swing.JFrame {
             controller.logoutUser();
             pack();
         }
-    }//GEN-LAST:event_signOutAction
+    }// GEN-LAST:event_signOutAction
 
     /**
      * Return a reference to the PDC associated with this JFrame.
+     * 
      * @author Paul Schmidt
      * @return the PDC reference.
      */
     public PDC getController() {
         return controller;
     }
+
     private void disableWelcome() {
-        
+
     }
 
     /**
      * Sets the menu bar visibility of this JFrame.
+     * 
      * @author Paul Schmidt
-     * @param value the visibility of the menu bar. true for Visible, false otherwise.
+     * @param value the visibility of the menu bar. true for Visible, false
+     *              otherwise.
      */
     public void setMenuBarVisibility(final boolean value) {
         jMenuBar1.setVisible(value);
@@ -516,13 +552,13 @@ public class View extends javax.swing.JFrame {
 
     /**
      * Sets the DashboardPanel object of this JFrame.
+     * 
      * @author Paul Schmidt
      * @param customDashPanel the DashboardPanel object.
      */
     void setDashBoardPanel(final DashboardPanel customDashPanel) {
         dbp = customDashPanel;
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser ImportProjectChooser;
