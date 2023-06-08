@@ -12,15 +12,25 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * A tester for the task class.
+ * @author Derek J. Ruiz Garcia
+ */
 class TaskTest {
 
+    /** The task that is going to be tested. */
     Task testerTask;
 
+    /** The setup method for the tests of the task. */
     @BeforeEach
     void setUp() {
         testerTask = new Task("CustomTask");
     }
 
+    /**
+     * Tests the addPurchase method of the task class after a purchase is added to it the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void addPurchase() {
         Purchase testerPurchase = new Purchase("PurchaseTest", new BigDecimal("12.50"));
@@ -29,6 +39,10 @@ class TaskTest {
         assertSame(testerPurchase, addedPurchase);
     }
 
+    /**
+     * Tests the addPurchase method of the task class after multiple purchases are added to the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void addMultiplePurchase() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -41,6 +55,10 @@ class TaskTest {
         assertSame(secondTesterPurchase, addedSecondPurchase);
     }
 
+    /**
+     * Tests the recalculateCompleted method of the task class after a completed purchase is added to the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void recalculateCompletedOnePurchase() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -51,6 +69,10 @@ class TaskTest {
         assertTrue(testerTask.getCompletedStatus());
     }
 
+    /**
+     * Tests the recalculateCompleted method of the task class after multiple completed purchases are added to the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void recalculateCompletedMultiplePurchases() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -65,6 +87,10 @@ class TaskTest {
         assertTrue(testerTask.getCompletedStatus());
     }
 
+    /**
+     * Tests the recalculateCompleted method of the task class after two uncompleted purchases are added to the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void recalculateNotCompleted() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -75,6 +101,11 @@ class TaskTest {
         assertFalse(testerTask.getCompletedStatus());
     }
 
+    /**
+     * Tests the recalculateCompleted method of the task class after one completed purchase and
+     * one uncompleted purchase is added to the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void recalculateNotCompletedOnePurchaseCompleted() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -87,11 +118,20 @@ class TaskTest {
         assertFalse(testerTask.getCompletedStatus());
     }
 
+    /**
+     * Tests the getTotalCost method of the task class after the task is created.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void getTotalCostNoPurchases() {
         assertEquals(new BigDecimal("0.0"), testerTask.getTotalCost());
     }
 
+    /**
+     * Tests the getTotalCost method of the task class after one purchase with a specific cost
+     * is added to the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void getTotalCostOnePurchase() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -99,6 +139,11 @@ class TaskTest {
         assertEquals(new BigDecimal("12.50"), testerTask.getTotalCost());
     }
 
+    /**
+     * Tests the getTotalCost method of the task class after two purchases with different costs
+     * are added to the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void getTotalCostMultiplePurchases() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -108,11 +153,19 @@ class TaskTest {
         assertEquals(new BigDecimal("18.75"), testerTask.getTotalCost());
     }
 
+    /**
+     * Tests the getCompletedStatus method of the task class after the task is created which means no purchases.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void getCompletedStatusNoPurchases() {
         assertTrue(testerTask.getCompletedStatus());
     }
 
+    /**
+     * Tests the deletePurchase method of the task class.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void deletePurchase() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -121,6 +174,10 @@ class TaskTest {
         assertNull(testerTask.getPurchase("PurchaseTest1"));
     }
 
+    /**
+     * Tests the getPurchase method of the task class after a purchase is added to the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void getPurchase() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -128,6 +185,10 @@ class TaskTest {
         assertEquals(firstTesterPurchase, testerTask.getPurchase("PurchaseTest1"));
     }
 
+    /**
+     * Tests the getAllPurchaseNames method of the task class after more than one purchase is added to the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void getAllPurchaseNamesMultiplePurchases() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -144,6 +205,10 @@ class TaskTest {
         assertEquals(setOfPurchases, testerTask.getAllPurchaseNames());
     }
 
+    /**
+     * Tests the getAllPurchaseNames method of the task class after one purchase is added to the task.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void getAllPurchaseNamesOnePurchase() {
         Purchase firstTesterPurchase = new Purchase("PurchaseTest1", new BigDecimal("12.50"));
@@ -153,12 +218,20 @@ class TaskTest {
         assertEquals(setOfPurchases, testerTask.getAllPurchaseNames());
     }
 
+    /**
+     * Tests the getAllPurchaseNames method of the task class task is created, and it has no purchases.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void getAllPurchaseNamesNoPurchases() {
         Set<String> setOfPurchases = new HashSet<>();
         assertEquals(setOfPurchases, testerTask.getAllPurchaseNames());
     }
 
+    /**
+     * Tests the getTaskName method of the task class after the task is created.
+     * @author Derek J. Ruiz Garcia
+     */
     @Test
     void getTaskName() {
         assertEquals("CustomTask", testerTask.getTaskName());

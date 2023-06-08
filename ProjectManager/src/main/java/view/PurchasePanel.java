@@ -175,7 +175,7 @@ public class PurchasePanel extends javax.swing.JPanel {
                     if (wasAdded){
                         costLabel.setText(NumberFormat.getCurrencyInstance().format(new BigDecimal(userInput)));
                     } else {
-                    JOptionPane.showMessageDialog(this, "The quantity entered was invalid", "Error!", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "The quantity entered was invalid", "Error!", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             } catch (NullPointerException e){

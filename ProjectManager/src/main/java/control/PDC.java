@@ -20,6 +20,7 @@ import java.util.List;
  * between the GUI and the data modeled in the project.
  * @author Derek J. Ruiz Garcia
  * @author Paul Schmidt
+ * @author Derek J. Ruiz Garcia
  */
 public class PDC {
 
