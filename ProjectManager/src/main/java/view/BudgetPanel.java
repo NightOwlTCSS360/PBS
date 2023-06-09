@@ -7,8 +7,7 @@ package view;
 import control.PDC;
 
 import javax.swing.*;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
+import java.awt.event.*;
 import java.math.BigDecimal;
 
 /**
@@ -29,22 +28,21 @@ public class BudgetPanel extends javax.swing.JPanel {
 
 
     public BudgetPanel(PDC myController) {
-        //myBudget = theBudget;
         this.myController = myController;
         initComponents();
 
         // Register hierarchy change listener
-        addHierarchyListener(new HierarchyListener() {
+        // Register component listener
+        addComponentListener(new ComponentAdapter() {
             @Override
-            public void hierarchyChanged(HierarchyEvent e) {
-                if ((e.getChangeFlags() & HierarchyEvent.DISPLAYABILITY_CHANGED) != 0) {
-                    if (isDisplayable()) {
-                        // Update labels when the panel becomes displayable
-                        updateLabels();
-                    }
-                }
+            public void componentShown(ComponentEvent e) {
+                // Update labels when the panel becomes visible
+                updateLabels();
             }
         });
+
+// Update labels with initial values
+        updateLabels();
     }
 
     private void updateLabels() {
@@ -119,6 +117,13 @@ public class BudgetPanel extends javax.swing.JPanel {
         });
 
         displayBudget.setText("budget");
+        displayBudget.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                updateLabels();
+            }
+        });
+
 
         purchaseCost.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         purchaseCost.setText("Purchase cost :");
@@ -200,25 +205,38 @@ public class BudgetPanel extends javax.swing.JPanel {
             BigDecimal budget = new BigDecimal(budgetText);
             BigDecimal cost = new BigDecimal(costText);
 
-            BigDecimal balance = myController.calculateCurrentBudget(budget, cost);
-            displayBalance.setText(balance.toString());
-
             // Update the purchase cost label with the updated total cost
             displayCost.setText(myController.totalCost().toString());
-
-            // Check if the current budget is negative and display a warning dialog if true
-            if (balance.compareTo(BigDecimal.ZERO) < 0) {
-                JOptionPane.showMessageDialog(this, "Warning: The current balance is negative.", "Warning", JOptionPane.WARNING_MESSAGE);
-            }
         } catch (NumberFormatException e) {
             // Handle invalid input
             JOptionPane.showMessageDialog(this, "Invalid budget or cost value. Please enter valid numbers.", "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Exit the method if there was an error
+        }
+
+        // Retrieve the updated budget and cost values after the labels have been updated
+        BigDecimal budget = new BigDecimal(displayBudget.getText());
+        BigDecimal cost = new BigDecimal(displayCost.getText());
+
+        // Get the updated balance
+        BigDecimal balance = myController.calculateCurrentBudget(budget, cost);
+
+        // Update the balance label
+        displayBalance.setText(balance.toString());
+
+        // Check if the current budget is negative and display a warning dialog if true
+        if (balance.compareTo(BigDecimal.ZERO) < 0) {
+            JOptionPane.showMessageDialog(this, "Warning: The current balance is negative.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }
+
+
 
     private void confirmButtonMouseClicked(java.awt.event.MouseEvent evt) {
 
     }
+
+
+
 
 
     // Variables declaration - do not modify
