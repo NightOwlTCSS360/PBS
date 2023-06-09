@@ -10,6 +10,9 @@ import java.util.Set;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import java.math.BigDecimal;
+
 
 /**
  *
@@ -18,11 +21,14 @@ import java.util.logging.Logger;
 public class ProjectList extends javax.swing.JPanel {
 
     private final PDC controller;
-    
+
     private ProjectPanel pp;
+
     /** The DashBoardPanel that holds this List of Projects */
     private DashboardPanel dbp;
-    
+
+    private javax.swing.JPanel BudgetInfo; // Add the BudgetInfo variable
+
     /**
      * Creates new form ProjectList
      * @param controller
@@ -32,6 +38,10 @@ public class ProjectList extends javax.swing.JPanel {
         this.dbp = (DashboardPanel)getParent();
         this.controller = controller;
         initComponents();
+    }
+
+    public ProjectPanel getProjectPanel() {
+        return pp;
     }
 
     /**
@@ -205,6 +215,27 @@ public class ProjectList extends javax.swing.JPanel {
             this.ProjectList.revalidate();
             this.ProjectList.repaint();
             createProjectDialog.dispose();
+
+            AddBudgetPopUpPanel popUp = new AddBudgetPopUpPanel();
+
+            int confirm = JOptionPane.showOptionDialog(null, popUp, "Budget", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, null, null);
+            try{
+                if(confirm == 0){
+                    System.out.println("Accept");
+                    String projectBudgetString = popUp.getBudget();
+                    BigDecimal projectBudget = new BigDecimal(projectBudgetString);
+                    controller.setProjectBudget(projectBudget);
+                    dbp.repopulateProjectPanel();
+                    revalidate();
+                    repaint();
+                } else {
+                    System.out.println("Cancel");
+                }
+            } catch (NullPointerException e){
+                System.out.println("Error");
+            }
+
+
         } catch (IOException ex) {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
