@@ -225,6 +225,7 @@ public class ProjectList extends javax.swing.JPanel {
                     String projectBudgetString = popUp.getBudget();
                     BigDecimal projectBudget = new BigDecimal(projectBudgetString);
                     controller.setProjectBudget(projectBudget);
+                    dbp.repopulateProjectPanel();
                     revalidate();
                     repaint();
                 } else {

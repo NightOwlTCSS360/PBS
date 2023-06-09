@@ -42,7 +42,9 @@ public class BudgetPanel extends javax.swing.JPanel {
         });
 
 // Update labels with initial values
-        updateLabels();
+        if(myController.getCurrProjectName() != null) {
+            updateLabels();
+        }
     }
 
     private void updateLabels() {
